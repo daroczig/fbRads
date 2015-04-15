@@ -1,4 +1,14 @@
-## Functions for the Facebook Ads API - 20150301 - AG
+## we build the functions to support one given version of the API
+## so the users should not be able to override that
+fbad_api_version <- 2.2
+
+
+#' Get versioned base url
+#' @param version the version for which a base url is being generated
+#' @return character URL with trailing slash
+fbad_get_baseurl <- function() {
+  paste('https://graph.facebook.com', fb_api_version, '', sep = '/')
+}
 
 
 #' Get results of a synchronous query from FB graph API
@@ -42,28 +52,6 @@ fb_query_api <- function(base_url,
 }
 
 
-#' Get versioned base url
-#' @param version the version for which a base url is being generated
-#' @return character URL with trailing slash
-fb_get_baseurl <- function(version) {
-  base_fburl <- "https://graph.facebook.com/" # need trailing slash
-  min_version <- "v2.2" # for backcompatibility
-
-  ## check that the version provided has the right format
-  if( grepl("^v[1-9]\\.[0-9]", version) == FALSE ){
-    warning(paste("API version provided does not meet FB format, defaulting to",
-                  min_version)
-    )
-    version = min_version
-  }
-
-  ## concat version
-  versioned_url <- paste0(base_fburl,version,"/") #keep trailing slash
-
-  ## Output
-  versioned_url
-}
-
 #' Run basic checks on curl get/post parameters
 #' @param params named list of parameters to GET/POST
 #' @return list if OK, error if not
@@ -100,10 +88,9 @@ fb_check_curl_params <-function(param_list){
 #' @return list containing versioned base URL and relevant API parameters
 #' @export
 fb_init_adaccount <- function(accountid,
-                              version="v2.2",
                               rdstoken="data/reference/foxtoken20150301.rds") {
   ## FB Graph API base url
-  versioned_url <- fb_get_baseurl(version)
+  versioned_url <- fb_get_baseurl()
 
   ## Create base_params
   token <- readRDS(rdstoken)
@@ -111,7 +98,7 @@ fb_init_adaccount <- function(accountid,
     "acct_path"= paste0("act_",accountid,"/"),
     "versioned_url" = versioned_url ,
     "access_token" = token$token,
-    "api_version" = version
+    "api_version" = fbad_api_version
   )
 
   #   ## Get Ad Accounts
