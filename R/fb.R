@@ -152,13 +152,17 @@ print.FB_Ad_Account <- function(x, ...) {
 
 #' FB Search API Querying
 #' @references https://developers.facebook.com/docs/marketing-api/targeting-search/v2.2
-#' @param fb_ad_account FB_Ad_account object returned by \code{fbad_init}
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
 #' @param q string that is being searched for
 #' @param type describes the type of search eg: adinterest, adeducationmajor etc
 #' @param ... other optional parameters accepted by the endpoint as key = value pairs eg: \code{limit = 5000}.
 #' @return \code{data.frame} containing results
+#' @examples \dontrun{
+#' fbacc <- fbad_init(...)
+#' fbad_get_search(fbacc, c('dog', 'cat'), type = 'adinterestvalid')
+#' }
 fbad_get_search <- function(
-    fb_ad_account, q,
+    fbacc, q,
     type = c(
         'adeducationschool', 'adeducationmajor',
         'adgeolocation', 'adcountry', 'adregion', 'adcity', 'adzipcode', 'adgeolocationmeta', 'adradiussuggestion',
@@ -167,15 +171,15 @@ fbad_get_search <- function(
 
     type <- match.arg(type)
 
-    if (missing(fb_ad_account))
+    if (missing(fbacc))
         stop('Please initialize and pass your FB Ad account object. See ?fbad_init for more details.')
-    if (!inherits(fb_ad_account, 'FB_Ad_Account'))
-        stop('Invalid R object passed as fb_ad_account argument. See ?fbad_init for more details.')
+    if (!inherits(fbacc, 'FB_Ad_Account'))
+        stop('Invalid R object passed as fbacc argument. See ?fbad_init for more details.')
 
     ## default params
-    params <- list(access_token = fb_ad_account$access_token,
+    params <- list(access_token = fbacc$access_token,
                    limit        = 500,
-                   type         = searchtype,
+                   type         = type,
                    list         = "GLOBAL")
 
     ## update params
@@ -184,7 +188,7 @@ fbad_get_search <- function(
     }
 
     ## Handle term input variation in API
-    if (searchtype %in% c("adinterestvalid",
+    if (type %in% c("adinterestvalid",
                          "adinterestsuggestion")) {
 
         params <- c(params, list(interest_list = toJSON((q))))
@@ -201,30 +205,33 @@ fbad_get_search <- function(
     }
 
     ## get results
-    properties <- fb_query_api(
-        base_url     = fb_env$versioned_url,
-        request_path = "search",
-        style        = "GET",
-        params       = prms)
+    properties <- fbad_request(
+        path   = "search",
+        method = "GET",
+        params = params)
 
     ## transform data into data frame
-    if (searchtype %in% c(
+    res <- fromJSON(properties)$data
+
+    ## list to data.frame with know colnames
+    if (type %in% c(
         "adinterestvalid",
         "adinterestsuggestion",
         "adinterest")) {
-        if(class(fromJSON(properties)$data) == "data.frame"){
-            ans <- fromJSON(properties)$data
-        } else if (class(fromJSON(properties)$data) == "list"){
-            ans  <- ldply(fromJSON(properties)$data,
-                          function(x) data.frame(id = x$id,
-                                                 name = x$name,
-                                                 audience_size = x$audience_size
-                                                 )
-                          )
-        }
-        ans
 
-    } else{
-        ldply(fromJSON(properties)$data, as.data.frame)
+        if (inherits(res, 'list')) {
+            res  <- sapply(res, function(x) c(
+                id            = x$id,
+                name          = x$name,
+                audience_size = x$audience_size))
+        }
     }
+
+    if (!inherits(res, 'data.frame')) {
+        res <- ldply(res, as.data.frame)
+    }
+
+    ## return
+    res
+
 }
