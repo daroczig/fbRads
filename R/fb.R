@@ -1,0 +1,202 @@
+## Functions for the Facebook Ads API - 20150301 - AG
+
+
+#' Get results of a synchronous query from FB graph API
+#' @param base_url versioned ads API base url
+#' @param request_path API request path (i.e. endpoint)
+#' @param style HTTP request type (e.g. GET, POST, DELETE)
+#' @param params a name-value list of form parameters for API query
+#' @param ... RCurl options to pass along to HTTP request
+#' @return json object containing results
+fb_query_api <- function(base_url,
+                         request_path,
+                         style,
+                         params,
+                         ... ){
+  require(RCurl)
+
+  ## Check that params meet certain standards
+  params <- fb_check_curl_params(params)
+
+  ## Generate query based on HTTP method
+  if(style == "GET") { # Use getForm
+    ff <- "getForm"
+  } else if(style %in% c("POST","HTTPPOST")) { # Use postForm
+    ff <- "postForm"
+  } else {
+    stop("Unsupported HTTP method, check the function docs!")
+  }
+
+  ## Parse and eval
+  resp <- eval(
+    parse( text = paste(ff ,
+                        "( uri = paste0(base_url,request_path),",
+                        ".params = params,",
+                        "... ,",
+                        "style = style )"
+    )
+    )
+  )
+  ## Full json output
+  resp
+}
+
+
+#' Get versioned base url
+#' @param version the version for which a base url is being generated
+#' @return character URL with trailing slash
+fb_get_baseurl <- function(version) {
+  base_fburl <- "https://graph.facebook.com/" # need trailing slash
+  min_version <- "v2.2" # for backcompatibility
+
+  ## check that the version provided has the right format
+  if( grepl("^v[1-9]\\.[0-9]", version) == FALSE ){
+    warning(paste("API version provided does not meet FB format, defaulting to",
+                  min_version)
+    )
+    version = min_version
+  }
+
+  ## concat version
+  versioned_url <- paste0(base_fburl,version,"/") #keep trailing slash
+
+  ## Output
+  versioned_url
+}
+
+#' Run basic checks on curl get/post parameters
+#' @param params named list of parameters to GET/POST
+#' @return list if OK, error if not
+fb_check_curl_params <-function(param_list){
+
+  ## Length check
+  if(length(param_list) == 0){
+    stop("No parameters to get or set, pls debug this code")
+  }
+
+  ## Names check
+  if( any( is.null( names(param_list) ) ) ){
+    stop("Parameters missing field names, expecting 'field = value'")
+  } else if( ! "access_token" %in% names(param_list) ){
+    stop("access_token missing from cURL request")
+  }
+
+  ## Values check (not required)
+  if(any( as.vector(unlist(param_list)) %in% c(NA, NULL))){
+    stop("NA or NULL values not allowed in cURL request")
+  }
+
+  ## Return params if all OK
+  param_list
+
+}
+
+
+
+#' Initiate Facebook Account and Token
+#' @param accountid Facebook Ad account id to
+#' @param version Facebook Marketing API version to use
+#' @param rdstoken Location of the serialized FB Ads API access token
+#' @return list containing versioned base URL and relevant API parameters
+#' @export
+fb_init_adaccount <- function(accountid,
+                              version="v2.2",
+                              rdstoken="data/reference/foxtoken20150301.rds") {
+  ## FB Graph API base url
+  versioned_url <- fb_get_baseurl(version)
+
+  ## Create base_params
+  token <- readRDS(rdstoken)
+  output_params <- list(
+    "acct_path"= paste0("act_",accountid,"/"),
+    "versioned_url" = versioned_url ,
+    "access_token" = token$token,
+    "api_version" = version
+  )
+
+  #   ## Get Ad Accounts
+  #   accessible <- fb_get_adaccounts(output_params$access_token)
+  #   # If token has account access (diable if API misbehaves)
+  #
+  #   if(! accountid %in% accessible){
+  #     stop("Auth token does not have rights for account requested")
+  #   }
+
+  ## Account details
+  details <- fb_get_adaccount_details(accountid, output_params$access_token)
+  print(paste0("Account (", details$name,
+               ") initiated with token (",
+               token$username,")")
+  )
+
+  ## Output fb_env
+  #   fb_env <<- c(output_params, details)
+  c(output_params, details)
+
+}
+
+#' FB Search API Querying
+#' https://developers.facebook.com/docs/marketing-api/targeting-search/v2.2
+#' @param q string that is being searched for
+#' @param type describes the type of search eg: adinterest, adeducationmajor etc
+#' @param ... other optional parameters accepted by the endpoint as key = value
+#' pairs eg: limit = 5000.
+#' @return data frame containing results
+fb_get_targetsearch <- function( env = fb_env, term, searchtype, ... ){
+  require(plyr)
+  require(RCurl)
+  require(jsonlite)
+  params <- list(...)
+  defaults <- list("access_token" = env$access_token,
+                   "limit" = 500,
+                   "type" = searchtype,
+                   "list" = "GLOBAL"
+  )
+  ## handle parameter variability
+  if(length(params) > 0){
+    prms <- c(params, defaults)
+  } else {
+    prms <- defaults
+  }
+
+  ## Handle term input variation in API
+  if(searchtype %in% c("adinterestvalid",
+                       "adinterestsuggestion")
+
+  ){
+    prms <- c(prms, list("interest_list" = toJSON((term))))
+  } else {
+    if(length(q) > 1){
+      warning("Multiple keywords not allowed. Using first")
+      q <- q[1]
+    } else {
+      prms <- c(prms, list("q" = as.character(term)))
+    }
+  }
+
+  properties <- fb_query_api(base_url = fb_env$versioned_url,
+                             request_path= "search",
+                             style = "GET",
+                             params = prms
+  )
+
+  if(searchtype %in% c("adinterestvalid",
+                       "adinterestsuggestion","adinterest")
+
+  ){
+    if(class(fromJSON(properties)$data) == "data.frame"){
+      ans <- fromJSON(properties)$data
+    } else if (class(fromJSON(properties)$data) == "list"){
+      ans  <- ldply(fromJSON(properties)$data,
+                    function(x) data.frame(id = x$id,
+                                           name = x$name,
+                                           audience_size = x$audience_size
+                    )
+      )
+    }
+    ans
+
+  } else{
+    ldply(fromJSON(properties)$data, as.data.frame)
+  }
+}
