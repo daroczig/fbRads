@@ -274,4 +274,6 @@ fbad_add_audiance <- function(fbacc, audiance_id,
                     list(data   = hash)),
                     auto_unbox = TRUE))))
 
+    ## TODO parse results and error handling
+
 }
