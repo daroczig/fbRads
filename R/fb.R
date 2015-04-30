@@ -140,6 +140,18 @@ fbad_init <- function(accountid, token) {
 
 }
 
+#' Check if provided R object is a valid list of FB account details
+#' @param fbacc R object
+#' @keywords intenral
+fbad_check_fbacc <- function(fbacc) {
+
+    if (missing(fbacc))
+        stop('Please initialize and pass your FB Ad account object. See ?fbad_init for more details.')
+    if (!inherits(fbacc, 'FB_Ad_Account'))
+        stop('Invalid R object passed as fbacc argument. See ?fbad_init for more details.')
+
+}
+
 
 #' Print method for custom fbRads class
 #' @param x R object with \code{FB_Ad_Account} class
@@ -161,6 +173,7 @@ print.FB_Ad_Account <- function(x, ...) {
 #' fbacc <- fbad_init(...)
 #' fbad_get_search(fbacc, c('dog', 'cat'), type = 'adinterestvalid')
 #' }
+#' @export
 fbad_get_search <- function(
     fbacc, q,
     type = c(
@@ -170,11 +183,7 @@ fbad_get_search <- function(
         'adlocale', 'adTargetingCategory', 'adworkemployer'), ... ) {
 
     type <- match.arg(type)
-
-    if (missing(fbacc))
-        stop('Please initialize and pass your FB Ad account object. See ?fbad_init for more details.')
-    if (!inherits(fbacc, 'FB_Ad_Account'))
-        stop('Invalid R object passed as fbacc argument. See ?fbad_init for more details.')
+    fbad_check_fbacc(fbacc)
 
     ## default params
     params <- list(access_token = fbacc$access_token,
@@ -233,5 +242,36 @@ fbad_get_search <- function(
 
     ## return
     res
+
+}
+
+
+#' FB add people to audiance
+#' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#create
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param audiance_id string
+#' @param schema only two schema are supported out of the 4
+#' @param hashes character vector of hashes
+#' @export
+fbad_add_audiance <- function(fbacc, audiance_id,
+                              schema = c('EMAIL_SHA256', 'PHONE_SHA256'),
+                              hashes) {
+
+    fbad_check_fbacc(fbacc)
+
+    ## split hashes into 10K groups
+    hashes <- split(hashes, 1:length(hashes) %/% 1e4)
+
+    ## get results
+    sapply(hashes, function(hash)
+        fbad_request(
+            path   = paste(audiance_id, 'users', sep = '/'),
+            method = "POST",
+            params = list(
+                access_token = fbacc$access_token,
+                payload      = toJSON(c(
+                    list(schema = schema),
+                    list(data   = hash)),
+                    auto_unbox = TRUE))))
 
 }
