@@ -270,9 +270,8 @@ fbad_add_audiance <- function(fbacc, audiance_id,
             params = list(
                 access_token = fbacc$access_token,
                 payload      = toJSON(c(
-                    list(schema = schema),
-                    list(data   = hash)),
-                    auto_unbox = TRUE))))
+                    list(schema = unbox(schema)),
+                    list(data   = hash))))))
 
     ## TODO parse results and error handling
 
