@@ -50,21 +50,24 @@ fbad_check_curl_params <- function(params){
 #' @param path API request path (i.e. endpoint)
 #' @param method HTTP request type (e.g. GET or POST)
 #' @param params a name-value list of form parameters for API query
-#' @param ... RCurl options to pass along to HTTP request
+#' @param debug print debug messages by calling Curl verbosely
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(path, method = c('GET', 'POST'), params, ...) {
+fbad_request <- function(path, method = c('GET', 'POST'), params, debug = FALSE) {
 
     method <- match.arg(method)
 
     ## check that params meet certain standards
     params <- fbad_check_curl_params(params)
 
+    curl <- getCurlHandle()
+    curlSetOpt(curl = curl, verbose = debug)
+
     do.call(what = paste0(tolower(method), 'Form'),
             args = list(
                 uri     = paste0(fbad_get_baseurl(), path),
-                .params = params),
-            ...)
+                .params = params,
+                curl = curl))
 
 }
 
@@ -277,6 +280,28 @@ fbad_create_audiance <- function(fbacc, name, description, opt_out_link) {
 
     ## return ID
     fromJSON(res)$id
+
+}
+
+
+#' Share a FB custom audiance with other accounts
+#' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#sharing
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param audiance_id audience ID
+#' @param adaccounts numeric vector of FB account IDs
+#' @note This throws error if you provide wrong account ids OR even valid account ids that were previously granted access to the given custom audience.
+#' @export
+fbad_share_audiance <- function(fbacc, audiance_id, adaccounts) {
+
+    fbad_check_fbacc(fbacc)
+
+    ## make sure adaccounts are integers
+    adaccounts <- as.integer64(adaccounts)
+
+    res <- fbad_request(
+        path   = paste(audiance_id, 'adaccounts', sep = '/'),
+        method = "POST",
+        params = list(access_token = fbacc$access_token, adaccounts = toJSON(adaccounts)))
 
 }
 

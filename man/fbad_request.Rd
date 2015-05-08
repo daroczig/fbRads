@@ -4,7 +4,7 @@
 \alias{fbad_request}
 \title{Get results of a synchronous query from FB graph API}
 \usage{
-fbad_request(path, method = c("GET", "POST"), params, ...)
+fbad_request(path, method = c("GET", "POST"), params, debug = FALSE)
 }
 \arguments{
 \item{path}{API request path (i.e. endpoint)}
@@ -13,7 +13,7 @@ fbad_request(path, method = c("GET", "POST"), params, ...)
 
 \item{params}{a name-value list of form parameters for API query}
 
-\item{...}{RCurl options to pass along to HTTP request}
+\item{debug}{print debug messages by calling Curl verbosely}
 }
 \value{
 json object containing results
