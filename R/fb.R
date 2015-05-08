@@ -298,8 +298,8 @@ fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id'
     fields <- paste(fields, collapse = ',')
 
     fbad_check_fbacc(fbacc)
-    if (missing(origin_audience_id))
-        stop('The origin custom audience id is required.')
+    if (missing(audience_id))
+        stop('A custom audience id is required.')
 
     ## get results
     res <- fbad_request(
