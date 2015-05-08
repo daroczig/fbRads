@@ -60,8 +60,12 @@ fbad_request <- function(path, method = c('GET', 'POST'), params, debug = FALSE)
     ## check that params meet certain standards
     params <- fbad_check_curl_params(params)
 
+    ## debug
     curl <- getCurlHandle()
     curlSetOpt(curl = curl, verbose = debug)
+    if (debug) {
+        print(params)
+    }
 
     do.call(what = paste0(tolower(method), 'Form'),
             args = list(
