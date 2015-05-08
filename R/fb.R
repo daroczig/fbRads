@@ -339,3 +339,40 @@ fbad_add_audience <- function(fbacc, audience_id,
     ## TODO parse results and error handling
 
 }
+
+
+#' Create a new FB lookalike audience similar to an already existing custom audience
+#' @references https://developers.facebook.com/docs/marketing-api/lookalike-audience-targeting/v2.2#create
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param name string
+#' @param origin_audience_id numeric ID of origin custom audience
+#' @param ratio Between 0.01-0.20 and increments of 0.01. Indicates the top x% of original audience in the selected country
+#' @param country Country name - the country to find the lookalike people.
+#' @return lookalike audience ID
+#' @export
+fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, ratio = 0.01, country = 'US') {
+
+    fbad_check_fbacc(fbacc)
+    if (missing(name))
+        stop('A custom name for the lookalike audience is required.')
+    if (missing(origin_audience_id))
+        stop('The origin custom audience id is required.')
+
+    ## get results
+    res <- fbad_request(
+        path   = paste0('act_', fbacc$account_id, '/customaudiences'),
+        method = "POST",
+        params = list(
+            access_token       = fbacc$access_token,
+            name               = name,
+            origin_audience_id = origin_audience_id,
+            lookalike_spec     = toJSON(list(
+                type    = 'similarity',
+                ratio   = ratio,
+                country = country
+                ), auto_unbox = TRUE)), debug=T)
+
+    ## return ID
+    fromJSON(res)$id
+
+}
