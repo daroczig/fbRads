@@ -246,6 +246,41 @@ fbad_get_search <- function(
 }
 
 
+#' Create a new FB custom audiance
+#' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#create
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param name string
+#' @param description optional string
+#' @param opt_out_link optional link
+#' @return custom audience ID
+#' @export
+fbad_create_audiance <- function(fbacc, name, description, opt_out_link) {
+
+    fbad_check_fbacc(fbacc)
+    if (missing(name))
+        stop('The custom audience name is required.')
+
+    ## params
+    params <- list(access_token = fbacc$access_token, name = name)
+    if (!missing(description)) {
+        params$description <- description
+    }
+    if (!missing(opt_out_link)) {
+        params$opt_out_link <- opt_out_link
+    }
+
+    ## get results
+    res <- fbad_request(
+        path   = paste0('act_', fbacc$account_id, '/customaudiences'),
+        method = "POST",
+        params = params)
+
+    ## return ID
+    fromJSON(res)$id
+
+}
+
+
 #' FB add people to audiance
 #' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#create
 #' @param fbacc FB_Ad_account object returned by \code{fbad_init}
