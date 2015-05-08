@@ -249,7 +249,7 @@ fbad_get_search <- function(
 }
 
 
-#' Create a new FB custom audiance
+#' Create a new FB custom audience
 #' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#create
 #' @param fbacc FB_Ad_account object returned by \code{fbad_init}
 #' @param name string
@@ -257,7 +257,7 @@ fbad_get_search <- function(
 #' @param opt_out_link optional link
 #' @return custom audience ID
 #' @export
-fbad_create_audiance <- function(fbacc, name, description, opt_out_link) {
+fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
 
     fbad_check_fbacc(fbacc)
     if (missing(name))
@@ -284,14 +284,14 @@ fbad_create_audiance <- function(fbacc, name, description, opt_out_link) {
 }
 
 
-#' Share a FB custom audiance with other accounts
+#' Share a FB custom audience with other accounts
 #' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#sharing
 #' @param fbacc FB_Ad_account object returned by \code{fbad_init}
-#' @param audiance_id audience ID
+#' @param audience_id audience ID
 #' @param adaccounts numeric vector of FB account IDs
 #' @note This throws error if you provide wrong account ids OR even valid account ids that were previously granted access to the given custom audience.
 #' @export
-fbad_share_audiance <- function(fbacc, audiance_id, adaccounts) {
+fbad_share_audience <- function(fbacc, audience_id, adaccounts) {
 
     fbad_check_fbacc(fbacc)
 
@@ -299,21 +299,21 @@ fbad_share_audiance <- function(fbacc, audiance_id, adaccounts) {
     adaccounts <- as.integer64(adaccounts)
 
     res <- fbad_request(
-        path   = paste(audiance_id, 'adaccounts', sep = '/'),
+        path   = paste(audience_id, 'adaccounts', sep = '/'),
         method = "POST",
         params = list(access_token = fbacc$access_token, adaccounts = toJSON(adaccounts)))
 
 }
 
 
-#' FB add people to audiance
+#' FB add people to audience
 #' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#create
 #' @param fbacc FB_Ad_account object returned by \code{fbad_init}
-#' @param audiance_id string
+#' @param audience_id string
 #' @param schema only two schema are supported out of the four: you can add persons to a custom audience by e-mail addresses or phone numbers
 #' @param hashes character vector of e-mail addresses or phone numbers to be transformed to hashes
 #' @export
-fbad_add_audiance <- function(fbacc, audiance_id,
+fbad_add_audience <- function(fbacc, audience_id,
                               schema = c('EMAIL', 'PHONE'),
                               hashes) {
 
@@ -328,7 +328,7 @@ fbad_add_audiance <- function(fbacc, audiance_id,
     ## get results
     sapply(hashes, function(hash)
         fbad_request(
-            path   = paste(audiance_id, 'users', sep = '/'),
+            path   = paste(audience_id, 'users', sep = '/'),
             method = "POST",
             params = list(
                 access_token = fbacc$access_token,
