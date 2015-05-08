@@ -399,7 +399,7 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
                 type    = 'similarity',
                 ratio   = ratio,
                 country = country
-                ), auto_unbox = TRUE)), debug=T)
+                ), auto_unbox = TRUE)))
 
     ## return ID
     fromJSON(res)$id
