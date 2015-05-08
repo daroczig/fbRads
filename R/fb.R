@@ -396,7 +396,6 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
             name               = name,
             origin_audience_id = origin_audience_id,
             lookalike_spec     = toJSON(list(
-                type    = 'similarity',
                 ratio   = ratio,
                 country = country
                 ), auto_unbox = TRUE)))
