@@ -352,22 +352,30 @@ fbad_add_audience <- function(fbacc, audience_id,
 
     fbad_check_fbacc(fbacc)
 
-    ## compute hashes for e-mail or phone numbers
-    hashes <- sapply(hashes, digest, serialize = FALSE, algo = 'sha256', USE.NAMES = FALSE)
+    if (length(hashes) == 0) {
 
-    ## split hashes into 10K groups
-    hashes <- split(hashes, 1:length(hashes) %/% 1e4)
+        warning('Nothing to send to FB')
 
-    ## get results
-    sapply(hashes, function(hash)
-        fbad_request(
-            path   = paste(audience_id, 'users', sep = '/'),
-            method = "POST",
-            params = list(
-                access_token = fbacc$access_token,
-                payload      = toJSON(c(
-                    list(schema = unbox(paste0(schema, '_SHA256'))),
-                    list(data   = hash))))))
+    } else {
+
+        ## compute hashes for e-mail or phone numbers
+        hashes <- sapply(hashes, digest, serialize = FALSE, algo = 'sha256', USE.NAMES = FALSE)
+
+        ## split hashes into 10K groups
+        hashes <- split(hashes, 1:length(hashes) %/% 1e4)
+
+        ## get results
+        sapply(hashes, function(hash)
+            fbad_request(
+                path   = paste(audience_id, 'users', sep = '/'),
+                method = "POST",
+                params = list(
+                    access_token = fbacc$access_token,
+                    payload      = toJSON(c(
+                        list(schema = unbox(paste0(schema, '_SHA256'))),
+                        list(data   = hash))))))
+
+    }
 
     ## TODO parse results and error handling
 
