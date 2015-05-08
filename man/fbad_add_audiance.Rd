@@ -4,17 +4,16 @@
 \alias{fbad_add_audiance}
 \title{FB add people to audiance}
 \usage{
-fbad_add_audiance(fbacc, audiance_id, schema = c("EMAIL_SHA256",
-  "PHONE_SHA256"), hashes)
+fbad_add_audiance(fbacc, audiance_id, schema = c("EMAIL", "PHONE"), hashes)
 }
 \arguments{
 \item{fbacc}{FB_Ad_account object returned by \code{fbad_init}}
 
 \item{audiance_id}{string}
 
-\item{schema}{only two schema are supported out of the 4}
+\item{schema}{only two schema are supported out of the four: you can add persons to a custom audience by e-mail addresses or phone numbers}
 
-\item{hashes}{character vector of hashes}
+\item{hashes}{character vector of e-mail addresses or phone numbers to be transformed to hashes}
 }
 \description{
 FB add people to audiance
