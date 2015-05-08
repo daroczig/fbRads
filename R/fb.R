@@ -284,6 +284,35 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
 }
 
 
+#' Read metadata on a FB custom audience
+#' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#read
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param audience_id numeric
+#' @param fields character vector of fields to be returned
+#' @return custom audience ID
+#' @export
+fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id', 'approximate_count','data_source', 'delivery_status', 'lookalike_audience_ids', 'lookalike_spec', 'name', 'permission_for_actions', 'operation_status', 'subtype', 'time_updated')) {
+
+    ## get fields
+    fields <- match.arg(fields, several.ok = TRUE)
+    fields <- paste(fields, collapse = ',')
+
+    fbad_check_fbacc(fbacc)
+    if (missing(origin_audience_id))
+        stop('The origin custom audience id is required.')
+
+    ## get results
+    res <- fbad_request(
+        path   = paste0(audience_id, '?fields=', fields),
+        method = "GET",
+        params = list(access_token = fbacc$access_token, name = name))
+
+    ## return
+    fromJSON(res)
+
+}
+
+
 #' Share a FB custom audience with other accounts
 #' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#sharing
 #' @param fbacc FB_Ad_account object returned by \code{fbad_init}
