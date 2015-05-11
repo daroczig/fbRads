@@ -393,7 +393,7 @@ fbad_add_audience <- function(fbacc, audience_id,
 #' @param fbacc FB_Ad_account object returned by \code{fbad_init}
 #' @param name string
 #' @param origin_audience_id numeric ID of origin custom audience
-#' @param ratio Between 0.01-0.20 and increments of 0.01. Indicates the top x% of original audience in the selected country
+#' @param ratio Between 0.01-0.20 and increments of 0.01. Indicates the top \code{ratio} percent of original audience in the selected country
 #' @param country Country name - the country to find the lookalike people.
 #' @return lookalike audience ID
 #' @export

@@ -14,7 +14,7 @@ fbad_create_lookalike_audience(fbacc, name, origin_audience_id, ratio = 0.01,
 
 \item{origin_audience_id}{numeric ID of origin custom audience}
 
-\item{ratio}{Between 0.01-0.20 and increments of 0.01. Indicates the top x% of original audience in the selected country}
+\item{ratio}{Between 0.01-0.20 and increments of 0.01. Indicates the top \code{ratio} percent of original audience in the selected country}
 
 \item{country}{Country name - the country to find the lookalike people.}
 }
