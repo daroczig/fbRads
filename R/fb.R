@@ -309,7 +309,7 @@ fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id'
     res <- fbad_request(
         path   = paste0(audience_id, '?fields=', fields),
         method = "GET",
-        params = list(access_token = fbacc$access_token, name = name))
+        params = list(access_token = fbacc$access_token))
 
     ## return
     fromJSON(res)
