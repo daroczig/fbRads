@@ -267,6 +267,8 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
     if (missing(name))
         stop('The custom audience name is required.')
 
+    flog.info(paste('Creating new custom audience:', name))
+
     ## params
     params <- list(access_token = fbacc$access_token, name = name)
     if (!missing(description)) {
@@ -328,6 +330,8 @@ fbad_share_audience <- function(fbacc, audience_id, adaccounts) {
 
     fbad_check_fbacc(fbacc)
 
+    flog.info(paste('Sharing', audience_id, 'custom audience ID with', length(adaccounts), 'accounts.'))
+
     ## make sure adaccounts are integers
     adaccounts <- as.integer64(adaccounts)
 
@@ -351,6 +355,8 @@ fbad_add_audience <- function(fbacc, audience_id,
                               hashes) {
 
     fbad_check_fbacc(fbacc)
+
+    flog.info(paste('Adding', length(hashes), schema, 'to', audience_id, 'custom audience ID.'))
 
     if (length(hashes) == 0) {
 
@@ -398,6 +404,8 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
         stop('A custom name for the lookalike audience is required.')
     if (missing(origin_audience_id))
         stop('The origin custom audience id is required.')
+
+    flog.info(paste0('Creating new lookalike (', ratio*100, '%%) ', country, ' audience based on ', origin_audience_id, ': ', name))
 
     ## get results
     res <- fbad_request(
