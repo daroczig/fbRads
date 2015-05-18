@@ -60,18 +60,45 @@ fbad_request <- function(path, method = c('GET', 'POST'), params, debug = FALSE)
     ## check that params meet certain standards
     params <- fbad_check_curl_params(params)
 
+    ## get body
+    b = basicTextGatherer()
+
+    ## get headers
+    h = basicHeaderGatherer()
+
     ## debug
-    curl <- getCurlHandle()
-    curlSetOpt(curl = curl, verbose = debug)
     if (debug) {
         print(params)
     }
 
+    ## query
     do.call(what = paste0(tolower(method), 'Form'),
             args = list(
                 uri     = paste0(fbad_get_baseurl(), path),
                 .params = params,
-                curl = curl))
+                .opts = curlOptions(
+                    headerfunction = h$update,
+                    verbose = debug,
+                    writefunc = b$update)))
+
+
+    ## return value
+    res <- b$value()
+
+    ## error handling
+    headers <- as.list(h$value())
+    if (headers$status != '200') {
+        flog.error(paste('FB error header:', toJSON(headers)))
+        if (!inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') &&
+            !is.null(fromJSON(res))) {
+            stop(fromJSON(res)$error$message)
+        } else {
+            stop('Some critical FB query error here.')
+        }
+    }
+
+    ## return
+    res
 
 }
 
