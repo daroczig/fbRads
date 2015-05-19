@@ -4,12 +4,13 @@
 \alias{fbad_request}
 \title{Get results of a synchronous query from FB graph API}
 \usage{
-fbad_request(path, method = c("GET", "POST"), params, debug = FALSE)
+fbad_request(path, method = c("GET", "POST", "DELETE"), params,
+  debug = FALSE)
 }
 \arguments{
 \item{path}{API request path (i.e. endpoint)}
 
-\item{method}{HTTP request type (e.g. GET or POST)}
+\item{method}{HTTP request type (e.g. GET or POST or DELETE)}
 
 \item{params}{a name-value list of form parameters for API query}
 

@@ -48,12 +48,12 @@ fbad_check_curl_params <- function(params){
 
 #' Get results of a synchronous query from FB graph API
 #' @param path API request path (i.e. endpoint)
-#' @param method HTTP request type (e.g. GET or POST)
+#' @param method HTTP request type (e.g. GET or POST or DELETE)
 #' @param params a name-value list of form parameters for API query
 #' @param debug print debug messages by calling Curl verbosely
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(path, method = c('GET', 'POST'), params, debug = FALSE) {
+fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debug = FALSE) {
 
     method <- match.arg(method)
 
@@ -72,7 +72,7 @@ fbad_request <- function(path, method = c('GET', 'POST'), params, debug = FALSE)
     }
 
     ## query
-    do.call(what = paste0(tolower(method), 'Form'),
+    do.call(what = paste0(ifelse(method == 'GET', 'get', 'post'), 'Form'),
             args = list(
                 uri     = paste0(fbad_get_baseurl(), path),
                 .params = params,
@@ -338,6 +338,32 @@ fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id'
     res <- fbad_request(
         path   = paste0(audience_id, '?fields=', fields),
         method = "GET",
+        params = list(access_token = fbacc$access_token))
+
+    ## return
+    fromJSON(res)
+
+}
+
+
+#' Delete a FB custom audience
+#' @references https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#delete
+#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param audience_id numeric
+#' @return custom audience ID
+#' @export
+fbad_delete_audience <- function(fbacc, audience_id) {
+
+    fbad_check_fbacc(fbacc)
+    if (missing(audience_id))
+        stop('A custom audience id is required.')
+
+    stop('This is untested code.')
+
+    ## get results
+    res <- fbad_request(
+        path   = paste0(audience_id, '?fields=', fields),
+        method = "DELETE",
         params = list(access_token = fbacc$access_token))
 
     ## return
