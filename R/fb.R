@@ -506,7 +506,15 @@ fbad_reachestimate <- function(fbacc, targeting_spec, currency = 'USD') {
             currency           = currency,
             targeting_spec     = toJSON(targeting_spec)))
 
+    ## parse JSON
+    res <- fromJSON(res)
+
+    ## error handling
+    if (isTRUE(res$unsupported) | isTRUE(res$bid_estimations$unsupported) | isTRUE(res$data$bid_estimations$unsupported))  {
+        stop('Invalid parameters provided, check your targeting_spec.')
+    }
+
     ## return
-    fromJSON(res)
+    c(res['users'], res$bid_estimations[-(1:2)])
 
 }
