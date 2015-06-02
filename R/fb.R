@@ -485,6 +485,7 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
 #' @param currency string
 #' @return list
 #' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reachestimate/v2.2}
 #' @examples \dontrun{
 #' targetspec <- list(
 #'   age_min = unbox(24),

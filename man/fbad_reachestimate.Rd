@@ -27,4 +27,7 @@ targetspec <- list(
   geo_locations = list(countries = 'US'))
 }
 }
+\references{
+\url{https://developers.facebook.com/docs/marketing-api/reachestimate/v2.2}
+}
 
