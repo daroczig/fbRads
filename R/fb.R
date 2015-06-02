@@ -72,15 +72,28 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
     }
 
     ## query
-    do.call(what = paste0(ifelse(method == 'GET', 'get', 'post'), 'Form'),
-            args = list(
-                uri     = paste0(fbad_get_baseurl(), path),
-                .params = params,
-                .opts = curlOptions(
-                    headerfunction = h$update,
-                    verbose = debug,
-                    writefunc = b$update)))
+    tryCatch(res <- do.call(what = paste0(
+                                ifelse(method == 'GET', 'get', 'post'),
+                                'Form'),
+                            args = list(
+                                uri     = paste0(fbad_get_baseurl(), path),
+                                .params = params,
+                                .opts = curlOptions(
+                                    headerfunction = h$update,
+                                    verbose = debug,
+                                    writefunc = b$update))),
+             error = function(e) e)
 
+    ## remove token from params if printed for debugging purposes
+    params$token <- NULL
+
+    ## error handling
+    if (inherits(res, 'error')) {
+        flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
+        flog.error(paste('Method: ', method))
+        flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
+        stop('FB query failed without returning anything useful.')
+    }
 
     ## return value
     res <- b$value()
@@ -88,7 +101,11 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
     ## error handling
     headers <- as.list(h$value())
     if (headers$status != '200') {
-        flog.error(paste('FB error header:', toJSON(headers)))
+        flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
+        flog.error(paste('Method: ', method))
+        flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
+        flog.error(paste('Header:', toJSON(headers)))
+        flog.error(paste('Body:', res))
         if (!inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') &&
             !is.null(fromJSON(res))) {
             stop(fromJSON(res)$error$message)
