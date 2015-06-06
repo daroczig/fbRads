@@ -85,7 +85,7 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
              error = function(e) e)
 
     ## remove token from params if printed for debugging purposes
-    params$token <- NULL
+    params$token <- params$access_token <- NULL
 
     ## error handling
     if (inherits(res, 'error')) {
