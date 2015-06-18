@@ -2,6 +2,7 @@
 
 S3method(print,FB_Ad_Account)
 export(fbad_add_audience)
+export(fbad_create_ad)
 export(fbad_create_adset)
 export(fbad_create_audience)
 export(fbad_create_campaign)
