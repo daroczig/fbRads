@@ -4,7 +4,7 @@
 #' @param currency string
 #' @return list
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/reachestimate/v2.2}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reachestimate/v2.3}
 #' @examples \dontrun{
 #' targetspec <- list(
 #'   age_min = unbox(24),

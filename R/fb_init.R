@@ -130,7 +130,7 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
 
 
 #' Get details for a Facebook Ads Account
-#' @references https://developers.facebook.com/docs/marketing-api/adaccount/v2.2
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adaccount/v2.3}
 #' @param accountid Ads account graph object id
 #' @param token FB Ads API token
 #' @return list(s) containing account details

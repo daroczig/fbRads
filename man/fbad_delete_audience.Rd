@@ -18,6 +18,6 @@ custom audience ID
 Delete a FB custom audience
 }
 \references{
-https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#delete
+\url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.3#delete}
 }
 

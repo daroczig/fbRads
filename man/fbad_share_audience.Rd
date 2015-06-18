@@ -20,6 +20,6 @@ Share a FB custom audience with other accounts
 This throws error if you provide wrong account ids OR even valid account ids that were previously granted access to the given custom audience.
 }
 \references{
-https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#sharing
+\url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.3#sharing}
 }
 

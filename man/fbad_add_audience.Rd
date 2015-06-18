@@ -19,6 +19,6 @@ fbad_add_audience(fbacc, audience_id, schema = c("EMAIL", "PHONE"), hashes)
 FB add people to audience
 }
 \references{
-https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.2#create
+\url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.3#create}
 }
 

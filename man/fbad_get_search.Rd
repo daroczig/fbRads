@@ -32,6 +32,6 @@ fbad_get_search(fbacc, c('dog', 'cat'), type = 'adinterestvalid')
 }
 }
 \references{
-https://developers.facebook.com/docs/marketing-api/targeting-search/v2.2
+\url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.3#interests}
 }
 

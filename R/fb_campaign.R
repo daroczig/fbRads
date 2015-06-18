@@ -8,7 +8,7 @@
 #' @param spend_cap
 #' @return ad campaign id
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.2#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.3#create}
 fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 'RESERVED'),
                                  campaign_group_status = c('ACTIVE', 'PAUSED'),
                                  execution_options = NULL, name,
@@ -58,7 +58,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
 #' @param fields
 #' @return list
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.2#read}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.3$read}
 fbad_read_campaign <- function(fbacc, id, fields = c('id', 'account_id', 'adgroups', 'buying_type', 'campaign_group_status', 'objective', 'spend_cap', 'name')) {
 
     ## get fields

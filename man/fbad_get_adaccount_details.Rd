@@ -18,6 +18,6 @@ list(s) containing account details
 Get details for a Facebook Ads Account
 }
 \references{
-https://developers.facebook.com/docs/marketing-api/adaccount/v2.2
+\url{https://developers.facebook.com/docs/marketing-api/adaccount/v2.3}
 }
 

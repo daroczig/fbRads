@@ -64,7 +64,7 @@ fbad_create_creative <- function(
 #' @param fields
 #' @return list
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.2#read}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.3#read}
 #' @examples \dontrun{
 #' ## get all creatives for the current account
 #' fbad_read_creative(fbacc)

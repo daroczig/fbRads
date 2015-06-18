@@ -34,6 +34,6 @@ ad campaign id
 Created ad campaign
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.2#create}
+\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.3#create}
 }
 
