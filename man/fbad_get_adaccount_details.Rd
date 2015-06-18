@@ -10,8 +10,6 @@ fbad_get_adaccount_details(accountid, token)
 \item{accountid}{Ads account graph object id}
 
 \item{token}{FB Ads API token}
-
-\item{version}{Ads API version to use}
 }
 \value{
 list(s) containing account details

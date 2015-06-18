@@ -124,7 +124,6 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
 #' @references https://developers.facebook.com/docs/marketing-api/adaccount/v2.2
 #' @param accountid Ads account graph object id
 #' @param token FB Ads API token
-#' @param version Ads API version to use
 #' @return list(s) containing account details
 #' @export
 fbad_get_adaccount_details  <- function(accountid, token){
@@ -379,7 +378,7 @@ fbad_delete_audience <- function(fbacc, audience_id) {
 
     ## get results
     res <- fbad_request(
-        path   = paste0(audience_id, '?fields=', fields),
+        path   = paste0(audience_id),
         method = "DELETE",
         params = list(access_token = fbacc$access_token))
 
