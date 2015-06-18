@@ -72,34 +72,43 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
     }
 
     ## query
-    tryCatch(res <- do.call(what = paste0(
-                                ifelse(method == 'GET', 'get', 'post'),
-                                'Form'),
-                            args = list(
-                                uri     = paste0(fbad_get_baseurl(), path),
-                                .params = params,
-                                .opts = curlOptions(
-                                    headerfunction = h$update,
-                                    verbose = debug,
-                                    writefunc = b$update))),
-             error = function(e) e)
+    curlres <- tryCatch(res <- do.call(what = paste0(
+                                           ifelse(method == 'GET', 'get', 'post'),
+                                           'Form'),
+                                       args = list(
+                                           uri     = paste0(fbad_get_baseurl(), path),
+                                           .params = params,
+                                           .opts = curlOptions(
+                                               headerfunction = h$update,
+                                               verbose = debug,
+                                               writefunc = b$update))),
+                        error = function(e) e)
 
     ## remove token from params if printed for debugging purposes
     params$token <- params$access_token <- NULL
 
-    ## error handling
+    ## Curl error handling
+    if (inherits(curlres, 'error')) {
+        res <- curlres
+    }
+
+    ## Response error handling
     if (inherits(res, 'error')) {
         flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
         flog.error(paste('Method: ', method))
         flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
-        stop('FB query failed without returning anything useful.')
+        stop(paste(
+            ifelse(inherits(curlres, 'error'),
+                   'This is a bug in the fbRads package. Please report on GitHub:'
+                   'FB query failed:'),
+            res$message))
     }
 
     ## return value
-    res <- b$value()
-
-    ## error handling
+    res     <- b$value()
     headers <- as.list(h$value())
+
+    ## Response code error handling
     if (headers$status != '200') {
         flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
         flog.error(paste('Method: ', method))
