@@ -7,5 +7,6 @@
 #' @importFrom RCurl postForm getForm getURL getCurlHandle curlSetOpt basicHeaderGatherer basicTextGatherer curlOptions
 #' @importFrom futile.logger flog.info flog.error
 #' @importFrom bit64 as.integer64
+#' @importFrom plyr ldply
 #' @name fbRads
 NULL
