@@ -13,4 +13,5 @@ Imports:
     jsonlite,
     digest,
     futile.logger,
-    bit64
+    bit64,
+    plyr
