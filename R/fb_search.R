@@ -73,6 +73,7 @@ fbad_get_search <- function(
     }
 
     if (!inherits(res, 'data.frame')) {
+        library(plyr)
         res <- ldply(res, as.data.frame)
     }
 
