@@ -4,11 +4,15 @@
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.3}
-#' @return JSON
+#' @return list
 #' @export
 #' @examples \dontrun{
 #' fb_insights(fbacc)
-#' fb_insights(fbacc, date_preset = 'today', level = 'adgroup')
+#'
+#' ## process results
+#' l <- fb_insights(fbacc, date_preset = 'today', level = 'adgroup')
+#' library(rlist)
+#' list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
 #' }
 fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), ...) {
 
@@ -27,6 +31,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
         params = list(access_token = fbacc$access_token,
             ...), log = FALSE), error = function(e) e)
 
+    ## sync request
     if (job_type == 'sync') {
 
         ## if it was a sync job and failed
@@ -42,19 +47,31 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
         }
 
-        ## otherwise we have the results
-        return(res)
+    ## async request
+    } else {
+
+        ## we have an async job, we need the job ID
+        id <- fromJSON(res)[[1]]
+
+        ## get results
+        res <- fbad_insights_get_async_results(id)
 
     }
 
-    ## we have an async job, we need the job ID
-    id <- fromJSON(res)[[1]]
+    ## parse JSON
+    res <- fromJSON(res)
 
-    ## get results
-    res <- fbad_insights_get_async_results(id)
+    ## save data as list
+    l <- list(res$data)
 
-    ## return
-    res
+    ## get all pages (if any)
+    while (!is.null(res$paging$'next')) {
+        res <- fromJSON(res$paging$'next')
+        l   <- c(l, list(res$data))
+    }
+
+    ## return list
+    l
 
 }
 

@@ -17,7 +17,7 @@ fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
 \item{...}{named arguments passed to the API, like time range, fields, filtering etc.}
 }
 \value{
-JSON
+list
 }
 \description{
 Insights
@@ -25,7 +25,11 @@ Insights
 \examples{
 \dontrun{
 fb_insights(fbacc)
-fb_insights(fbacc, date_preset = 'today', level = 'adgroup')
+
+## process results
+l <- fb_insights(fbacc, date_preset = 'today', level = 'adgroup')
+library(rlist)
+list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
 }
 }
 \references{
