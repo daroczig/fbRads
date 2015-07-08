@@ -96,7 +96,7 @@ fbad_insights_get_async_results <- function(id) {
 
     ## job still running
     if (res$async_status %in% c('Job Not Started', 'Job Started', 'Job Running')) {
-        flog.debug(paste0('Async',
+        flog.debug(paste0(id, ' Async ',
                           res$async_status, ' (',
                           res$async_percent_completion,
                           '%%). Waiting 2 seconds...'))
