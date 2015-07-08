@@ -39,6 +39,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
             ## let's try an async query for larger data
             if (res$message == "Please reduce the amount of data you're asking for, then retry your request") {
+                flog.debug('Sync request failed, starting async request.')
                 mc$job_type <- 'async'
                 return(eval(mc))
             }
@@ -95,10 +96,11 @@ fbad_insights_get_async_results <- function(id) {
 
     ## job still running
     if (res$async_status %in% c('Job Not Started', 'Job Started', 'Job Running')) {
-        flog.debug(paste0(res$async_status, ' (',
+        flog.debug(paste0('Async',
+                          res$async_status, ' (',
                           res$async_percent_completion,
-                          '%%). Waiting 500ms...'))
-        Sys.sleep(0.5)
+                          '%%). Waiting 2 seconds...'))
+        Sys.sleep(2)
         return(eval(mc))
     }
 
