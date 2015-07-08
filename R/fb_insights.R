@@ -24,7 +24,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
     ## start sync or async report generation
     res <- tryCatch(fbad_request(
-        path   = file.path(sub('/$', '', target), 'insights?date_preset=last_30_days'),
+        path   = file.path(sub('/$', '', target), 'insights'),
         method = switch(job_type,
             'sync'  = 'GET',
             'async' = 'POST'),
