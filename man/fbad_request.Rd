@@ -5,7 +5,7 @@
 \title{Get results of a synchronous query from FB graph API}
 \usage{
 fbad_request(path, method = c("GET", "POST", "DELETE"), params,
-  debug = FALSE)
+  debug = FALSE, log = TRUE)
 }
 \arguments{
 \item{path}{API request path (i.e. endpoint)}
@@ -15,6 +15,8 @@ fbad_request(path, method = c("GET", "POST", "DELETE"), params,
 \item{params}{a name-value list of form parameters for API query}
 
 \item{debug}{print debug messages by calling Curl verbosely}
+
+\item{log}{print log messages or suppress those}
 }
 \value{
 json object containing results

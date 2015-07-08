@@ -51,9 +51,10 @@ fbad_check_curl_params <- function(params){
 #' @param method HTTP request type (e.g. GET or POST or DELETE)
 #' @param params a name-value list of form parameters for API query
 #' @param debug print debug messages by calling Curl verbosely
+#' @param log print log messages or suppress those
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debug = FALSE) {
+fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debug = FALSE, log = TRUE) {
 
     method <- match.arg(method)
 
@@ -94,14 +95,19 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
 
     ## Response error handling
     if (inherits(res, 'error')) {
-        flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
-        flog.error(paste('Method: ', method))
-        flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
+
+        if (log) {
+            flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
+            flog.error(paste('Method: ', method))
+            flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
+        }
+
         stop(paste(
             ifelse(inherits(curlres, 'error'),
                    'This is a bug in the fbRads package. Please report on GitHub:',
                    'FB query failed:'),
             res$message))
+
     }
 
     ## return value
@@ -110,17 +116,22 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
 
     ## Response code error handling
     if (headers$status != '200') {
-        flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
-        flog.error(paste('Method: ', method))
-        flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
-        flog.error(paste('Header:', toJSON(headers)))
-        flog.error(paste('Body:', res))
+
+        if (log) {
+            flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
+            flog.error(paste('Method: ', method))
+            flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
+            flog.error(paste('Header:', toJSON(headers)))
+            flog.error(paste('Body:', res))
+        }
+
         if (!inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') &&
             !is.null(fromJSON(res))) {
             stop(fromJSON(res)$error$message)
         } else {
             stop('Some critical FB query error here.')
         }
+
     }
 
     ## return
