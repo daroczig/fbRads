@@ -83,8 +83,6 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 #' @keywords internal
 fbad_insights_get_async_results <- function(id) {
 
-    mc <- match.call()
-
     ## get status
     res <- fbad_request(
         path   = id,
@@ -95,21 +93,35 @@ fbad_insights_get_async_results <- function(id) {
     res <- fromJSON(res)
 
     ## job still running
-    if (res$async_status %in% c('Job Not Started', 'Job Started', 'Job Running')) {
+    while (res$async_status %in% c('Job Not Started', 'Job Started', 'Job Running')) {
+
+        ## log
         flog.debug(paste0(id, ' Async ',
                           res$async_status, ' (',
                           res$async_percent_completion,
-                          '%%). Waiting 2 seconds...'))
+                          '%). Waiting 2 seconds...'))
+
+        ## wait a bit
         Sys.sleep(2)
-        return(eval(mc))
+
+        ## instead of a recursive call, let's specify the query again
+        ## as nested calls was likely to cause segfault in R :(
+        res <- fromJSON(fbad_request(
+            path   = id,
+            method = "GET",
+            params = list(access_token = fbacc$access_token)))
+
     }
 
     ## job completed
     if (res$async_status == 'Job Completed') {
+
+        ## get the report
         return(fbad_request(
             path   = file.path(id, 'insights'),
             method = "GET",
             params = list(access_token = fbacc$access_token)))
+
     }
 
     ## error?
