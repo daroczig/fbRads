@@ -12,7 +12,7 @@ fb_reportstats_ad(fbacc, ...)
 \item{...}{named arguments passed to the API, like time range, fields, filtering etc.}
 }
 \value{
-list
+data.frame
 }
 \description{
 Get Ad Report Stats
