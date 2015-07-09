@@ -67,7 +67,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
     ## get all pages (if any)
     while (!is.null(res$paging$'next')) {
-        res <- fromJSON(res$paging$'next')
+        res <- fromJSON(getURL(res$paging$'next'))
         l   <- c(l, list(res$data))
     }
 
