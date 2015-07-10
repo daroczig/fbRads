@@ -7,12 +7,28 @@
 #' @export
 fb_reportstats_ad <- function(fbacc, ...) {
 
-    ## start sync or async report generation
+    ## get report
     res <- fbad_request(
         path   = paste0(fbacc$acct_path, 'reportstats'),
         method = 'GET',
         params = list(access_token = fbacc$access_token,
             ...))
+
+    ## error handling (TODO: this might be moved to fbad_request)
+    while (inherits(res, 'error') &&
+           grepl('Please retry your request later.', res$message)) {
+
+        flog.error('FB API temporary error, retrying query after 2 seconds...')
+
+        ## try to download the report "later"
+        Sys.sleep(2)
+        res <- fbad_request(
+            path   = paste0(fbacc$acct_path, 'reportstats'),
+            method = 'GET',
+            params = list(access_token = fbacc$access_token,
+                ...))
+
+           }
 
     ## parse JSON
     res <- fromJSON(res)
