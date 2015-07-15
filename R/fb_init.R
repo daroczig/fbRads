@@ -81,8 +81,12 @@ fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debu
                                            .params = params,
                                            .opts = curlOptions(
                                                headerfunction = h$update,
-                                               verbose = debug,
-                                               writefunc = b$update))),
+                                               verbose   = debug,
+                                               writefunc = b$update,
+                                               cainfo    = system.file(
+                                                   'CurlSSL',
+                                                   'cacert.pem',
+                                                   package = 'RCurl')))),
                         error = function(e) e)
 
     ## remove token from params if printed for debugging purposes
