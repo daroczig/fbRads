@@ -8,10 +8,10 @@ fbad_api_version <- 2.3
 #' @return character URL with trailing slash
 #' @keywords internal
 fbad_get_baseurl <- function() {
-  paste(
-      'https://graph.facebook.com',
-      paste0('v', fbad_api_version),
-      '', sep = '/')
+    paste(
+        'https://graph.facebook.com',
+        paste0('v', fbad_api_version),
+        '', sep = '/')
 
 }
 
@@ -22,26 +22,26 @@ fbad_get_baseurl <- function() {
 #' @keywords internal
 fbad_check_curl_params <- function(params){
 
-  ## Length check
-  if (length(params) == 0) {
-    stop("No parameters to get or set, pls debug this code")
-  }
+    ## Length check
+    if (length(params) == 0) {
+        stop("No parameters to get or set, pls debug this code")
+    }
 
-  ## Names check
-  if (any(is.null(names(params)))) {
-      stop("Parameters missing field names, expecting 'field = value'")
-  }
-  if (!"access_token" %in% names(params)) {
-      stop("access_token missing")
-  }
+    ## Names check
+    if (any(is.null(names(params)))) {
+        stop("Parameters missing field names, expecting 'field = value'")
+    }
+    if (!"access_token" %in% names(params)) {
+        stop("access_token missing")
+    }
 
-  ## Values check (not required)
-  if (any(as.vector(unlist(params)) %in% c(NA, NULL))) {
-      stop("NA or NULL values not allowed in cURL request")
-  }
+    ## Values check (not required)
+    if (any(as.vector(unlist(params)) %in% c(NA, NULL))) {
+        stop("NA or NULL values not allowed in cURL request")
+    }
 
-  ## Return params if all OK
-  params
+    ## Return params if all OK
+    params
 
 }
 
