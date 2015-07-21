@@ -8,7 +8,7 @@ fbad_read_campaign(fbacc, id, fields = c("id", "account_id", "adgroups",
   "buying_type", "campaign_group_status", "objective", "spend_cap", "name"))
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{id}{}
 

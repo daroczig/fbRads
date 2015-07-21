@@ -7,7 +7,7 @@
 fbad_create_image(fbacc, img)
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{img}{}
 }

@@ -1,5 +1,5 @@
 #' Insights
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param target ad account id (default), campaign id, adset id or ad id
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
@@ -15,6 +15,8 @@
 #' list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
 #' }
 fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), ...) {
+
+    fbacc <- fbad_check_fbacc()
 
     ## save call for possible future evaluation
     mc <- match.call()
@@ -78,10 +80,13 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
 
 #' Wait for and get asynchronous report results
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param id job ID
 #' @return JSON
 #' @keywords internal
-fbad_insights_get_async_results <- function(id) {
+fbad_insights_get_async_results <- function(fbacc, id) {
+
+    fbacc <- fbad_check_fbacc()
 
     ## get status
     res <- fbad_request(

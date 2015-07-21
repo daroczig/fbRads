@@ -1,5 +1,5 @@
 #' Create ad
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param name
 #' @param campaign_id
 #' @param creative_id
@@ -12,7 +12,7 @@ fbad_create_ad <- function(fbacc,
                                  adgroup_status = c('ACTIVE', 'PAUSED')
                                  ) {
 
-    fbad_check_fbacc(fbacc)
+    fbacc <- fbad_check_fbacc()
     stopifnot(!missing(name), !missing(campaign_id), !missing(creative_id))
 
     adgroup_status <- match.arg(adgroup_status)

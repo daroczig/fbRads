@@ -13,7 +13,7 @@ fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
   "WEBSITE_CLICKS", "WEBSITE_CONVERSIONS"), spend_cap = NULL)
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{buying_type}{}
 

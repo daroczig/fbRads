@@ -1,13 +1,13 @@
 #' FB Search API Querying
 #' @references \url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.3#interests}
-#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param q string that is being searched for
 #' @param type describes the type of search eg: adinterest, adeducationmajor etc
 #' @param ... other optional parameters accepted by the endpoint as key = value pairs eg: \code{limit = 5000}.
 #' @return \code{data.frame} containing results
 #' @examples \dontrun{
 #' fbacc <- fbad_init(...)
-#' fbad_get_search(fbacc, c('dog', 'cat'), type = 'adinterestvalid')
+#' fbad_get_search(type = c('dog', 'cat'), type = 'adinterestvalid')
 #' }
 #' @export
 fbad_get_search <- function(
@@ -18,8 +18,8 @@ fbad_get_search <- function(
         'adinterest', 'adinterestsuggestion', 'adinterestvalid',
         'adlocale', 'adTargetingCategory', 'adworkemployer'), ... ) {
 
-    type <- match.arg(type)
-    fbad_check_fbacc(fbacc)
+    type  <- match.arg(type)
+    fbacc <- fbad_check_fbacc()
 
     ## default params
     params <- list(access_token = fbacc$access_token,

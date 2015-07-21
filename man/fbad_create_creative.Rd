@@ -11,7 +11,7 @@ fbad_create_creative(fbacc, title, body, name, actor_id, follow_redirect,
   "LISTEN_MUSIC", "WATCH_VIDEO", "USE_APP"))
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{title}{}
 

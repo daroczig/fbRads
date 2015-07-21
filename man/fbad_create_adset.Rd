@@ -10,7 +10,7 @@ fbad_create_adset(fbacc, name, bid_type = c("CPC", "CPM", "ABSOLUTE_OCPM",
   targeting)
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{name}{}
 

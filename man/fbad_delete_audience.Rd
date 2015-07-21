@@ -7,7 +7,7 @@
 fbad_delete_audience(fbacc, audience_id)
 }
 \arguments{
-\item{fbacc}{FB_Ad_account object returned by \code{fbad_init}}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{audience_id}{numeric}
 }

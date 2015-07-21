@@ -7,7 +7,7 @@
 fb_reportstats_ad(fbacc, ...)
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{...}{named arguments passed to the API, like time range, fields, filtering etc.}
 }

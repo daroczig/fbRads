@@ -10,7 +10,7 @@ fbad_read_audience(fbacc, audience_id, fields = c("id", "account_id",
   "operation_status", "subtype", "time_updated"))
 }
 \arguments{
-\item{fbacc}{FB_Ad_account object returned by \code{fbad_init}}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{audience_id}{numeric}
 

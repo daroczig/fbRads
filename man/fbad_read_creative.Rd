@@ -12,7 +12,7 @@ fbad_read_creative(fbacc, id, by = c("account", "creative", "ad"),
   "object_url"))
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{fields}{}
 

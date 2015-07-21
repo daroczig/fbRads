@@ -1,11 +1,13 @@
 #' Get Ad Report Stats
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adreportstats/v2.3}
 #' @note This will be soon deprecated. Use the new Insight feature, if possible.
 #' @return data.frame
 #' @export
 fb_reportstats_ad <- function(fbacc, ...) {
+
+    fbacc <- fbad_check_fbacc()
 
     ## get report
     res <- fbad_request(

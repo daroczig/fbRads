@@ -2,15 +2,18 @@
 % Please edit documentation in R/fb_init.R
 \name{fbad_check_fbacc}
 \alias{fbad_check_fbacc}
-\title{Check if provided R object is a valid list of FB account details}
+\title{Check if provided or previously initialized  R object is a valid FB Ad Account}
 \usage{
 fbad_check_fbacc(fbacc)
 }
 \arguments{
-\item{fbacc}{R object}
+\item{fbacc}{(optional) R object}
+}
+\value{
+invisibly returned \code{FB_Ad_Account} object
 }
 \description{
-Check if provided R object is a valid list of FB account details
+Check if provided or previously initialized  R object is a valid FB Ad Account
 }
-\keyword{intenral}
+\keyword{internal}
 

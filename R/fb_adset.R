@@ -1,5 +1,5 @@
 #' Create adset
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param name
 #' @param bid_type
 #' @param bid_info
@@ -23,7 +23,7 @@ fbad_create_adset <- function(fbacc,
                               targeting
                               ) {
 
-    fbad_check_fbacc(fbacc)
+    fbacc <- fbad_check_fbacc()
 
     ## update args for the first or selected value
     bid_type <- match.arg(bid_type)

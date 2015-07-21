@@ -11,7 +11,7 @@ fbad_get_search(fbacc, q, type = c("adeducationschool", "adeducationmajor",
   "adworkemployer"), ...)
 }
 \arguments{
-\item{fbacc}{FB_Ad_account object returned by \code{fbad_init}}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{q}{string that is being searched for}
 
@@ -28,7 +28,7 @@ FB Search API Querying
 \examples{
 \dontrun{
 fbacc <- fbad_init(...)
-fbad_get_search(fbacc, c('dog', 'cat'), type = 'adinterestvalid')
+fbad_get_search(type = c('dog', 'cat'), type = 'adinterestvalid')
 }
 }
 \references{

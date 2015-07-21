@@ -8,7 +8,7 @@ fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
   ...)
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{target}{ad account id (default), campaign id, adset id or ad id}
 

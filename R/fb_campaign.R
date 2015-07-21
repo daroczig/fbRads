@@ -1,5 +1,5 @@
 #' Created ad campaign
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param buying_type
 #' @param campaign_group_status
 #' @param execution_options
@@ -20,7 +20,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
                                      'WEBSITE_CONVERSIONS'),
                                  spend_cap = NULL) {
 
-    fbad_check_fbacc(fbacc)
+    fbacc <- fbad_check_fbacc()
     if (missing(name))
         stop('A campaign name is required.')
 
@@ -53,7 +53,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
 
 
 #' Read ad campaign
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param id
 #' @param fields
 #' @return list
@@ -61,13 +61,13 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.3$read}
 fbad_read_campaign <- function(fbacc, id, fields = c('id', 'account_id', 'adgroups', 'buying_type', 'campaign_group_status', 'objective', 'spend_cap', 'name')) {
 
+    fbacc <- fbad_check_fbacc()
+    if (missing(id))
+        stop('A campaign id is required.')
+
     ## get fields
     fields <- match.arg(fields, several.ok = TRUE)
     fields <- paste(fields, collapse = ',')
-
-    fbad_check_fbacc(fbacc)
-    if (missing(id))
-        stop('A campaign id is required.')
 
     ## get results
     res <- fbad_request(

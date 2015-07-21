@@ -7,7 +7,7 @@
 fbad_create_audience(fbacc, name, description, opt_out_link)
 }
 \arguments{
-\item{fbacc}{FB_Ad_account object returned by \code{fbad_init}}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{name}{string}
 

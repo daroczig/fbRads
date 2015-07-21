@@ -1,5 +1,5 @@
 #' Create an ad creative
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param title
 #' @param body
 #' @param name
@@ -31,6 +31,7 @@ fbad_create_creative <- function(
         'OPEN_LINK', 'BOOK_TRAVEL', 'SHOP_NOW',
         'PLAY_GAME', 'LISTEN_MUSIC', 'WATCH_VIDEO', 'USE_APP')) {
 
+    fbacc <- fbad_check_fbacc()
     if (!missing(call_to_action_type)) {
         call_to_action_type <- match.arg(call_to_action_type)
     }
@@ -39,11 +40,11 @@ fbad_create_creative <- function(
     mc <- match.call()
     mc[[1]] <- quote(list)
 
-    ## drop fbacc
+    ## drop fbacc from the arguments and add token
     mc$fbacc <- NULL
     mc$access_token <- fbacc$access_token
 
-    ## eval in parent.frame to get variable values
+    ## eval in parent.frame to get the parameter values
     params <- eval(mc, envir = parent.frame())
 
     ## get results
@@ -59,7 +60,7 @@ fbad_create_creative <- function(
 
 
 #' Read ad creative
-#' @param fbacc
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param creative
 #' @param fields
 #' @return list
@@ -79,7 +80,7 @@ fbad_read_creative <- function(
         'link_url', 'url_tags',
         'object_id', 'object_story_id', 'object_story_spec', 'object_type', 'object_url')) {
 
-    fbad_check_fbacc(fbacc)
+    fbacc <- fbad_check_fbacc()
 
     by <- match.arg(by)
     ## default to current account id

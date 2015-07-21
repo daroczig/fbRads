@@ -12,7 +12,7 @@ fbad_init(accountid, token)
 \item{token}{Facebook OAuth token as a string}
 }
 \value{
-list containing versioned base URL and relevant API parameters
+list returned invisibly containing versioned base URL and relevant API parameters
 }
 \description{
 If you do not have a token, then register an (e.g. "Website") application at \url{https://developers.facebook.com/apps} and make a note of your "App ID" and "App Secret" at the "Dashboard" of your application. Then go to "Settings", click on "Add Platform", then "Website" and paste \code{http://localhost:1410} as the "Site URL". Save, and then run the below example R commands to get your token. Please note that your app needs access to your ads as well, see \url{https://developers.facebook.com/docs/marketing-api/access} for more details.

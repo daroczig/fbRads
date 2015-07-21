@@ -8,7 +8,7 @@ fbad_create_ad(fbacc, name, campaign_id, creative_id,
   adgroup_status = c("ACTIVE", "PAUSED"))
 }
 \arguments{
-\item{fbacc}{}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{name}{}
 

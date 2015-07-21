@@ -180,7 +180,7 @@ fbad_get_adaccount_details  <- function(accountid, token){
 #' If you do not have a token, then register an (e.g. "Website") application at \url{https://developers.facebook.com/apps} and make a note of your "App ID" and "App Secret" at the "Dashboard" of your application. Then go to "Settings", click on "Add Platform", then "Website" and paste \code{http://localhost:1410} as the "Site URL". Save, and then run the below example R commands to get your token. Please note that your app needs access to your ads as well, see \url{https://developers.facebook.com/docs/marketing-api/access} for more details.
 #' @param accountid Facebook Ad account id without the \code{act_} prefix
 #' @param token Facebook OAuth token as a string
-#' @return list containing versioned base URL and relevant API parameters
+#' @return list returned invisibly containing versioned base URL and relevant API parameters
 #' @export
 #' @examples \dontrun{
 #' ## You can generate a token for future use with the help of `httr`, e.g.
@@ -205,20 +205,62 @@ fbad_init <- function(accountid, token) {
     ## get account details
     details <- fbad_get_adaccount_details(accountid, token)
 
-    ## add custom class and return
-    structure(c(params, details), class = 'FB_Ad_Account')
+    ## add custom class
+    res <- structure(c(params, details), class = 'FB_Ad_Account')
+
+    ## save FB Ad Account in the internal namespace
+    ## so that we can reuse that later without directly referencing it
+    assign('fbacc', res, envir = as.environment('package:fbRads'))
+
+    ## someone might want to use this object directly
+    invisible(res)
 
 }
 
-#' Check if provided R object is a valid list of FB account details
-#' @param fbacc R object
-#' @keywords intenral
+#' Check if provided or previously initialized  R object is a valid FB Ad Account
+#' @param fbacc (optional) R object
+#' @return invisibly returned \code{FB_Ad_Account} object
+#' @keywords internal
 fbad_check_fbacc <- function(fbacc) {
 
-    if (missing(fbacc))
-        stop('Please initialize and pass your FB Ad account object. See ?fbad_init for more details.')
-    if (!inherits(fbacc, 'FB_Ad_Account'))
+    ## no fbacc argument was provided
+    if (missing(fbacc)) {
+
+        ## so let's match the parent call for it (if available)
+        if (length(sys.calls()) > 1) {
+            mc <- match.call(definition = sys.function(-1), call = sys.call(-1))
+        } else {
+            mc <- list()
+        }
+
+        ## manually passed fbacc object not found in parent call
+        if (!is.null(mc$fbacc)) {
+
+            fbacc <- eval.parent(mc$fbacc)
+
+        } else {
+
+            ## or get it from the pkg namespace (default) if available
+            if (exists('fbacc', envir = as.environment('package:fbRads'))) {
+
+                fbacc <- get('fbacc', envir = as.environment('package:fbRads'))
+
+            } else {
+
+                ## otherwise we are in trouble
+                stop('No FB Ad Account object previously specified or directly passed to check. See ?fbad_init for more details.')
+            }
+
+        }
+    }
+
+    ## verify object type
+    if (!inherits(fbacc, 'FB_Ad_Account')) {
         stop('Invalid R object passed as fbacc argument. See ?fbad_init for more details.')
+    }
+
+    ## return object from any source
+    invisible(fbacc)
 
 }
 

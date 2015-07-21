@@ -4,9 +4,11 @@
 \alias{fbad_insights_get_async_results}
 \title{Wait for and get asynchronous report results}
 \usage{
-fbad_insights_get_async_results(id)
+fbad_insights_get_async_results(fbacc, id)
 }
 \arguments{
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
+
 \item{id}{job ID}
 }
 \value{

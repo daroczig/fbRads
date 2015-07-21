@@ -1,5 +1,5 @@
 #' Query for reach estimate for given targeting spec
-#' @param fbacc FB_Ad_account object returned by \code{fbad_init}
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param targeting_spec lists of targeting spec characteristics
 #' @param currency string
 #' @return list
@@ -13,7 +13,7 @@
 #' }
 fbad_reachestimate <- function(fbacc, targeting_spec, currency = 'USD') {
 
-    fbad_check_fbacc(fbacc)
+    fbacc <- fbad_check_fbacc()
     if (missing(targeting_spec) | !is.list(targeting_spec))
         stop('An R list targetspec is required.')
 
