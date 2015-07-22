@@ -18,13 +18,12 @@ fbad_reachestimate <- function(fbacc, targeting_spec, currency = 'USD') {
         stop('An R list targetspec is required.')
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/reachestimate'),
         method = "GET",
         params = list(
-            access_token       = fbacc$access_token,
-            currency           = currency,
-            targeting_spec     = toJSON(targeting_spec)))
+            currency       = currency,
+            targeting_spec = toJSON(targeting_spec)))
 
     ## parse JSON
     res <- fromJSON(res)

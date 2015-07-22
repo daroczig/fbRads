@@ -25,13 +25,12 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
     job_type <- match.arg(job_type)
 
     ## start sync or async report generation
-    res <- tryCatch(fbad_request(
+    res <- tryCatch(fbad_request(fbacc,
         path   = file.path(sub('/$', '', target), 'insights'),
         method = switch(job_type,
             'sync'  = 'GET',
             'async' = 'POST'),
-        params = list(access_token = fbacc$access_token,
-            ...), log = FALSE), error = function(e) e)
+        params = list(...), log = FALSE), error = function(e) e)
 
     ## sync request
     if (job_type == 'sync') {
@@ -89,10 +88,9 @@ fbad_insights_get_async_results <- function(fbacc, id) {
     fbacc <- fbad_check_fbacc()
 
     ## get status
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = id,
-        method = "GET",
-        params = list(access_token = fbacc$access_token))
+        method = "GET")
 
     ## parse JSON
     res <- fromJSON(res)
@@ -111,10 +109,9 @@ fbad_insights_get_async_results <- function(fbacc, id) {
 
         ## instead of a recursive call, let's specify the query again
         ## as nested calls was likely to cause segfault in R :(
-        res <- fromJSON(fbad_request(
+        res <- fromJSON(fbad_request(fbacc,
             path   = id,
-            method = "GET",
-            params = list(access_token = fbacc$access_token)))
+            method = "GET"))
 
     }
 
@@ -122,10 +119,9 @@ fbad_insights_get_async_results <- function(fbacc, id) {
     if (res$async_status == 'Job Completed') {
 
         ## get the report
-        return(fbad_request(
+        return(fbad_request(fbacc,
             path   = file.path(id, 'insights'),
-            method = "GET",
-            params = list(access_token = fbacc$access_token)))
+            method = "GET"))
 
     }
 

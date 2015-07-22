@@ -22,8 +22,7 @@ fbad_get_search <- function(
     fbacc <- fbad_check_fbacc()
 
     ## default params
-    params <- list(access_token = fbacc$access_token,
-                   limit        = 500,
+    params <- list(limit        = 500,
                    type         = type,
                    list         = "GLOBAL")
 
@@ -50,7 +49,7 @@ fbad_get_search <- function(
     }
 
     ## get results
-    properties <- fbad_request(
+    properties <- fbad_request(fbacc,
         path   = "search",
         method = "GET",
         params = params)

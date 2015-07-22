@@ -14,8 +14,8 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
 
     flog.info(paste('Creating new custom audience:', name))
 
-    ## params
-    params <- list(access_token = fbacc$access_token, name = name)
+    ## set params
+    params <- list(name = name)
     if (!missing(description)) {
         params$description <- description
     }
@@ -24,7 +24,7 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
     }
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/customaudiences'),
         method = "POST",
         params = params)
@@ -53,10 +53,9 @@ fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id'
         stop('A custom audience id is required.')
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0(audience_id, '?fields=', fields),
-        method = "GET",
-        params = list(access_token = fbacc$access_token))
+        method = "GET")
 
     ## return
     fromJSON(res)
@@ -79,10 +78,9 @@ fbad_delete_audience <- function(fbacc, audience_id) {
     stop('This is untested code.')
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0(audience_id),
-        method = "DELETE",
-        params = list(access_token = fbacc$access_token))
+        method = "DELETE")
 
     ## return
     fromJSON(res)
@@ -105,10 +103,10 @@ fbad_share_audience <- function(fbacc, audience_id, adaccounts) {
     ## make sure adaccounts are integers
     adaccounts <- as.integer64(adaccounts)
 
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste(audience_id, 'adaccounts', sep = '/'),
         method = "POST",
-        params = list(access_token = fbacc$access_token, adaccounts = toJSON(adaccounts)))
+        params = list(adaccounts = toJSON(adaccounts)))
 
 }
 
@@ -141,11 +139,10 @@ fbad_add_audience <- function(fbacc, audience_id,
 
         ## get results
         sapply(hashes, function(hash)
-            fbad_request(
+            fbad_request(fbacc,
                 path   = paste(audience_id, 'users', sep = '/'),
                 method = "POST",
                 params = list(
-                    access_token = fbacc$access_token,
                     payload      = toJSON(c(
                         list(schema = unbox(paste0(schema, '_SHA256'))),
                         list(data   = hash))))))
@@ -177,11 +174,10 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
     flog.info(paste0('Creating new lookalike (', ratio*100, '%%) ', country, ' audience based on ', origin_audience_id, ': ', name))
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/customaudiences'),
         method = "POST",
         params = list(
-            access_token       = fbacc$access_token,
             name               = name,
             origin_audience_id = origin_audience_id,
             lookalike_spec     = toJSON(list(

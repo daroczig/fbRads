@@ -10,11 +10,10 @@ fb_reportstats_ad <- function(fbacc, ...) {
     fbacc <- fbad_check_fbacc()
 
     ## get report
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0(fbacc$acct_path, 'reportstats'),
         method = 'GET',
-        params = list(access_token = fbacc$access_token,
-            ...))
+        params = list(...))
 
     ## error handling (TODO: this might be moved to fbad_request)
     while (inherits(res, 'error') &&
@@ -24,11 +23,10 @@ fb_reportstats_ad <- function(fbacc, ...) {
 
         ## try to download the report "later"
         Sys.sleep(2)
-        res <- fbad_request(
+        res <- fbad_request(fbacc,
             path   = paste0(fbacc$acct_path, 'reportstats'),
             method = 'GET',
-            params = list(access_token = fbacc$access_token,
-                ...))
+            params = list(...))
 
            }
 

@@ -41,10 +41,10 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
     params <- as.list(unlist(params, recursive = FALSE))
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/adcampaign_groups'),
         method = "POST",
-        params = c(params, list(access_token = fbacc$access_token)))
+        params = params)
 
     ## return campaign ID on success
     fromJSON(res)$id
@@ -70,10 +70,9 @@ fbad_read_campaign <- function(fbacc, id, fields = c('id', 'account_id', 'adgrou
     fields <- paste(fields, collapse = ',')
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0(id, '?fields=', fields),
-        method = "GET",
-        params = list(access_token = fbacc$access_token))
+        method = "GET")
 
     ## return
     fromJSON(res)

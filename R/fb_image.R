@@ -14,11 +14,10 @@ fbad_create_image <- function(fbacc, img) {
     }
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/adimages'),
         method = "POST",
-        params = list(access_token = fbacc$access_token,
-                      image_file   = fileUpload(img)))
+        params = list(image_file = fileUpload(img)))
 
     ## parse JSON
     res <- fromJSON(res)[[1]]

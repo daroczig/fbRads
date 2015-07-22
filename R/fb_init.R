@@ -1,7 +1,7 @@
 ## we build the functions to support one given version of the API
 ## so the users should not be able to override that
 fbad_api_version <- 2.3
-fbacc <- NULL
+fbacc <- list()
 
 #' Get versioned base url
 #' @param version the version for which a base url is being generated
@@ -20,7 +20,7 @@ fbad_get_baseurl <- function() {
 #' @param params named list of parameters to GET/POST
 #' @return list if OK, error if not
 #' @keywords internal
-fbad_check_curl_params <- function(params){
+fbad_check_curl_params <- function(params) {
 
     ## Length check
     if (length(params) == 0) {
@@ -47,6 +47,7 @@ fbad_check_curl_params <- function(params){
 
 
 #' Get results of a synchronous query from FB graph API
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param path API request path (i.e. endpoint)
 #' @param method HTTP request type (e.g. GET or POST or DELETE)
 #' @param params a name-value list of form parameters for API query
@@ -54,9 +55,18 @@ fbad_check_curl_params <- function(params){
 #' @param log print log messages or suppress those
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(path, method = c('GET', 'POST', 'DELETE'), params, debug = FALSE, log = TRUE) {
+fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE) {
 
     method <- match.arg(method)
+
+    ## if token was not set in params, try to do that from fbacc
+    if (is.null(params$access_token)) {
+        if (!missing(fbacc)) {
+            params$access_token <- fbad_check_fbacc()$access_token
+        } else {
+            params$access_token <- getFromNamespace('fbacc', 'fbRads')$access_token
+        }
+    }
 
     ## check that params meet certain standards
     params <- fbad_check_curl_params(params)
@@ -171,8 +181,7 @@ fbad_get_adaccount_details  <- function(accountid, token){
             method = 'GET',
             params = list(
                 access_token = token,
-                fields       = scope)
-            )
+                fields       = scope))
 
     fromJSON(account_details)
 

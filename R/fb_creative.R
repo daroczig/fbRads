@@ -40,15 +40,14 @@ fbad_create_creative <- function(
     mc <- match.call()
     mc[[1]] <- quote(list)
 
-    ## drop fbacc from the arguments and add token
+    ## drop fbacc from the arguments
     mc$fbacc <- NULL
-    mc$access_token <- fbacc$access_token
 
     ## eval in parent.frame to get the parameter values
     params <- eval(mc, envir = parent.frame())
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/adcreatives'),
         method = "POST",
         params = params)
@@ -97,13 +96,12 @@ fbad_read_creative <- function(
         stop('An id is required.')
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = switch(by,
             'creative' = paste0(id, '?fields=', fields),
             'account'  = paste0('act_', id, '/adcreatives?fields=', fields),
             'ad'       = paste0(id, '/adcreatives?fields=', fields)),
-        method = "GET",
-        params = list(access_token = fbacc$access_token))
+        method = "GET")
 
     ## return
     fromJSON(res)

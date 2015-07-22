@@ -4,10 +4,12 @@
 \alias{fbad_request}
 \title{Get results of a synchronous query from FB graph API}
 \usage{
-fbad_request(path, method = c("GET", "POST", "DELETE"), params,
-  debug = FALSE, log = TRUE)
+fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
+  params = list(), debug = FALSE, log = TRUE)
 }
 \arguments{
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
+
 \item{path}{API request path (i.e. endpoint)}
 
 \item{method}{HTTP request type (e.g. GET or POST or DELETE)}

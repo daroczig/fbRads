@@ -25,10 +25,10 @@ fbad_create_ad <- function(fbacc,
         adgroup_status = adgroup_status)
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/adgroups'),
         method = "POST",
-        params = c(params, list(access_token = fbacc$access_token)))
+        params = params)
 
     ## return campaign ID on success
     fromJSON(res)$id

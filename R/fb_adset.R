@@ -131,10 +131,10 @@ fbad_create_adset <- function(fbacc,
     params$bid_info  <- toJSON(bid_info, auto_unbox = TRUE)
 
     ## get results
-    res <- fbad_request(
+    res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/adcampaigns'),
         method = "POST",
-        params = c(params, list(access_token = fbacc$access_token)))
+        params = params)
 
     ## return campaign ID on success
     fromJSON(res)$id
