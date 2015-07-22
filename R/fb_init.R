@@ -1,7 +1,7 @@
 ## we build the functions to support one given version of the API
 ## so the users should not be able to override that
 fbad_api_version <- 2.3
-
+fbacc <- NULL
 
 #' Get versioned base url
 #' @param version the version for which a base url is being generated
@@ -214,7 +214,7 @@ fbad_init <- function(accountid, token) {
 
     ## save FB Ad Account in the internal namespace
     ## so that we can reuse that later without directly referencing it
-    assign('fbacc', res, envir = as.environment('package:fbRads'))
+    assignInMyNamespace('fbacc', res)
 
     ## someone might want to use this object directly
     invisible(res)
@@ -245,14 +245,13 @@ fbad_check_fbacc <- function(fbacc) {
         } else {
 
             ## or get it from the pkg namespace (default) if available
-            if (exists('fbacc', envir = as.environment('package:fbRads'))) {
+            fbacc <- getFromNamespace('fbacc', 'fbRads')
 
-                fbacc <- get('fbacc', envir = as.environment('package:fbRads'))
-
-            } else {
+            if (is.null(fbacc)) {
 
                 ## otherwise we are in trouble
                 stop('No FB Ad Account object previously specified or directly passed to check. See ?fbad_init for more details.')
+
             }
 
         }
