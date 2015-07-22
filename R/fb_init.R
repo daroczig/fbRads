@@ -45,9 +45,10 @@ fbad_check_curl_params <- function(params) {
 #' @param params a name-value list of form parameters for API query
 #' @param debug print debug messages by calling Curl verbosely
 #' @param log print log messages or suppress those
+#' @param version Facebook Marketing API version
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE) {
+fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_version()) {
 
     method <- match.arg(method)
 
@@ -61,8 +62,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     }
 
     ## define Facebook API version to be used
-    version <- fb_api_version()
-    if (!missing(fbacc) | !is.null(getFromNamespace('fbacc', 'fbRads')$api_version)) {
+    if (missing(version) & !missing(fbacc)) {
         version <- fbad_check_fbacc()$api_version
     }
 
@@ -162,9 +162,10 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adaccount/v2.3}
 #' @param accountid Ads account graph object id
 #' @param token FB Ads API token
+#' @param version Facebook Marketing API version
 #' @return list(s) containing account details
 #' @export
-fbad_get_adaccount_details  <- function(accountid, token){
+fbad_get_adaccount_details  <- function(accountid, token, version) {
 
     ## Check if accountid is a vector
     if (length(accountid) > 1)
@@ -174,9 +175,14 @@ fbad_get_adaccount_details  <- function(accountid, token){
     scope <- paste(
         c('name', 'account_id', 'account_status',
           'age', 'amount_spent', 'balance', 'capabilities',
-          'daily_spend_limit', 'end_advertiser', 'funding_source',
+          'end_advertiser', 'funding_source',
           'spend_cap', 'timezone_id', 'users'),
         collapse = ',')
+
+    ## daily_spend_limit field was supported up to v2.3
+    if (version < '2.4') {
+        scope <- paste(scope, 'daily_spend_limit', sep = ',')
+    }
 
     ## Get account details
     account_details <-
@@ -185,7 +191,8 @@ fbad_get_adaccount_details  <- function(accountid, token){
             method = 'GET',
             params = list(
                 access_token = token,
-                fields       = scope))
+                fields       = scope),
+            version = version)
 
     fromJSON(account_details)
 
@@ -226,7 +233,7 @@ fbad_init <- function(accountid, token, version = fb_api_version()) {
         api_version   = version)
 
     ## get account details
-    details <- fbad_get_adaccount_details(accountid, token)
+    details <- fbad_get_adaccount_details(accountid, token, version)
 
     ## add custom class
     res <- structure(c(params, details), class = 'FB_Ad_Account')

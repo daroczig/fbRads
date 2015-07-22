@@ -5,7 +5,8 @@
 \title{Get results of a synchronous query from FB graph API}
 \usage{
 fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
-  params = list(), debug = FALSE, log = TRUE)
+  params = list(), debug = FALSE, log = TRUE,
+  version = fb_api_version())
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -19,6 +20,8 @@ fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
 \item{debug}{print debug messages by calling Curl verbosely}
 
 \item{log}{print log messages or suppress those}
+
+\item{version}{Facebook Marketing API version}
 }
 \value{
 json object containing results

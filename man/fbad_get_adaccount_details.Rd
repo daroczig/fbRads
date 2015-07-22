@@ -4,12 +4,14 @@
 \alias{fbad_get_adaccount_details}
 \title{Get details for a Facebook Ads Account}
 \usage{
-fbad_get_adaccount_details(accountid, token)
+fbad_get_adaccount_details(accountid, token, version)
 }
 \arguments{
 \item{accountid}{Ads account graph object id}
 
 \item{token}{FB Ads API token}
+
+\item{version}{Facebook Marketing API version}
 }
 \value{
 list(s) containing account details
