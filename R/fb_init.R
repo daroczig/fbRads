@@ -237,7 +237,7 @@ fbad_check_fbacc <- function(fbacc) {
             mc <- list()
         }
 
-        ## manually passed fbacc object not found in parent call
+        ## manually passed fbacc object found in parent call
         if (!is.null(mc$fbacc)) {
 
             fbacc <- eval.parent(mc$fbacc)
