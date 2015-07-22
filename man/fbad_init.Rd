@@ -4,12 +4,14 @@
 \alias{fbad_init}
 \title{Initiate Facebook Account with OAuth token}
 \usage{
-fbad_init(accountid, token)
+fbad_init(accountid, token, version = fb_api_version())
 }
 \arguments{
 \item{accountid}{Facebook Ad account id without the \code{act_} prefix}
 
 \item{token}{Facebook OAuth token as a string}
+
+\item{version}{Facebook Marketing API version}
 }
 \value{
 list returned invisibly containing versioned base URL and relevant API parameters

@@ -1,19 +1,11 @@
-## we build the functions to support one given version of the API
-## so the users should not be able to override that
-fbad_api_version <- 2.3
+#' Returns the most recent version of the supported Facebook Marketing API
+#' @return string
+#' @export
+fb_api_version <- function() '2.3'
+
+
+## initialize internal placeholder for FB Ad Account
 fbacc <- list()
-
-#' Get versioned base url
-#' @param version the version for which a base url is being generated
-#' @return character URL with trailing slash
-#' @keywords internal
-fbad_get_baseurl <- function() {
-    paste(
-        'https://graph.facebook.com',
-        paste0('v', fbad_api_version),
-        '', sep = '/')
-
-}
 
 
 #' Run basic checks on curl get/post parameters
@@ -68,6 +60,12 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         }
     }
 
+    ## define Facebook API version to be used
+    version <- fb_api_version()
+    if (!missing(fbacc) | !is.null(getFromNamespace('fbacc', 'fbRads')$api_version)) {
+        version <- fbad_check_fbacc()$api_version
+    }
+
     ## check that params meet certain standards
     params <- fbad_check_curl_params(params)
 
@@ -82,12 +80,18 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         print(params)
     }
 
+    ## versioned API endpoint
+    API_endpoint <- paste(
+        'https://graph.facebook.com',
+        paste0('v', version),
+        path, sep = '/')
+
     ## query
     curlres <- tryCatch(res <- do.call(what = paste0(
                                            ifelse(method == 'GET', 'get', 'post'),
                                            'Form'),
                                        args = list(
-                                           uri     = paste0(fbad_get_baseurl(), path),
+                                           uri     = API_endpoint,
                                            .params = params,
                                            .opts = curlOptions(
                                                headerfunction = h$update,
@@ -111,7 +115,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     if (inherits(res, 'error')) {
 
         if (log) {
-            flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
+            flog.error(paste('URL: ', API_endpoint))
             flog.error(paste('Method: ', method))
             flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
         }
@@ -132,7 +136,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     if (headers$status != '200') {
 
         if (log) {
-            flog.error(paste('URL: ', paste0(fbad_get_baseurl(), path)))
+            flog.error(paste('URL: ', API_endpoint))
             flog.error(paste('Method: ', method))
             flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
             flog.error(paste('Header:', toJSON(headers)))
@@ -193,6 +197,7 @@ fbad_get_adaccount_details  <- function(accountid, token){
 #' If you do not have a token, then register an (e.g. "Website") application at \url{https://developers.facebook.com/apps} and make a note of your "App ID" and "App Secret" at the "Dashboard" of your application. Then go to "Settings", click on "Add Platform", then "Website" and paste \code{http://localhost:1410} as the "Site URL". Save, and then run the below example R commands to get your token. Please note that your app needs access to your ads as well, see \url{https://developers.facebook.com/docs/marketing-api/access} for more details.
 #' @param accountid Facebook Ad account id without the \code{act_} prefix
 #' @param token Facebook OAuth token as a string
+#' @param version Facebook Marketing API version
 #' @return list returned invisibly containing versioned base URL and relevant API parameters
 #' @export
 #' @examples \dontrun{
@@ -205,15 +210,20 @@ fbad_get_adaccount_details  <- function(accountid, token){
 #'
 #' ## Then pass this token with your account ID to fbad_init
 #' }
-fbad_init <- function(accountid, token) {
+fbad_init <- function(accountid, token, version = fb_api_version()) {
+
+    ## API endpoint
+    url <- paste(
+        'https://graph.facebook.com',
+        paste0('v', version),
+        '', sep = '/')
 
     ## define parameters
     params <- list(
         acct_path     = paste0('act_', accountid, '/'),
-        versioned_url = fbad_get_baseurl(),
+        versioned_url = url,
         access_token  = token,
-        api_version   = fbad_api_version
-        )
+        api_version   = version)
 
     ## get account details
     details <- fbad_get_adaccount_details(accountid, token)
