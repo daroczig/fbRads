@@ -18,7 +18,7 @@ data.frame
 Get Ad Report Stats
 }
 \note{
-This will be soon deprecated. Use the new Insight feature, if possible.
+This API endpoint is be soon deprecated and only available with v2.3. Use the new Insight feature, if possible.
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/adreportstats/v2.3}

@@ -23,6 +23,6 @@ custom audience ID
 Read metadata on a FB custom audience
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.3#read}
+\url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#read}
 }
 

@@ -1,7 +1,7 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_version <- function() '2.3'
+fb_api_version <- function() '2.4'
 
 
 ## initialize internal placeholder for FB Ad Account

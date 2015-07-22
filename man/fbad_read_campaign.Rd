@@ -21,6 +21,6 @@ list
 Read ad campaign
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.3$read}
+\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4$read}
 }
 

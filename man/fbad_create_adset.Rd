@@ -4,21 +4,31 @@
 \alias{fbad_create_adset}
 \title{Create adset}
 \usage{
-fbad_create_adset(fbacc, name, bid_type = c("CPC", "CPM", "ABSOLUTE_OCPM",
-  "CPA"), bid_info, campaign_group_id, campaign_status = c("ACTIVE", "PAUSED",
-  "ARCHIVED", "DELETED"), daily_budget, lifetime_budget, end_time, start_time,
-  targeting)
+fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
+  "CLICKS", "ENGAGED_USERS", "EXTERNAL", "EVENT_RESPONSES", "IMPRESSIONS",
+  "LINK_CLICKS", "OFFER_CLAIMS", "OFFSITE_CONVERSIONS", "PAGE_ENGAGEMENT",
+  "PAGE_LIKES", "POST_ENGAGEMENT", "REACH", "SOCIAL_IMPRESSIONS",
+  "VIDEO_VIEWS"), billing_event = c("APP_INSTALLS", "CLICKS", "IMPRESSIONS",
+  "LINK_CLICKS", "NONE", "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT"),
+  bid_amount, bid_type = c("CPC", "CPM", "ABSOLUTE_OCPM", "CPA"), bid_info,
+  campaign_group_id, campaign_status = c("ACTIVE", "PAUSED", "ARCHIVED",
+  "DELETED"), daily_budget, lifetime_budget, end_time, start_time, targeting,
+  ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{name}{}
 
-\item{bid_type}{}
+\item{optimization_goal}{v2.4 only parameter}
 
-\item{bid_info}{}
+\item{billing_event}{v2.4 only parameter}
 
-\item{campaign_group_id}{}
+\item{bid_amount}{v2.4 only parameter}
+
+\item{bid_type}{v2.3 only parameter}
+
+\item{bid_info}{v2.3 only parameter}
 
 \item{campaign_status}{}
 
@@ -31,6 +41,8 @@ fbad_create_adset(fbacc, name, bid_type = c("CPC", "CPM", "ABSOLUTE_OCPM",
 \item{start_time}{}
 
 \item{targeting}{}
+
+\item{...}{}
 }
 \value{
 adset id
@@ -39,6 +51,6 @@ adset id
 Create adset
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adset/v2.3#create}
+\url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
 }
 

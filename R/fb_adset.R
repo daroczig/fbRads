@@ -1,32 +1,89 @@
 #' Create adset
 #' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param name
-#' @param bid_type
-#' @param bid_info
-#' @param campaign_group_id
+#' @param optimization_goal v2.4 only parameter
+#' @param billing_event v2.4 only parameter
+#' @param bid_amount v2.4 only parameter
+#' @param bid_type v2.3 only parameter
+#' @param bid_info v2.3 only parameter
 #' @param campaign_status
 #' @param daily_budget
 #' @param lifetime_budget
 #' @param end_time
 #' @param start_time
 #' @param targeting
+#' @param ...
 #' @return adset id
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adset/v2.3#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
 fbad_create_adset <- function(fbacc,
                               name,
+                              ## from v2.4
+                              optimization_goal = c('NONE', 'APP_INSTALLS', 'CLICKS', 'ENGAGED_USERS', 'EXTERNAL', 'EVENT_RESPONSES', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'OFFSITE_CONVERSIONS', 'PAGE_ENGAGEMENT', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'REACH', 'SOCIAL_IMPRESSIONS', 'VIDEO_VIEWS'),
+                              billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'NONE', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT'),
+                              bid_amount,
+                              ## up to v2.3
                               bid_type = c('CPC', 'CPM', 'ABSOLUTE_OCPM', 'CPA'),
-                              bid_info, campaign_group_id,
+                              bid_info,
+                              ## end of special params
+                              campaign_group_id,
                               campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
                               daily_budget, lifetime_budget,
                               end_time, start_time,
-                              targeting
-                              ) {
+                              targeting, ...) {
 
     fbacc <- fbad_check_fbacc()
 
+    if (fbacc$api_version < '2.4') {
+
+        bid_type <- match.arg(bid_type)
+
+        ## we need bid info as a list
+        if (missing(bid_info) || !is.list(bid_info)) {
+            stop('Invalid bid_info provided. Please set a bid related to the bid_type.')
+        }
+
+        ## more detailed bid info checks
+        if (bid_type == 'CPC' &&
+            (names(bid_info) != 'CLICKS' ||
+                 !is.numeric(bid_info$CLICKS) ||
+                 bid_info$CLICKS < 1)) {
+            stop('For CPC, you have to specify min. 1 cent for CLICKS.')
+        }
+
+        if (bid_type == 'CPM' &&
+            (names(bid_info) != 'IMPRESSIONS' ||
+                 !is.numeric(bid_info$IMPRESSIONS) ||
+                 bid_info$IMPRESSIONS < 1)) {
+            stop('For CPM, you have to specify min. 1 cent for IMPRESSIONS.')
+        }
+
+        if (bid_type == 'CPA' &&
+            (names(bid_info) != 'ACTIONS' ||
+                 !is.numeric(bid_info$IMPRESSIONS) ||
+                 bid_info$IMPRESSIONS < 1)) {
+            stop('For CPA, you have to specify min. 1 cent for ACTIONS')
+        }
+
+        if (bid_type == 'ABSOLUTE_OCPM' &&
+            (length(names(bid_info)) != 4 ||
+                 !all(names(bid_info) %in% c('ACTIONS', 'REACH', 'CLICKS', 'SOCIAL')) ||
+                 sum(sapply(bid_info, is.numeric)) != 4 ||
+                 bid_info$ACTIONS < 1 ||
+                 bid_info$REACH   < 2 ||
+                 bid_info$CLICKS  < 1 ||
+                 bid_info$SOCIAL  < 1)) {
+            stop('For ABSOLUTE_OCPM, you have to specify min. 1 cent for ACTIONS, CLICKS, SOCIAL and min. 2 cents for REACH.')
+        }
+
+    } else {
+
+        optimization_goal <- match.arg(optimization_goal)
+        billing_event     <- match.arg(billing_event)
+
+    }
+
     ## update args for the first or selected value
-    bid_type <- match.arg(bid_type)
     campaign_status <- match.arg(campaign_status)
 
     ## match call for future reference
@@ -42,11 +99,6 @@ fbad_create_adset <- function(fbacc,
         stop('A campaign ad ID is required.')
     }
 
-    ## we need bid info as a list
-    if (missing(bid_info) || !is.list(bid_info)) {
-        stop('Invalid bid_info provided. Please set a lit related to the bid_type.')
-    }
-
     ## verify that we have targeting info
     if (missing(targeting)) {
         stop('A targeting spec is required.')
@@ -55,41 +107,19 @@ fbad_create_adset <- function(fbacc,
     ## build base params list
     params <- list(
         name              = name,
-        bid_type          = bid_type,
         campaign_status   = campaign_status,
         campaign_group_id = campaign_group_id)
 
-    ## more detailed bid info checks
-    if (bid_type == 'CPC' &&
-        (names(bid_info) != 'CLICKS' ||
-             !is.numeric(bid_info$CLICKS) ||
-             bid_info$CLICKS < 1)) {
-        stop('For CPC, you have to specify min. 1 cent for CLICKS.')
-    }
-
-    if (bid_type == 'CPM' &&
-        (names(bid_info) != 'IMPRESSIONS' ||
-             !is.numeric(bid_info$IMPRESSIONS) ||
-             bid_info$IMPRESSIONS < 1)) {
-        stop('For CPM, you have to specify min. 1 cent for IMPRESSIONS.')
-    }
-
-    if (bid_type == 'CPA' &&
-        (names(bid_info) != 'ACTIONS' ||
-             !is.numeric(bid_info$IMPRESSIONS) ||
-             bid_info$IMPRESSIONS < 1)) {
-        stop('For CPA, you have to specify min. 1 cent for ACTIONS')
-    }
-
-    if (bid_type == 'ABSOLUTE_OCPM' &&
-        (length(names(bid_info)) != 4 ||
-             !all(names(bid_info) %in% c('ACTIONS', 'REACH', 'CLICKS', 'SOCIAL')) ||
-             sum(sapply(bid_info, is.numeric)) != 4 ||
-             bid_info$ACTIONS < 1 ||
-             bid_info$REACH   < 2 ||
-             bid_info$CLICKS  < 1 ||
-             bid_info$SOCIAL  < 1)) {
-        stop('For ABSOLUTE_OCPM, you have to specify min. 1 cent for ACTIONS, CLICKS, SOCIAL and min. 2 cents for REACH.')
+    ## version specific params
+    if (fbacc$api_version < '2.4') {
+        params <- c(params, list(
+            bid_type = bid_type,
+            bid_info = toJSON(bid_info, auto_unbox = TRUE)))
+    } else {
+        params <- c(params, list(
+            optimization_goal = optimization_goal,
+            billing_event     = billing_event,
+            bid_amount        = bid_amount))
     }
 
     ## end_time for lifetime budget
@@ -128,7 +158,6 @@ fbad_create_adset <- function(fbacc,
 
     ## transform lists to JSON
     params$targeting <- toJSON(targeting, auto_unbox = TRUE)
-    params$bid_info  <- toJSON(bid_info, auto_unbox = TRUE)
 
     ## get results
     res <- fbad_request(fbacc,

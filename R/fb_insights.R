@@ -3,7 +3,7 @@
 #' @param target ad account id (default), campaign id, adset id or ad id
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
-#' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.3}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.4}
 #' @return list
 #' @export
 #' @examples \dontrun{

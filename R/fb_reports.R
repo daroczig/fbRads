@@ -2,12 +2,16 @@
 #' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adreportstats/v2.3}
-#' @note This will be soon deprecated. Use the new Insight feature, if possible.
+#' @note This API endpoint is be soon deprecated and only available with v2.3. Use the new Insight feature, if possible.
 #' @return data.frame
 #' @export
 fb_reportstats_ad <- function(fbacc, ...) {
 
     fbacc <- fbad_check_fbacc()
+
+    if (fbacc$api_version > '2.3') {
+        stop('Old statistics APIs are being deprecated in favor of Insights Edge introduced with v2.4 of the Facebook Marketing API.')
+    }
 
     ## get report
     res <- fbad_request(fbacc,

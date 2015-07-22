@@ -33,6 +33,6 @@ list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, tota
 }
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/insights/v2.3}
+\url{https://developers.facebook.com/docs/marketing-api/insights/v2.4}
 }
 

@@ -55,6 +55,6 @@ Create an ad creative
 There are no checks done before passing provided arguments to Facebook. You have to know what you are up to. Read the Facebook docs.
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adcreative/v2.3#create}
+\url{https://developers.facebook.com/docs/marketing-api/adcreative/v2.4#create}
 }
 
