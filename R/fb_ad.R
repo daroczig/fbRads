@@ -56,17 +56,28 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
     fields <- paste(fields, collapse = ',')
 
     ## we need one and only one id
-    if (missing(id) || length(id) > 1) {
-        stop('Please provide one and only one ad id.')
+    if (missing(id)) {
+        stop('Please provide at least one ad id.')
     }
 
-    ## get results
+    ## get results for only one id
+    if (length(id) == 1) {
+        res <- fbad_request(fbacc,
+                            path   = id,
+                            params = list(fields = fields),
+                            method = "GET")
+        return(as.data.frame(fromJSON(res)))
+    }
+
+    ## or do batched query
     res <- fbad_request(fbacc,
-        path   = id,
-        params = list(fields = fields),
-        method = "GET")
+                        path   = '',
+                        params = list(
+                            ids    = paste(id, collapse = ','),
+                            fields = fields),
+                        method = "GET")
 
     ## return
-    as.data.frame(fromJSON(res))
+    do.call(rbind, lapply(fromJSON(res), as.data.frame))
 
 }
