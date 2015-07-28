@@ -39,3 +39,34 @@ fbad_create_ad <- function(fbacc,
     fromJSON(res)$id
 
 }
+
+
+#' Read ad
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @param id ad id
+#' @param fields character vector of fields to get from the API -- please refer to the FB documentation for a list of possible values.
+#' @return data.frame
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read}
+fbad_read_ad <- function(fbacc, id, fields = 'id') {
+
+    fbacc <- fbad_check_fbacc()
+
+    ## merge fields
+    fields <- paste(fields, collapse = ',')
+
+    ## we need one and only one id
+    if (missing(id) || length(id) > 1) {
+        stop('Please provide one and only one ad id.')
+    }
+
+    ## get results
+    res <- fbad_request(fbacc,
+        path   = id,
+        params = list(fields = fields),
+        method = "GET")
+
+    ## return
+    as.data.frame(fromJSON(res))
+
+}
