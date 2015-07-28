@@ -101,7 +101,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                                cainfo    = system.file(
                                                    'CurlSSL',
                                                    'cacert.pem',
-                                                   package = 'RCurl')))),
+                                                   package = 'RCurl'),
+                                               crlf      = TRUE))),
                         error = function(e) e)
 
     ## remove token from params if printed for debugging purposes
