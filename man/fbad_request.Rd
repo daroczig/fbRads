@@ -6,7 +6,7 @@
 \usage{
 fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
   params = list(), debug = FALSE, log = TRUE,
-  version = fb_api_version())
+  version = fb_api_version(), retries = 0)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -22,6 +22,8 @@ fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
 \item{log}{print log messages or suppress those}
 
 \item{version}{Facebook Marketing API version}
+
+\item{retries}{number of times the current query was tried previously -- used to handle network errors}
 }
 \value{
 json object containing results

@@ -46,9 +46,10 @@ fbad_check_curl_params <- function(params) {
 #' @param debug print debug messages by calling Curl verbosely
 #' @param log print log messages or suppress those
 #' @param version Facebook Marketing API version
+#' @param retries number of times the current query was tried previously -- used to handle network errors
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_version()) {
+fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_version(), retries = 0) {
 
     method <- match.arg(method)
 
@@ -108,7 +109,28 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
     ## Curl error handling
     if (inherits(curlres, 'error')) {
+
+        ## temporary network issue?
+        if (grepl('Network is unreachable', curlres$message)) {
+
+            ## log it
+            flog.error(paste('Possible network error:', curlres$message))
+            flog.info(paste('Retrying query for the', mc$retries + 1, ' st/nd/rd time'))
+
+            ## give some chance for the system/network to recover
+            Sys.sleep(2)
+
+            ## retry the query for no more than 3 times
+            if (retries < 3) {
+                mc <- match.call()
+                mc$retries <- mc$retries + 1
+                return(eval(mc, envir = parent.frame()))
+            }
+
+        }
+
         res <- curlres
+
     }
 
     ## Response error handling
