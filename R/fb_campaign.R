@@ -1,5 +1,5 @@
 #' Created ad campaign
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param buying_type
 #' @param campaign_group_status
 #' @param execution_options

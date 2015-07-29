@@ -1,6 +1,6 @@
 #' Create a new FB custom audience
 #' @references \url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#create}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param name string
 #' @param description optional string
 #' @param opt_out_link optional link
@@ -42,7 +42,7 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
 
 #' Read metadata on a FB custom audience
 #' @references \url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#read}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param audience_id numeric
 #' @param fields character vector of fields to be returned
 #' @return custom audience ID
@@ -70,7 +70,7 @@ fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id'
 
 #' Delete a FB custom audience
 #' @references \url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#delete}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param audience_id numeric
 #' @return custom audience ID
 #' @export
@@ -95,7 +95,7 @@ fbad_delete_audience <- function(fbacc, audience_id) {
 
 #' Share a FB custom audience with other accounts
 #' @references \url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.3#sharing}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param audience_id audience ID
 #' @param adaccounts numeric vector of FB account IDs
 #' @note This throws error if you provide wrong account ids OR even valid account ids that were previously granted access to the given custom audience.
@@ -118,7 +118,7 @@ fbad_share_audience <- function(fbacc, audience_id, adaccounts) {
 
 #' FB add people to audience
 #' @references \url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#create}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param audience_id string
 #' @param schema only two schema are supported out of the four: you can add persons to a custom audience by e-mail addresses or phone numbers
 #' @param hashes character vector of e-mail addresses or phone numbers to be transformed to hashes
@@ -161,7 +161,7 @@ fbad_add_audience <- function(fbacc, audience_id,
 
 #' Create a new FB lookalike audience similar to an already existing custom audience
 #' @references \url{https://developers.facebook.com/docs/marketing-api/lookalike-audience-targeting/v2.4#create}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param name string
 #' @param origin_audience_id numeric ID of origin custom audience
 #' @param ratio Between 0.01-0.20 and increments of 0.01. Indicates the top \code{ratio} percent of original audience in the selected country

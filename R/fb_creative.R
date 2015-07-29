@@ -1,5 +1,5 @@
 #' Create an ad creative
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param title
 #' @param body
 #' @param name
@@ -59,7 +59,7 @@ fbad_create_creative <- function(
 
 
 #' Read ad creative
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param creative
 #' @param fields
 #' @return list

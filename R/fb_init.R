@@ -272,7 +272,7 @@ fbad_init <- function(accountid, token, version = fb_api_version()) {
 }
 
 #' Check if provided or previously initialized  R object is a valid FB Ad Account
-#' @param fbacc (optional) R object
+#' @inheritParams fbad_request
 #' @return invisibly returned \code{FB_Ad_Account} object
 #' @keywords internal
 fbad_check_fbacc <- function(fbacc) {

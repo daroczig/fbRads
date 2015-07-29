@@ -1,6 +1,6 @@
 #' FB Search API Querying
 #' @references \url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.4#interests}
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param q string that is being searched for
 #' @param type describes the type of search eg: adinterest, adeducationmajor etc
 #' @param ... other optional parameters accepted by the endpoint as key = value pairs eg: \code{limit = 5000}.

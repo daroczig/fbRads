@@ -1,5 +1,5 @@
 #' Create adset
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param name
 #' @param optimization_goal v2.4 only parameter
 #' @param billing_event v2.4 only parameter

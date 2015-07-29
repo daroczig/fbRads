@@ -1,5 +1,5 @@
 #' Query for reach estimate for given targeting spec
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param targeting_spec lists of targeting spec characteristics
 #' @param currency string
 #' @return list

@@ -1,5 +1,5 @@
 #' Get Ad Report Stats
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adreportstats/v2.3}
 #' @note This API endpoint is be soon deprecated and only available with v2.3. Use the new Insight feature, if possible.

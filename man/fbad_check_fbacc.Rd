@@ -7,7 +7,7 @@
 fbad_check_fbacc(fbacc)
 }
 \arguments{
-\item{fbacc}{(optional) R object}
+\item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 }
 \value{
 invisibly returned \code{FB_Ad_Account} object

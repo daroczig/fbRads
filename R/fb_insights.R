@@ -1,5 +1,5 @@
 #' Insights
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param target ad account id (default), campaign id, adset id or ad id
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
@@ -79,7 +79,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
 
 #' Wait for and get asynchronous report results
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param id job ID
 #' @return JSON
 #' @keywords internal

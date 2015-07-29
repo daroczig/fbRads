@@ -1,5 +1,5 @@
 #' Create ad
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param name
 #' @param campaign_id
 #' @param creative_id
@@ -96,7 +96,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
 
 
 #' Update ad
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @inheritParams fbad_request
 #' @param id ad id
 #' @param ... parameters passed to Facebook API
 #' @return invisible TRUE
