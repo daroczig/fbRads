@@ -169,3 +169,11 @@ fbad_create_adset <- function(fbacc,
     fromJSON(res)$id
 
 }
+
+
+#' Read adset details
+#' @inheritParams fbad_read_ad
+#' @param id ad set id(s)
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Reading}
+fbad_read_adset <- fbad_read_ad

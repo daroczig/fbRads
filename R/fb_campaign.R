@@ -52,31 +52,12 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
 }
 
 
-#' Read ad campaign
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
-#' @param id
-#' @param fields
-#' @return list
+#' Read ad campaign details
+#' @inheritParams fbad_read_ad
+#' @param id campaign id(s)
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4$read}
-fbad_read_campaign <- function(fbacc, id, fields = c('id', 'account_id', 'adgroups', 'buying_type', 'campaign_group_status', 'objective', 'spend_cap', 'name')) {
-
-    fbacc <- fbad_check_fbacc()
-    if (missing(id))
-        stop('A campaign id is required.')
-
-    ## get fields
-    fields <- match.arg(fields, several.ok = TRUE)
-    fields <- paste(fields, collapse = ',')
-
-    ## get results
-    res <- fbad_request(fbacc,
-        path   = paste0(id, '?fields=', fields),
-        method = "GET")
-
-    ## return
-    fromJSON(res)
-
-}
+fbad_read_campaign <- fbad_read_ad
 
 ## TODO: update, delete, stats
+

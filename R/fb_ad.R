@@ -41,11 +41,12 @@ fbad_create_ad <- function(fbacc,
 }
 
 
-#' Read ad
-#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' Read ad details
+#' @inheritParams fbad_request
 #' @param id ad id(s)
-#' @param fields character vector of fields to get from the API -- please refer to the FB documentation for a list of possible values.
+#' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
 #' @return data.frame
+#' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read}
 fbad_read_ad <- function(fbacc, id, fields = 'id') {

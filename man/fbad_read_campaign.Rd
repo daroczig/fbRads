@@ -2,23 +2,19 @@
 % Please edit documentation in R/fb_campaign.R
 \name{fbad_read_campaign}
 \alias{fbad_read_campaign}
-\title{Read ad campaign}
+\title{Read ad campaign details}
 \usage{
-fbad_read_campaign(fbacc, id, fields = c("id", "account_id", "adgroups",
-  "buying_type", "campaign_group_status", "objective", "spend_cap", "name"))
+fbad_read_campaign(fbacc, id, fields = "id")
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{id}{}
+\item{id}{campaign id(s)}
 
-\item{fields}{}
-}
-\value{
-list
+\item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
 }
 \description{
-Read ad campaign
+Read ad campaign details
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4$read}
