@@ -92,3 +92,34 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
     do.call(rbind, res)
 
 }
+
+
+#' Update ad
+#' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
+#' @param id ad id
+#' @param ... parameters passed to Facebook API
+#' @return invisible TRUE
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#update}
+fbad_update_ad <- function(fbacc, id, ...) {
+
+    fbacc <- fbad_check_fbacc()
+
+    ## we need one and only one id
+    if (missing(id)) {
+        stop('Please provide at least one ad id.')
+    }
+
+    ## query Facebook API
+    res <- fbad_request(fbacc,
+                        path   = id,
+                        params = list(...),
+                        method = "POST")
+
+    ## success
+    invisible(fromJSON(res)$success)
+
+}
+
+
+
