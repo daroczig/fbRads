@@ -43,7 +43,7 @@ fbad_create_ad <- function(fbacc,
 
 #' Read ad
 #' @param fbacc (optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.
-#' @param id ad id
+#' @param id ad id(s)
 #' @param fields character vector of fields to get from the API -- please refer to the FB documentation for a list of possible values.
 #' @return data.frame
 #' @export
@@ -55,7 +55,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
     ## merge fields
     fields <- paste(fields, collapse = ',')
 
-    ## we need one and only one id
+    ## we need at least one ad id
     if (missing(id)) {
         stop('Please provide at least one ad id.')
     }
@@ -70,14 +70,25 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
     }
 
     ## or do batched query
-    res <- fbad_request(fbacc,
-                        path   = '',
-                        params = list(
-                            ids    = paste(id, collapse = ','),
-                            fields = fields),
-                        method = "GET")
+    res <- lapply(
+        split(id, 1:length(id) %/% 50),
+        function(batch) {
+
+            ## query FB by 50 ids at a time
+            res <- fbad_request(fbacc,
+                                path   = '',
+                                params = list(
+                                    ids    = paste(batch, collapse = ','),
+                                    fields = fields),
+                                method = "GET")
+
+            ## transform to data.frame
+            do.call(rbind, lapply(fromJSON(res),
+                                  as.data.frame, stringsAsFactors = FALSE))
+
+        })
 
     ## return
-    do.call(rbind, lapply(fromJSON(res), as.data.frame))
+    do.call(rbind, res)
 
 }
