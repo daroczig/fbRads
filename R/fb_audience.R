@@ -23,6 +23,11 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
         params$opt_out_link <- opt_out_link
     }
 
+    ## this is a static param required by v2.4
+    if (fbacc$api_version >= '2.4') {
+        params$subtype <- 'CUSTOM'
+    }
+
     ## get results
     res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/customaudiences'),
