@@ -177,3 +177,11 @@ fbad_create_adset <- function(fbacc,
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Reading}
 fbad_read_adset <- fbad_read_ad
+
+
+#' Update adset
+#' @inheritParams fbad_update_ad
+#' @param id adset id
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Updating}
+fbad_update_adset <- fbad_update_ad

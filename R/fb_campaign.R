@@ -54,10 +54,15 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
 
 #' Read ad campaign details
 #' @inheritParams fbad_read_ad
-#' @param id campaign id(s)
+#' @param id ad campaign id(s)
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4$read}
 fbad_read_campaign <- fbad_read_ad
 
-## TODO: update, delete, stats
 
+#' Update ad campaign
+#' @inheritParams fbad_update_ad
+#' @param id ad campaign id
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Updating}
+fbad_update_campaign <- fbad_update_ad

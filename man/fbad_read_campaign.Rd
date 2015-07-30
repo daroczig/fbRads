@@ -9,7 +9,7 @@ fbad_read_campaign(fbacc, id, fields = "id")
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{id}{campaign id(s)}
+\item{id}{ad campaign id(s)}
 
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
 }
