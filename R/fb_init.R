@@ -114,7 +114,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     if (inherits(curlres, 'error')) {
 
         ## temporary network issue?
-        if (grepl('Network is unreachable', curlres$message)) {
+        if (grepl('Network is unreachable', curlres$message) |
+            grepl('Empty reply from server', curlres$message)) {
 
             ## log it
             flog.error(paste('Possible network error:', curlres$message))
