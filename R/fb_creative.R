@@ -1,20 +1,20 @@
 #' Create an ad creative
 #' @inheritParams fbad_request
-#' @param title
-#' @param body
-#' @param name
-#' @param actor_id
-#' @param follow_redirect
-#' @param image_file
-#' @param image_hash
-#' @param image_crops
-#' @param image_url
-#' @param link_url
-#' @param url_tags
-#' @param object_id
-#' @param object_story_id
-#' @param object_story_spec
-#' @param object_url
+#' @param title string
+#' @param body string
+#' @param name string
+#' @param actor_id Facebook object ID reference
+#' @param follow_redirect boolean
+#' @param image_file local image passed to Facebook. You might first upload the image via \code{fbad_create_image}.
+#' @param image_hash string
+#' @param image_crops list
+#' @param image_url string
+#' @param link_url string
+#' @param url_tags list
+#' @param object_id Facebook object ID reference
+#' @param object_story_id post ID reference
+#' @param object_story_spec list
+#' @param object_url string list
 #' @param call_to_action_type
 #' @return creative id
 #' @export
@@ -60,11 +60,12 @@ fbad_create_creative <- function(
 
 #' Read ad creative
 #' @inheritParams fbad_request
-#' @param creative
-#' @param fields
-#' @return list
+#' @param id Ad Creative or Ad Set id
+#' @param by get all Ad Creatives for the account, for a given Ad or a single Creative
+#' @param fields character vector of fields to get from the API
+#' @return list to be post-processed
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4#read}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adcreative/v2.4#read}
 #' @examples \dontrun{
 #' ## get all creatives for the current account
 #' fbad_read_creative(fbacc)

@@ -13,35 +13,35 @@ fbad_create_creative(fbacc, title, body, name, actor_id, follow_redirect,
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{title}{}
+\item{title}{string}
 
-\item{body}{}
+\item{body}{string}
 
-\item{name}{}
+\item{name}{string}
 
-\item{actor_id}{}
+\item{actor_id}{Facebook object ID reference}
 
-\item{follow_redirect}{}
+\item{follow_redirect}{boolean}
 
-\item{image_file}{}
+\item{image_file}{local image passed to Facebook. You might first upload the image via \code{fbad_create_image}.}
 
-\item{image_hash}{}
+\item{image_hash}{string}
 
-\item{image_crops}{}
+\item{image_crops}{list}
 
-\item{image_url}{}
+\item{image_url}{string}
 
-\item{link_url}{}
+\item{link_url}{string}
 
-\item{url_tags}{}
+\item{url_tags}{list}
 
-\item{object_id}{}
+\item{object_id}{Facebook object ID reference}
 
-\item{object_story_id}{}
+\item{object_story_id}{post ID reference}
 
-\item{object_story_spec}{}
+\item{object_story_spec}{list}
 
-\item{object_url}{}
+\item{object_url}{string list}
 
 \item{call_to_action_type}{}
 }

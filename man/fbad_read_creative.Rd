@@ -14,12 +14,14 @@ fbad_read_creative(fbacc, id, by = c("account", "creative", "ad"),
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{fields}{}
+\item{id}{Ad Creative or Ad Set id}
 
-\item{creative}{}
+\item{by}{get all Ad Creatives for the account, for a given Ad or a single Creative}
+
+\item{fields}{character vector of fields to get from the API}
 }
 \value{
-list
+list to be post-processed
 }
 \description{
 Read ad creative
@@ -31,6 +33,6 @@ fbad_read_creative(fbacc)
 }
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4#read}
+\url{https://developers.facebook.com/docs/marketing-api/adcreative/v2.4#read}
 }
 
