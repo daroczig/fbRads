@@ -2,7 +2,7 @@
 % Please edit documentation in R/fb_campaign.R
 \name{fbad_create_campaign}
 \alias{fbad_create_campaign}
-\title{Created ad campaign}
+\title{Created Ad Campaign}
 \usage{
 fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
   "RESERVED"), campaign_group_status = c("ACTIVE", "PAUSED"),
@@ -28,10 +28,10 @@ fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
 \item{spend_cap}{}
 }
 \value{
-ad campaign id
+Ad Campaign id
 }
 \description{
-Created ad campaign
+Created Ad Campaign
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4#create}

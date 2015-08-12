@@ -2,19 +2,19 @@
 % Please edit documentation in R/fb_campaign.R
 \name{fbad_update_campaign}
 \alias{fbad_update_campaign}
-\title{Update ad campaign}
+\title{Update Ad Campaign}
 \usage{
 fbad_update_campaign(fbacc, id, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{id}{ad campaign id}
+\item{id}{Ad Campaign id}
 
 \item{...}{parameters passed to Facebook API}
 }
 \description{
-Update ad campaign
+Update Ad Campaign
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Updating}

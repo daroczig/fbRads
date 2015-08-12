@@ -2,19 +2,19 @@
 % Please edit documentation in R/fb_adset.R
 \name{fbad_update_adset}
 \alias{fbad_update_adset}
-\title{Update adset}
+\title{Update Ad Set}
 \usage{
 fbad_update_adset(fbacc, id, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{id}{adset id}
+\item{id}{Ad Set id}
 
 \item{...}{parameters passed to Facebook API}
 }
 \description{
-Update adset
+Update Ad Set
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Updating}

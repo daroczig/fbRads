@@ -2,7 +2,7 @@
 % Please edit documentation in R/fb_adset.R
 \name{fbad_read_adset}
 \alias{fbad_read_adset}
-\title{Read adset details}
+\title{Read Ad Set details}
 \usage{
 fbad_read_adset(fbacc, id, fields = "id")
 }
@@ -14,7 +14,7 @@ fbad_read_adset(fbacc, id, fields = "id")
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
 }
 \description{
-Read adset details
+Read Ad Set details
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Reading}

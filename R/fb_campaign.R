@@ -1,4 +1,4 @@
-#' Created ad campaign
+#' Created Ad Campaign
 #' @inheritParams fbad_request
 #' @param buying_type
 #' @param campaign_group_status
@@ -6,7 +6,7 @@
 #' @param name
 #' @param objective
 #' @param spend_cap
-#' @return ad campaign id
+#' @return Ad Campaign id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4#create}
 fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 'RESERVED'),
@@ -46,23 +46,23 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
         method = "POST",
         params = params)
 
-    ## return campaign ID on success
+    ## return Ad Campaign ID on success
     fromJSON(res)$id
 
 }
 
 
-#' Read ad campaign details
+#' Read Ad Campaign details
 #' @inheritParams fbad_read_ad
-#' @param id ad campaign id(s)
+#' @param id Ad Campaign id(s)
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4$read}
 fbad_read_campaign <- fbad_read_ad
 
 
-#' Update ad campaign
+#' Update Ad Campaign
 #' @inheritParams fbad_update_ad
-#' @param id ad campaign id
+#' @param id Ad Campaign id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Updating}
 fbad_update_campaign <- fbad_update_ad

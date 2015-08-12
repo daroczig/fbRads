@@ -1,4 +1,4 @@
-#' Create adset
+#' Create Ad Set
 #' @inheritParams fbad_request
 #' @param name
 #' @param optimization_goal v2.4 only parameter
@@ -13,7 +13,7 @@
 #' @param start_time
 #' @param targeting
 #' @param ...
-#' @return adset id
+#' @return Ad Set id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
 fbad_create_adset <- function(fbacc,
@@ -91,7 +91,7 @@ fbad_create_adset <- function(fbacc,
 
     ## we need a name
     if (missing(name)) {
-        stop('Adset name is required.')
+        stop('Ad Set name is required.')
     }
 
     ## we need a campaign_group_id
@@ -171,7 +171,7 @@ fbad_create_adset <- function(fbacc,
 }
 
 
-#' Read adset details
+#' Read Ad Set details
 #' @inheritParams fbad_read_ad
 #' @param id ad set id(s)
 #' @export
@@ -179,9 +179,9 @@ fbad_create_adset <- function(fbacc,
 fbad_read_adset <- fbad_read_ad
 
 
-#' Update adset
+#' Update Ad Set
 #' @inheritParams fbad_update_ad
-#' @param id adset id
+#' @param id Ad Set id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Updating}
 fbad_update_adset <- fbad_update_ad

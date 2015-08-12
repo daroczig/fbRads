@@ -2,7 +2,7 @@
 % Please edit documentation in R/fb_adset.R
 \name{fbad_create_adset}
 \alias{fbad_create_adset}
-\title{Create adset}
+\title{Create Ad Set}
 \usage{
 fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
   "CLICKS", "ENGAGED_USERS", "EXTERNAL", "EVENT_RESPONSES", "IMPRESSIONS",
@@ -45,10 +45,10 @@ fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
 \item{...}{}
 }
 \value{
-adset id
+Ad Set id
 }
 \description{
-Create adset
+Create Ad Set
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
