@@ -21,7 +21,7 @@ fbad_create_ad <- function(fbacc,
     params <- list(
         name           = name,
         campaign_id    = campaign_id,
-        creative       = toJSON(list(creative_id = unbox(creative))),
+        creative       = toJSON(list(creative_id = unbox(creative_id))),
         adgroup_status = adgroup_status)
 
     ## add further params if provided

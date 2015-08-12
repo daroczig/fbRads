@@ -4,8 +4,8 @@
 #' @docType package
 #' @importFrom digest digest
 #' @importFrom jsonlite toJSON fromJSON unbox
-#' @importFrom RCurl postForm getForm getURL getCurlHandle curlSetOpt basicHeaderGatherer basicTextGatherer curlOptions
-#' @importFrom futile.logger flog.info flog.error
+#' @importFrom RCurl postForm getForm getURL getCurlHandle curlSetOpt basicHeaderGatherer basicTextGatherer curlOptions fileUpload
+#' @importFrom futile.logger flog.info flog.error flog.debug
 #' @importFrom bit64 as.integer64
 #' @importFrom plyr ldply
 #' @name fbRads

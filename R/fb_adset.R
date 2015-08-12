@@ -1,18 +1,20 @@
 #' Create Ad Set
 #' @inheritParams fbad_request
-#' @param name
+#' @param name name of the Ad Set
 #' @param optimization_goal v2.4 only parameter
 #' @param billing_event v2.4 only parameter
 #' @param bid_amount v2.4 only parameter
 #' @param bid_type v2.3 only parameter
 #' @param bid_info v2.3 only parameter
-#' @param campaign_status
-#' @param daily_budget
-#' @param lifetime_budget
-#' @param end_time
-#' @param start_time
-#' @param targeting
-#' @param ...
+#' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}
+#' @param campaign_group_id parent Ad Campaign id
+#' @param campaign_status Ad Set status
+#' @param daily_budget in account currency
+#' @param lifetime_budget in account currency
+#' @param end_time datetime
+#' @param start_time datetime
+#' @param targeting list
+#' @param ... further arguments passed to the API endpoint
 #' @return Ad Set id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
@@ -26,6 +28,7 @@ fbad_create_adset <- function(fbacc,
                               bid_type = c('CPC', 'CPM', 'ABSOLUTE_OCPM', 'CPA'),
                               bid_info,
                               ## end of special params
+                              promoted_object,
                               campaign_group_id,
                               campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
                               daily_budget, lifetime_budget,
@@ -147,7 +150,7 @@ fbad_create_adset <- function(fbacc,
 
     ## promoted object based on parent campaign
     campaign <- fbad_read_campaign(fbacc, campaign_group_id)
-    if (campaign$objective %in% c('WEBSITE_CONVERSIONS', 'PAGE_LIKES', 'OFFER_CLAIMS', 'MOBILE_APP_INSTALLS', 'CANVAS_APP_INSTALLS', 'MOBILE_APP_ENGAGEMENT', 'CANVAS_APP_ENGAGEMENT') && is.missing(promoted_object)) {
+    if (campaign$objective %in% c('WEBSITE_CONVERSIONS', 'PAGE_LIKES', 'OFFER_CLAIMS', 'MOBILE_APP_INSTALLS', 'CANVAS_APP_INSTALLS', 'MOBILE_APP_ENGAGEMENT', 'CANVAS_APP_ENGAGEMENT') && missing(promoted_object)) {
         stop(paste('A promoted object is needed when having the objective of', campaign$objective, 'in the parent ad campaign.'))
     }
 

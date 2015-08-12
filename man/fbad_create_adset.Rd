@@ -11,14 +11,14 @@ fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
   "VIDEO_VIEWS"), billing_event = c("APP_INSTALLS", "CLICKS", "IMPRESSIONS",
   "LINK_CLICKS", "NONE", "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT"),
   bid_amount, bid_type = c("CPC", "CPM", "ABSOLUTE_OCPM", "CPA"), bid_info,
-  campaign_group_id, campaign_status = c("ACTIVE", "PAUSED", "ARCHIVED",
-  "DELETED"), daily_budget, lifetime_budget, end_time, start_time, targeting,
-  ...)
+  promoted_object, campaign_group_id, campaign_status = c("ACTIVE", "PAUSED",
+  "ARCHIVED", "DELETED"), daily_budget, lifetime_budget, end_time, start_time,
+  targeting, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{name}{}
+\item{name}{name of the Ad Set}
 
 \item{optimization_goal}{v2.4 only parameter}
 
@@ -30,19 +30,23 @@ fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
 
 \item{bid_info}{v2.3 only parameter}
 
-\item{campaign_status}{}
+\item{promoted_object}{see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}}
 
-\item{daily_budget}{}
+\item{campaign_group_id}{parent Ad Campaign id}
 
-\item{lifetime_budget}{}
+\item{campaign_status}{Ad Set status}
 
-\item{end_time}{}
+\item{daily_budget}{in account currency}
 
-\item{start_time}{}
+\item{lifetime_budget}{in account currency}
 
-\item{targeting}{}
+\item{end_time}{datetime}
 
-\item{...}{}
+\item{start_time}{datetime}
+
+\item{targeting}{list}
+
+\item{...}{further arguments passed to the API endpoint}
 }
 \value{
 Ad Set id

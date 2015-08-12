@@ -28,7 +28,7 @@ fbad_get_search <- function(
 
     ## update params
     if (length(list(...)) > 0) {
-        params <- c(defaults, list(...))
+        params <- c(params, list(...))
     }
 
     ## Handle term input variation in API
