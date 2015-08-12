@@ -171,25 +171,57 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
                    'fbad_list_adset'    = 'adcampaigns',
                    'fbad_list_campaign' = 'adcampaign_groups')
 
-    ## get first page with the list of (max) 1,000 ads
-    res <- fbad_request(fbacc,
-                        path   = file.path(id, endpoint),
-                        params = params,
-                        method = "GET")
+    ## paged query for one id
+    if (length(id) == 1) {
+        ## get first page with the list of (max) 1,000 ads
+        res <- fbad_request(fbacc,
+                            path   = file.path(id, endpoint),
+                            params = params,
+                            method = "GET")
 
-    ## parse JSON
-    res <- fromJSON(res)
+        ## parse JSON
+        res <- fromJSON(res)
 
-    ## save data as list
-    l <- list(res$data)
+        ## save data as list
+        l <- list(res$data)
 
-    ## get all pages (if any)
-    while (!is.null(res$paging$'next')) {
-        res <- fromJSON(getURL(res$paging$'next'))
-        l   <- c(l, list(res$data))
+        ## get all pages (if any)
+        while (!is.null(res$paging$'next')) {
+            res <- fromJSON(getURL(res$paging$'next'))
+            l   <- c(l, list(res$data))
+        }
+
+        ## return data.frame
+        return(do.call(rbind, l))
     }
 
-    ## return data.frame
-    do.call(rbind, l)
+    ## batched query for multiple ids (no need for paging)
+    res <- lapply(
+        split(id, 1:length(id) %/% 50),
+        function(batch) {
+
+            ## query FB by 50 ids at a time
+            res <- fbad_request(fbacc,
+                                path   = '',
+                                params = list(
+                                    batch  = toJSON(
+                                        data.frame(method = 'GET',
+                                                   relative_url = paste0(
+                                                       'v', fbacc$api_version,
+                                                       '/', batch, '/', endpoint,
+                                                       '?fields=', fields))
+                                        )),
+                                method = 'POST')
+
+            ## transform data part of the list to data.frame
+            do.call(rbind, lapply(fromJSON(res)$body,
+                                  function(x) fromJSON(x)$data))
+
+        })
+
+    ## return merged data.frame
+    res <- do.call(rbind, res)
+    rownames(res) <- NULL
+    res
 
 }
