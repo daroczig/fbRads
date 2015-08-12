@@ -119,14 +119,14 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
             ## log it
             flog.error(paste('Possible network error:', curlres$message))
-            flog.info(paste('Retrying query for the', mc$retries + 1, ' st/nd/rd time'))
+            flog.info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'))
 
             ## give some chance for the system/network to recover
             Sys.sleep(2)
 
             ## retry the query for no more than 3 times
             if (retries < 3) {
-                mc$retries <- mc$retries + 1
+                mc$retries <- retries + 1
                 return(eval(mc, envir = parent.frame()))
             }
 
@@ -191,8 +191,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
             ## retry the query for no more than 3 times
             if (retries < 3) {
-                flog.info(paste('Retrying query for the', mc$retries + 1, ' st/nd/rd time'))
-                mc$retries <- mc$retries + 1
+                flog.info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'))
+                mc$retries <- retries + 1
                 return(eval(mc, envir = parent.frame()))
             }
 
