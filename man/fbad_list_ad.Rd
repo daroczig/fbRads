@@ -2,12 +2,14 @@
 % Please edit documentation in R/fb_ad.R
 \name{fbad_list_ad}
 \alias{fbad_list_ad}
-\title{List all Ads for current account}
+\title{List all Ads for current account, list of Ad Sets or Campaigns}
 \usage{
-fbad_list_ad(fbacc, statuses, fields = "id")
+fbad_list_ad(fbacc, id, statuses, fields = "id")
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
+
+\item{id}{will do the look-up for all Ads based on this ID. Defaults to current FB account. Can be a (vector of) Ad Set or Campaign id(s).}
 
 \item{statuses}{character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.}
 
@@ -17,7 +19,7 @@ fbad_list_ad(fbacc, statuses, fields = "id")
 data.frame
 }
 \description{
-List all Ads for current account
+List all Ads for current account, list of Ad Sets or Campaigns
 }
 \note{
 Will do a batched request to the Facebook API if multiple ids are provided.

@@ -70,6 +70,7 @@ fbad_update_campaign <- fbad_update_ad
 
 #' List all Ad Campaigns for current account
 #' @inheritParams fbad_list_ad
+#' @param id not supported argument
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Reading}
 fbad_list_campaign <- fbad_list_ad

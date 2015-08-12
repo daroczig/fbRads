@@ -2,19 +2,21 @@
 % Please edit documentation in R/fb_adset.R
 \name{fbad_list_adset}
 \alias{fbad_list_adset}
-\title{List all Ad Sets for current account}
+\title{List all Ad Sets for current account or Ad Campaign(s)}
 \usage{
-fbad_list_adset(fbacc, statuses, fields = "id")
+fbad_list_adset(fbacc, id, statuses, fields = "id")
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
+
+\item{id}{will do the look-up for all Ads based on this ID. Defaults to current FB account. Can be a (vector of) Ad Campaign id(s).}
 
 \item{statuses}{character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.}
 
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
 }
 \description{
-List all Ad Sets for current account
+List all Ad Sets for current account or Ad Campaign(s)
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Reading}

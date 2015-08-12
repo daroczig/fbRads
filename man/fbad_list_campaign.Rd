@@ -4,10 +4,12 @@
 \alias{fbad_list_campaign}
 \title{List all Ad Campaigns for current account}
 \usage{
-fbad_list_campaign(fbacc, statuses, fields = "id")
+fbad_list_campaign(fbacc, id, statuses, fields = "id")
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
+
+\item{id}{not supported argument}
 
 \item{statuses}{character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.}
 

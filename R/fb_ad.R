@@ -123,15 +123,16 @@ fbad_update_ad <- function(fbacc, id, ...) {
 }
 
 
-#' List all Ads for current account
+#' List all Ads for current account, list of Ad Sets or Campaigns
 #' @inheritParams fbad_request
+#' @param id will do the look-up for all Ads based on this ID. Defaults to current FB account. Can be a (vector of) Ad Set or Campaign id(s).
 #' @param statuses character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.
 #' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read-adaccount}
-fbad_list_ad <- function(fbacc, statuses, fields = 'id') {
+fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
 
@@ -159,6 +160,11 @@ fbad_list_ad <- function(fbacc, statuses, fields = 'id') {
 
     }
 
+    ## default ID for current Ad Account
+    if (missing(id) | fn == 'fbad_list_campaign') {
+        id <- paste0('act_', fbacc$account_id)
+    }
+
     ## API endpoint
     endpoint <- switch(fn,
                    'fbad_list_ad'       = 'adgroups',
@@ -167,7 +173,7 @@ fbad_list_ad <- function(fbacc, statuses, fields = 'id') {
 
     ## get first page with the list of (max) 1,000 ads
     res <- fbad_request(fbacc,
-                        path   = paste0('act_', fbacc$account_id, '/', endpoint),
+                        path   = file.path(id, endpoint),
                         params = params,
                         method = "GET")
 
