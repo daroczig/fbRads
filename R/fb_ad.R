@@ -123,4 +123,39 @@ fbad_update_ad <- function(fbacc, id, ...) {
 }
 
 
+#' List ads for current account
+#' @inheritParams fbad_request
+#' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
+#' @return data.frame
+#' @note Will do a batched request to the Facebook API if multiple ids are provided.
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read-adaccount}
+fbad_list_ad <- function(fbacc, fields = 'id') {
 
+    fbacc <- fbad_check_fbacc()
+
+    ## merge fields
+    fields <- paste(fields, collapse = ',')
+
+    ## get first page with the list of (max) 1,000 ads
+    res <- fbad_request(fbacc,
+                        path   = paste0('act_', fbacc$account_id, '/adgroups'),
+                        params = list(fields = fields, limit = 1000),
+                        method = "GET")
+
+    ## parse JSON
+    res <- fromJSON(res)
+
+    ## save data as list
+    l <- list(res$data)
+
+    ## get all pages (if any)
+    while (!is.null(res$paging$'next')) {
+        res <- fromJSON(getURL(res$paging$'next'))
+        l   <- c(l, list(res$data))
+    }
+
+    ## return data.frame
+    do.call(rbind, l)
+
+}
