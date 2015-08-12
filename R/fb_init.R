@@ -51,6 +51,7 @@ fbad_check_curl_params <- function(params) {
 #' @keywords internal
 fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_version(), retries = 0) {
 
+    mc     <- match.call()
     method <- match.arg(method)
 
     ## if token was not set in params, try to do that from fbacc
@@ -124,7 +125,6 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
             ## retry the query for no more than 3 times
             if (retries < 3) {
-                mc <- match.call()
                 mc$retries <- mc$retries + 1
                 return(eval(mc, envir = parent.frame()))
             }
@@ -138,7 +138,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     ## Response error handling
     if (inherits(res, 'error')) {
 
-        if (log) {
+         if (log) {
             flog.error(paste('URL: ', API_endpoint))
             flog.error(paste('Method: ', method))
             flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
@@ -146,19 +146,20 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
         stop(paste(
             ifelse(inherits(curlres, 'error'),
-                   'This is a bug in the fbRads package. Please report on GitHub:',
+                   'This is a bug in the fbRads package. Please report on GitHub with a detailed output:',
                    'FB query failed:'),
             res$message))
 
     }
 
-    ## return value
+    ## Capture return value
     res     <- b$value()
     headers <- as.list(h$value())
 
     ## Response code error handling
     if (headers$status != '200') {
 
+        ## log details of the error
         if (log) {
             flog.error(paste('URL: ', API_endpoint))
             flog.error(paste('Method: ', method))
@@ -167,12 +168,37 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
             flog.error(paste('Body:', res))
         }
 
-        if (!inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') &&
-            !is.null(fromJSON(res))) {
-            stop(fromJSON(res)$error$message)
-        } else {
+        ## something nasty happened
+        if (inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') ||
+            is.null(fromJSON(res))) {
             stop('Some critical FB query error here.')
         }
+
+        ## otherwise it's a JSON response
+        res <- fromJSON(res)
+
+        ## temporary "API Unknown" (1) or "API Service" (2) error at FB
+        if (res$error$code %in% 1:2) {
+
+            ## log it
+            flog.error(paste('This is a temporary',
+                             shQuote(res$error$type),
+                             'FB error.'))
+
+            ## give some chance for the system/network to recover
+            Sys.sleep(2)
+
+            ## retry the query for no more than 3 times
+            if (retries < 3) {
+                flog.info(paste('Retrying query for the', mc$retries + 1, ' st/nd/rd time'))
+                mc$retries <- mc$retries + 1
+                return(eval(mc, envir = parent.frame()))
+            }
+
+        }
+
+        ## fail with (hopefully) meaningful error message
+        stop(res$error$message)
 
     }
 
