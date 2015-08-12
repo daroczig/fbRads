@@ -125,15 +125,18 @@ fbad_update_ad <- function(fbacc, id, ...) {
 
 #' List all Ads for current account
 #' @inheritParams fbad_request
-#' @param statuses filter for given Ad statuses
+#' @param statuses character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.
 #' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read-adaccount}
-fbad_list_ad <- function(fbacc, statuses = c('ACTIVE', 'PAUSED', 'CAMPAIGN_PAUSED', 'CAMPAIGN_GROUP_PAUSED', 'CREDIT_CARD_NEEDED', 'DISABLED', 'DISAPPROVED', 'PENDING_REVIEW', 'PREAPPROVED', 'PENDING_BILLING_INFO', 'ARCHIVED'), fields = 'id') {
+fbad_list_ad <- function(fbacc, statuses, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
+
+    ## lookup caller fn name
+    fn <- deparse(match.call()[[1]])
 
     ## merge fields
     fields <- paste(fields, collapse = ',')
@@ -141,15 +144,30 @@ fbad_list_ad <- function(fbacc, statuses = c('ACTIVE', 'PAUSED', 'CAMPAIGN_PAUSE
     ## basic params
     params <- list(fields = fields, limit = 1000)
 
-    ## filer for status
-    statuses <- match.arg(statuses, several.ok = TRUE)
+    ## filter for status
     if (!missing(statuses)) {
+
         params$adgroup_status <- toJSON(statuses)
+
+        ## update filter name for Ad Sets and Campaigns
+        if (fn == 'fbad_list_adset') {
+            names(params)[3] <- 'campaign_status'
+        }
+        if (fn == 'fbad_list_campaign') {
+            names(params)[3] <- 'campaign_group_status'
+        }
+
     }
+
+    ## API endpoint
+    endpoint <- switch(fn,
+                   'fbad_list_ad'       = 'adgroups',
+                   'fbad_list_adset'    = 'adcampaigns',
+                   'fbad_list_campaign' = 'adcampaign_groups')
 
     ## get first page with the list of (max) 1,000 ads
     res <- fbad_request(fbacc,
-                        path   = paste0('act_', fbacc$account_id, '/adgroups'),
+                        path   = paste0('act_', fbacc$account_id, '/', endpoint),
                         params = params,
                         method = "GET")
 

@@ -185,3 +185,10 @@ fbad_read_adset <- fbad_read_ad
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Updating}
 fbad_update_adset <- fbad_update_ad
+
+
+#' List all Ad Sets for current account
+#' @inheritParams fbad_list_ad
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Reading}
+fbad_list_adset <- fbad_list_ad
