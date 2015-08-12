@@ -2,12 +2,17 @@
 % Please edit documentation in R/fb_ad.R
 \name{fbad_list_ad}
 \alias{fbad_list_ad}
-\title{List ads for current account}
+\title{List all Ads for current account}
 \usage{
-fbad_list_ad(fbacc, fields = "id")
+fbad_list_ad(fbacc, statuses = c("ACTIVE", "PAUSED", "CAMPAIGN_PAUSED",
+  "CAMPAIGN_GROUP_PAUSED", "CREDIT_CARD_NEEDED", "DISABLED", "DISAPPROVED",
+  "PENDING_REVIEW", "PREAPPROVED", "PENDING_BILLING_INFO", "ARCHIVED"),
+  fields = "id")
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
+
+\item{statuses}{filter for given Ad statuses}
 
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
 }
@@ -15,7 +20,7 @@ fbad_list_ad(fbacc, fields = "id")
 data.frame
 }
 \description{
-List ads for current account
+List all Ads for current account
 }
 \note{
 Will do a batched request to the Facebook API if multiple ids are provided.
