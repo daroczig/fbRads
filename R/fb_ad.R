@@ -67,7 +67,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
                             path   = id,
                             params = list(fields = fields),
                             method = "GET")
-        return(as.data.frame(fromJSON(res)))
+        return(as.data.frame(fromJSON(res), stringsAsFactors = FALSE))
     }
 
     ## or do batched query
