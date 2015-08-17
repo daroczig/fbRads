@@ -169,7 +169,22 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
             flog.error(paste('Body:', res))
         }
 
-        ## something nasty happened
+        ## retry if Service (temporarily) Unavailable
+        if (headers$status == '503') {
+
+            ## give some chance for the system/network to recover
+            Sys.sleep(2)
+
+            ## retry the query for no more than 3 times
+            if (retries < 3) {
+                flog.info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'))
+                mc$retries <- retries + 1
+                return(eval(mc, envir = parent.frame()))
+            }
+
+        }
+
+        ## something nasty happened that we cannot help (yet)
         if (inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') ||
             is.null(fromJSON(res))) {
             stop('Some critical FB query error here.')
