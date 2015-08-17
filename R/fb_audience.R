@@ -178,17 +178,25 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
 
     flog.info(paste0('Creating new lookalike (', ratio*100, '%%) ', country, ' audience based on ', origin_audience_id, ': ', name))
 
+    ## set params
+    params <- list(
+        name               = name,
+        origin_audience_id = origin_audience_id,
+        lookalike_spec     = toJSON(list(
+            ratio   = ratio,
+            country = country
+            ), auto_unbox = TRUE))
+
+    ## this is a static param required by v2.4
+    if (fbacc$api_version >= '2.4') {
+        params$subtype <- 'LOOKALIKE'
+    }
+
     ## get results
     res <- fbad_request(fbacc,
         path   = paste0('act_', fbacc$account_id, '/customaudiences'),
         method = "POST",
-        params = list(
-            name               = name,
-            origin_audience_id = origin_audience_id,
-            lookalike_spec     = toJSON(list(
-                ratio   = ratio,
-                country = country
-                ), auto_unbox = TRUE)))
+        params = params)
 
     ## return ID
     fromJSON(res)$id
