@@ -170,7 +170,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         }
 
         ## retry if Service (temporarily) Unavailable
-        if (headers$status == '503') {
+        if (headers$status %in% c('502', '503')) {
 
             ## give some chance for the system/network to recover
             Sys.sleep(2)
