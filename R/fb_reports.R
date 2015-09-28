@@ -7,6 +7,8 @@
 #' @export
 fb_reportstats_ad <- function(fbacc, ...) {
 
+    warning('FB Graph API v2.3 to be deprecated in a few days! Change to the Insights API endpoint via the fb_insights function ASAP.')
+
     fbacc <- fbad_check_fbacc()
 
     if (fbacc$api_version > '2.3') {
@@ -50,6 +52,8 @@ fb_reportstats_ad <- function(fbacc, ...) {
 #' }
 #' @export
 fb_stats_ad <- function(fbacc, ids) {
+
+    warning('FB Graph API v2.3 to be deprecated in a few days! Change to the Insights API endpoint via the fb_insights function ASAP.')
 
     fbacc <- fbad_check_fbacc()
 

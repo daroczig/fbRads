@@ -285,6 +285,10 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' }
 fbad_init <- function(accountid, token, version = fb_api_version()) {
 
+    if (version < '2.4') {
+        warning('FB Graph API v2.3 to be deprecated in a few days! Change to v2.4 ASAP.')
+    }
+
     ## API endpoint
     url <- paste(
         'https://graph.facebook.com',
