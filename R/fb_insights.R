@@ -56,7 +56,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
         id <- fromJSON(res)[[1]]
 
         ## get results
-        res <- fbad_insights_get_async_results(id)
+        res <- fbad_insights_get_async_results(id = id)
 
     }
 
