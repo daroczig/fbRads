@@ -95,17 +95,30 @@ fbad_insights_get_async_results <- function(fbacc, id) {
     ## parse JSON
     res <- fromJSON(res)
 
+    ## default polling interval (in seconds)
+    wait_time  <- 2/5
+    ## and percentage
+    percentage <- res$async_percent_completion
+
     ## job still running
     while (res$async_status %in% c('Job Not Started', 'Job Started', 'Job Running')) {
+
+        ## update polling interval
+        dpercentage <- res$async_percent_completion - percentage
+        wait_time   <- wait_time * ifelse(dpercentage > 10,
+                                          ifelse(dpercentage > 25, 0.5,
+                                                 ifelse(dpercentage > 15, 0.75, 1)),
+                                          ifelse(dpercentage > 5, 2, 5))
+        percentage  <- res$async_percent_completion
 
         ## log
         flog.debug(paste0(id, ' Async ',
                           res$async_status, ' (',
                           res$async_percent_completion,
-                          '%). Waiting 2 seconds...'))
+                          '%). Waiting ', round(wait_time, 1), ' seconds...'))
 
         ## wait a bit
-        Sys.sleep(2)
+        Sys.sleep(wait_time)
 
         ## instead of a recursive call, let's specify the query again
         ## as nested calls was likely to cause segfault in R :(
