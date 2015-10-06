@@ -1,6 +1,6 @@
 #' Upload image
 #' @inheritParams fbad_request
-#' @param img
+#' @param img file path
 #' @return list of file name, hash and URL
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adimage/v2.4#create}

@@ -10,13 +10,13 @@ fbad_create_ad(fbacc, name, campaign_id, creative_id,
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{name}{}
+\item{name}{Ad group name}
 
-\item{campaign_id}{}
+\item{campaign_id}{Ad Set id}
 
-\item{creative_id}{}
+\item{creative_id}{creative ID}
 
-\item{adgroup_status}{}
+\item{adgroup_status}{initial status of the Ad group}
 
 \item{...}{further parameters passed to the Facebook API}
 }

@@ -1,11 +1,11 @@
 #' Created Ad Campaign
 #' @inheritParams fbad_request
-#' @param buying_type
-#' @param campaign_group_status
-#' @param execution_options
-#' @param name
-#' @param objective
-#' @param spend_cap
+#' @param buying_type Facebook optimization algorithm to delivery, pricing, and limits
+#' @param campaign_group_status initial status of the Ad Campaign
+#' @param execution_options special execution settings passed to the API
+#' @param name Ad Campaign name
+#' @param objective the campaign's objective
+#' @param spend_cap spend cap of the campaign
 #' @return Ad Campaign id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4#create}

@@ -15,17 +15,17 @@ fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{buying_type}{}
+\item{buying_type}{Facebook optimization algorithm to delivery, pricing, and limits}
 
-\item{campaign_group_status}{}
+\item{campaign_group_status}{initial status of the Ad Campaign}
 
-\item{execution_options}{}
+\item{execution_options}{special execution settings passed to the API}
 
-\item{name}{}
+\item{name}{Ad Campaign name}
 
-\item{objective}{}
+\item{objective}{the campaign's objective}
 
-\item{spend_cap}{}
+\item{spend_cap}{spend cap of the campaign}
 }
 \value{
 Ad Campaign id

@@ -1,16 +1,16 @@
 #' Create ad
 #' @inheritParams fbad_request
-#' @param name
-#' @param campaign_id
-#' @param creative_id
-#' @param adgroup_status
+#' @param name Ad group name
+#' @param campaign_id Ad Set id
+#' @param creative_id creative ID
+#' @param adgroup_status initial status of the Ad group
 #' @param ... further parameters passed to the Facebook API
 #' @return ad id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#create}
 fbad_create_ad <- function(fbacc,
-                                 name, campaign_id, creative_id,
-                                 adgroup_status = c('ACTIVE', 'PAUSED'), ...) {
+                           name, campaign_id, creative_id,
+                           adgroup_status = c('ACTIVE', 'PAUSED'), ...) {
 
     fbacc <- fbad_check_fbacc()
     stopifnot(!missing(name), !missing(campaign_id), !missing(creative_id))
