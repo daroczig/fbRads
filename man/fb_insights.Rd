@@ -10,9 +10,9 @@ fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{target}{ad account id (default), campaign id, adset id or ad id}
+\item{target}{ad account id(s) (default), campaign id(s), adset id(s) or ad id(s)}
 
-\item{job_type}{synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request.}
+\item{job_type}{synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.}
 
 \item{...}{named arguments passed to the API, like time range, fields, filtering etc.}
 }

@@ -1,7 +1,7 @@
 #' Insights
 #' @inheritParams fbad_request
-#' @param target ad account id (default), campaign id, adset id or ad id
-#' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request.
+#' @param target ad account id(s) (default), campaign id(s), adset id(s) or ad id(s)
+#' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.4}
 #' @return list
@@ -18,11 +18,51 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
     fbacc <- fbad_check_fbacc()
 
-    ## save call for possible future evaluation
-    mc <- match.call()
-
     ## update args
     job_type <- match.arg(job_type)
+
+    ## batched query with multiple targets
+    if (length(target) > 1) {
+
+        ## this should fail with async query
+        if (job_type == 'async') {
+            stop('Batched queries are not possible with async call. Please query only one item at a time.')
+        }
+
+        ## URL encode params
+        l <- list(...)
+        l <- paste(names(l),
+                   sapply(l, paste, collapse = ','),
+                   sep = '=',
+                   collapse = '&')
+
+        ## hit the API & return
+        return(lapply(
+            split(target, 1:length(target) %/% 50),
+            function(batch) {
+
+                ## query FB by 50 ids at a time
+                res <- fbad_request(
+                    fbacc,
+                    path   = '',
+                    params = list(
+                        batch  = toJSON(
+                            data.frame(
+                                method = 'GET',
+                                relative_url = paste0(
+                                    'v', fbacc$api_version,
+                                    '/', batch, '/insights?',
+                                    l))
+                        )),
+                    method = 'POST')
+
+                ## transform data part of the list to data.frame
+                do.call(rbind, lapply(fromJSON(res)$body,
+                                      function(x) fromJSON(x)$data))
+
+            }))
+
+    }
 
     ## start sync or async report generation
     res <- tryCatch(fbad_request(fbacc,
@@ -41,10 +81,12 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
             ## let's try an async query for larger data
             if (res$message == "Please reduce the amount of data you're asking for, then retry your request") {
                 flog.debug('Sync request failed, starting async request.')
+                mc <- match.call()
                 mc$job_type <- 'async'
                 return(eval(mc))
             }
 
+            ## otherwise return error message and fail
             stop(res$message)
 
         }
