@@ -30,8 +30,13 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
             stop('Batched queries are not possible with async call. Please query only one item at a time.')
         }
 
-        ## URL encode params
+        ## get all provided params
         l <- list(...)
+
+        ## remove internal 'retries' param
+        l$retries <- NULL
+
+        ## URL encode params
         l <- paste(names(l),
                    sapply(l, paste, collapse = ','),
                    sep = '=',
