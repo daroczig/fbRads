@@ -15,7 +15,7 @@
 #' @param object_story_id post ID reference
 #' @param object_story_spec list
 #' @param object_url string list
-#' @param call_to_action_type
+#' @param call_to_action_type string
 #' @return creative id
 #' @export
 #' @note There are no checks done before passing provided arguments to Facebook. You have to know what you are up to. Read the Facebook docs.

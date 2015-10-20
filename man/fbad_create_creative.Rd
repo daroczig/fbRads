@@ -43,7 +43,7 @@ fbad_create_creative(fbacc, title, body, name, actor_id, follow_redirect,
 
 \item{object_url}{string list}
 
-\item{call_to_action_type}{}
+\item{call_to_action_type}{string}
 }
 \value{
 creative id
