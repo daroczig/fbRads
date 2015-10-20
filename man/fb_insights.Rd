@@ -5,7 +5,7 @@
 \title{Insights}
 \usage{
 fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
-  ...)
+  retries = 0, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -13,6 +13,8 @@ fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
 \item{target}{ad account id(s) (default), campaign id(s), adset id(s) or ad id(s)}
 
 \item{job_type}{synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.}
+
+\item{retries}{number of times this query has been sent to Facebook previously and failed -- to be used internally for error handling}
 
 \item{...}{named arguments passed to the API, like time range, fields, filtering etc.}
 }

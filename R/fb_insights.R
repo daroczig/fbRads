@@ -2,6 +2,7 @@
 #' @inheritParams fbad_request
 #' @param target ad account id(s) (default), campaign id(s), adset id(s) or ad id(s)
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.
+#' @param retries number of times this query has been sent to Facebook previously and failed -- to be used internally for error handling
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.4}
 #' @return list
@@ -14,7 +15,7 @@
 #' library(rlist)
 #' list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
 #' }
-fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), ...) {
+fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), retries = 0, ...) {
 
     fbacc <- fbad_check_fbacc()
 
@@ -180,7 +181,35 @@ fbad_insights_get_async_results <- function(fbacc, id) {
 
     }
 
-    ## error?
+    ## job failed with error message, so let's retry this a few times
+    ## after waiting for some time to allow FB to recover
+    if (res$async_status == 'Job Failed') {
+
+        ## capture parent call (starting the async query)
+        mc <- match.call(definition = sys.function(1), call = sys.call(1))
+
+        ## update number of tries in parent call's environment
+        mc$retries <- evalq(retries, envir = parent.frame()) + 1
+
+        ## fail on 3rd error
+        if (mc$retries > 3) {
+            flog.error(toJSON(res))
+            stop('Tried this query too many times, this is a serious issue.')
+        }
+
+        ## log this error
+        flog.error(toJSON(res))
+        flog.info(paste('Retrying query for the', mc$retries, ' st/nd/rd time'))
+
+        ## give some chance for the system/network to recover
+        Sys.sleep(15)
+
+        ## retry the query for no more than 3 times
+        return(eval(mc, envir = parent.frame()))
+
+    }
+
+    ## other error?
     flog.error(toJSON(res))
     stop('Unexpected response for the asynchronous job.')
 
