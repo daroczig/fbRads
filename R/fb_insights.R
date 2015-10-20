@@ -103,8 +103,16 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
         ## we have an async job, we need the job ID
         id <- fromJSON(res)[[1]]
 
-        ## get results
-        res <- fbad_insights_get_async_results(id = id)
+        ## capture current call with the number of (no) retrues
+        mc <- match.call()
+        if (is.null(mc$retries)) {
+            mc$retries <- 0
+        }
+
+        ## get results & pass the current call for possible future retries
+        res <- fbad_insights_get_async_results(id = id,
+                                               original_call = mc,
+                                               original_env  = sys.frame())
 
     }
 
@@ -129,9 +137,11 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 #' Wait for and get asynchronous report results
 #' @inheritParams fbad_request
 #' @param id job ID
+#' @param original_call original call of \code{fb_insights} for future retries
+#' @param original_env original environment of \code{fb_insights}
 #' @return JSON
 #' @keywords internal
-fbad_insights_get_async_results <- function(fbacc, id) {
+fbad_insights_get_async_results <- function(fbacc, id, original_call, original_env) {
 
     fbacc <- fbad_check_fbacc()
 
@@ -191,26 +201,26 @@ fbad_insights_get_async_results <- function(fbacc, id) {
     if (res$async_status == 'Job Failed') {
 
         ## capture parent call (starting the async query)
-        mc <- match.call(definition = sys.function(1), call = sys.call(1))
+        mc <- original_call
 
         ## update number of tries in parent call's environment
-        mc$retries <- evalq(retries, envir = parent.frame()) + 1
+        original_call$retries <- original_call$retries + 1
 
         ## fail on 3rd error
-        if (mc$retries > 3) {
+        if (original_call$retries > 3) {
             flog.error(toJSON(res))
             stop('Tried this query too many times, this is a serious issue.')
         }
 
         ## log this error
         flog.error(toJSON(res))
-        flog.info(paste('Retrying query for the', mc$retries, ' st/nd/rd time'))
+        flog.info(paste('Retrying query for the', original_call$retries, 'st/nd/rd time'))
 
         ## give some chance for the system/network to recover
         Sys.sleep(15)
 
         ## retry the query for no more than 3 times
-        return(eval(mc, envir = parent.frame()))
+        return(eval(original_call, envir = original_env))
 
     }
 

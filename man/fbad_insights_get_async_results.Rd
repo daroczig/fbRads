@@ -4,12 +4,16 @@
 \alias{fbad_insights_get_async_results}
 \title{Wait for and get asynchronous report results}
 \usage{
-fbad_insights_get_async_results(fbacc, id)
+fbad_insights_get_async_results(fbacc, id, original_call, original_env)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{id}{job ID}
+
+\item{original_call}{original call of \code{fb_insights} for future retries}
+
+\item{original_env}{original environment of \code{fb_insights}}
 }
 \value{
 JSON
