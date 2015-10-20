@@ -116,7 +116,12 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
     }
 
-    ## parse JSON
+    ## we got results from a retry of a previously failed async query
+    if (inherits(res, 'list')) {
+        return(res)
+    }
+
+    ## otherwise parse the JSON
     res <- fromJSON(res)
 
     ## save data as list
