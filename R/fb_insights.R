@@ -222,7 +222,7 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
         flog.info(paste('Retrying query for the', original_call$retries, 'st/nd/rd time'))
 
         ## give some chance for the system/network to recover
-        Sys.sleep(15)
+        Sys.sleep(60)
 
         ## retry the query for no more than 3 times
         return(eval(original_call, envir = original_env))
