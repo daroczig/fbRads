@@ -174,6 +174,9 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
                                           ifelse(dpercentage > 5, 2, 5))
         percentage  <- res$async_percent_completion
 
+        ## hard limit (5 minutes) for wait time
+        wait_time <- max(wait_time, 300)
+
         ## log
         flog.debug(paste0(id, ' Async ',
                           res$async_status, ' (',
