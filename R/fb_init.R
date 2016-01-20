@@ -89,23 +89,48 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         path, sep = '/')
 
     ## query
-    curlres <- tryCatch(res <- do.call(what = paste0(
-                                           ifelse(method == 'GET', 'get', 'post'),
-                                           'Form'),
-                                       args = list(
-                                           uri     = API_endpoint,
-                                           .params = params,
-                                           .opts = curlOptions(
-                                               headerfunction = h$update,
-                                               verbose   = debug,
-                                               writefunc = b$update,
-                                               cainfo    = system.file(
-                                                   'CurlSSL',
-                                                   'cacert.pem',
-                                                   package = 'RCurl'),
-                                               crlf = ifelse(method == 'GET',
-                                                   TRUE, FALSE)))),
-                        error = function(e) e)
+    if (method == 'DELETE') {
+
+        curlres <- tryCatch(res <- getURLContent(
+                                url   = paste0(API_endpoint, '?',
+                                               paste(mapply(function(id, v)
+                                                            paste(URLencode(id),
+                                                                  URLencode(v),
+                                                                  sep = '='),
+                                                            names(params),
+                                                            params),
+                                                     collapse = '&')),
+                                .opts = curlOptions(
+                                    headerfunction = h$update,
+                                    verbose   = debug,
+                                    writefunc = b$update,
+                                    customrequest = 'DELETE',
+                                    cainfo    = system.file(
+                                        'CurlSSL',
+                                        'cacert.pem',
+                                        package = 'RCurl'))),
+                            error = function(e) e)
+
+    } else {
+
+        curlres <- tryCatch(res <- do.call(what = paste0(
+                                               ifelse(method == 'GET', 'get', 'post'),
+                                               'Form'),
+                                           args = list(
+                                               uri     = API_endpoint,
+                                               .params = params,
+                                               .opts = curlOptions(
+                                                   headerfunction = h$update,
+                                                   verbose   = debug,
+                                                   writefunc = b$update,
+                                                   cainfo    = system.file(
+                                                       'CurlSSL',
+                                                       'cacert.pem',
+                                                       package = 'RCurl'),
+                                                   crlf = ifelse(method == 'GET',
+                                                                 TRUE, FALSE)))),
+                            error = function(e) e)
+    }
 
     ## remove token from params if printed for debugging purposes
     params$token <- params$access_token <- NULL

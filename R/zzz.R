@@ -4,7 +4,7 @@
 #' @docType package
 #' @importFrom digest digest
 #' @importFrom jsonlite toJSON fromJSON unbox
-#' @importFrom RCurl postForm getForm getURL getCurlHandle curlSetOpt basicHeaderGatherer basicTextGatherer curlOptions fileUpload
+#' @importFrom RCurl postForm getForm getURL getURLContent getCurlHandle curlSetOpt basicHeaderGatherer basicTextGatherer curlOptions fileUpload
 #' @importFrom futile.logger flog.info flog.error flog.debug
 #' @importFrom bit64 as.integer64
 #' @importFrom plyr ldply

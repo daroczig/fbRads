@@ -80,8 +80,6 @@ fbad_delete_audience <- function(fbacc, audience_id) {
     if (missing(audience_id))
         stop('A custom audience id is required.')
 
-    stop('This is untested code.')
-
     ## get results
     res <- fbad_request(fbacc,
         path   = paste0(audience_id),
