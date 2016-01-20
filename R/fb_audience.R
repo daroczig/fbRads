@@ -114,19 +114,26 @@ fbad_share_audience <- function(fbacc, audience_id, adaccounts) {
 }
 
 
-#' FB add people to audience
+#' Add people to a custom FB audience
 #' @references \url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#create}
 #' @inheritParams fbad_request
 #' @param audience_id string
-#' @param schema only two schema are supported out of the four: you can add persons to a custom audience by e-mail addresses or phone numbers
+#' @param schema only two schema are supported out of the four: you can add/remove persons to/from a custom audience by e-mail addresses or phone numbers
 #' @param hashes character vector of e-mail addresses or phone numbers to be transformed to hashes
 #' @export
 fbad_add_audience <- function(fbacc, audience_id,
                               schema = c('EMAIL', 'PHONE'),
                               hashes) {
 
+    ## match called function name for future reference
+    fn <- deparse(match.call()[[1]])
+
+    ## check params and log
     fbacc <- fbad_check_fbacc()
-    flog.info(paste('Adding', length(hashes), schema, 'to', audience_id, 'custom audience ID.'))
+    flog.info(paste(switch(fn, 'fbad_add_audience' = 'Adding', 'Removing'),
+                    length(hashes), schema,
+                    switch(fn, 'fbad_add_audience' = 'to', 'from'),
+                    audience_id, 'custom audience ID.'))
 
     if (length(hashes) == 0) {
 
@@ -135,7 +142,8 @@ fbad_add_audience <- function(fbacc, audience_id,
     } else {
 
         ## compute hashes for e-mail or phone numbers
-        hashes <- sapply(hashes, digest, serialize = FALSE, algo = 'sha256', USE.NAMES = FALSE)
+        hashes <- sapply(hashes, digest, serialize = FALSE,
+                         algo = 'sha256', USE.NAMES = FALSE)
 
         ## split hashes into 10K groups
         hashes <- split(hashes, 1:length(hashes) %/% 1e4)
@@ -144,7 +152,7 @@ fbad_add_audience <- function(fbacc, audience_id,
         sapply(hashes, function(hash)
             fbad_request(fbacc,
                 path   = paste(audience_id, 'users', sep = '/'),
-                method = "POST",
+                method = switch(fn, 'fbad_add_audience' = 'POST', 'DELETE'),
                 params = list(
                     payload      = toJSON(c(
                         list(schema = unbox(paste0(schema, '_SHA256'))),
@@ -155,6 +163,13 @@ fbad_add_audience <- function(fbacc, audience_id,
     ## TODO parse results and error handling
 
 }
+
+
+#' Add people from a custom FB audience
+#' @inheritParams fbad_add_audience
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/custom-audience/users#Deleting}
+fbad_remove_audience <- fbad_add_audience
 
 
 #' Create a new FB lookalike audience similar to an already existing custom audience
