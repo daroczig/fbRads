@@ -145,8 +145,9 @@ fbad_add_audience <- function(fbacc, audience_id,
         hashes <- sapply(hashes, digest, serialize = FALSE,
                          algo = 'sha256', USE.NAMES = FALSE)
 
-        ## split hashes into 10K groups
-        hashes <- split(hashes, 1:length(hashes) %/% 1e4)
+        ## split hashes into 10K groups when adding and 1K when deleting
+        hashes <- split(hashes, 1:length(hashes) %/%
+                                switch(fn, 'fbad_add_audience' = 1e4, 1e3))
 
         ## get results
         sapply(hashes, function(hash)
