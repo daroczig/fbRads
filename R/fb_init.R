@@ -1,7 +1,7 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_version <- function() '2.4'
+fb_api_version <- function() '2.5'
 
 
 ## initialize internal placeholder for FB Ad Account
@@ -270,11 +270,6 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
           'spend_cap', 'timezone_id', 'users'),
         collapse = ',')
 
-    ## daily_spend_limit field was supported up to v2.3
-    if (version < '2.4') {
-        scope <- paste(scope, 'daily_spend_limit', sep = ',')
-    }
-
     ## Get account details
     account_details <-
         fbad_request(
@@ -310,8 +305,11 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' }
 fbad_init <- function(accountid, token, version = fb_api_version()) {
 
+    if (version < '2.5') {
+        warning('FB Graph API v2.4 to be deprecated in a few days! Change to v2.5 ASAP.')
+    }
     if (version < '2.4') {
-        warning('FB Graph API v2.3 to be deprecated in a few days! Change to v2.4 ASAP.')
+        warning('FB Graph API v2.3 and previous versions are deprecated now.')
     }
 
     ## API endpoint
