@@ -4,25 +4,36 @@
 #' @param campaign_id Ad Set id
 #' @param creative_id creative ID
 #' @param adgroup_status initial status of the Ad group
+#' @param status initial status of the Ad group
 #' @param ... further parameters passed to the Facebook API
 #' @return ad id
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Creating}
 fbad_create_ad <- function(fbacc,
                            name, campaign_id, creative_id,
-                           adgroup_status = c('ACTIVE', 'PAUSED'), ...) {
+                           adgroup_status = c('ACTIVE', 'PAUSED'),
+                           status = c('ACTIVE', 'PAUSED'),...) {
 
     fbacc <- fbad_check_fbacc()
     stopifnot(!missing(name), !missing(campaign_id), !missing(creative_id))
 
-    adgroup_status <- match.arg(adgroup_status)
+    ## initial status of the ad to be created
+    status <- match.arg(status)
+    if (!missing(adgroup_status)) {
+        warning('"adgroup_status" argument is deprecated, use "status" instead from v2.5')
+        status <- match.arg(adgroup_status)
+    }
 
     ## build params list
     params <- list(
         name           = name,
         campaign_id    = campaign_id,
-        creative       = toJSON(list(creative_id = unbox(creative_id))),
-        adgroup_status = adgroup_status)
+        creative       = toJSON(list(creative_id = unbox(creative_id))))
+
+    ## add status for v2.4 VS v2.5
+    params <- c(params, ifelse(fb_api_version() < '2.5',
+                               list(adgroup_status = status),
+                               list(status = status)))
 
     ## add further params if provided
     if (length(list(...)) > 0) {
@@ -31,7 +42,8 @@ fbad_create_ad <- function(fbacc,
 
     ## get results
     res <- fbad_request(fbacc,
-        path   = paste0('act_', fbacc$account_id, '/adgroups'),
+        path   = paste0('act_', fbacc$account_id,
+                        ifelse(fb_api_version() < '2.5', '/adgroups', '/ads')),
         method = "POST",
         params = params)
 
