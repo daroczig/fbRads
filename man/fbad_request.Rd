@@ -6,7 +6,7 @@
 \usage{
 fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
   params = list(), debug = FALSE, log = TRUE,
-  version = fb_api_version(), retries = 0)
+  version = fb_api_most_recent_version(), retries = 0)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fb_init.R
 \name{fb_api_version}
 \alias{fb_api_version}
-\title{Returns the most recent version of the supported Facebook Marketing API}
+\title{Returns the currently used version of the Facebook Marketing API}
 \usage{
 fb_api_version()
 }
@@ -10,6 +10,6 @@ fb_api_version()
 string
 }
 \description{
-Returns the most recent version of the supported Facebook Marketing API
+Returns the currently used version of the Facebook Marketing API
 }
 
