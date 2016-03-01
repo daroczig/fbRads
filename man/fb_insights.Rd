@@ -29,12 +29,12 @@ Insights
 fb_insights(fbacc)
 
 ## process results
-l <- fb_insights(fbacc, date_preset = 'today', level = 'adgroup')
+l <- fb_insights(fbacc, date_preset = 'today', level = 'ad')
 library(rlist)
-list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
+list.stack(list.select(l, date_start, date_stop, ad_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
 }
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/insights/v2.4}
+\url{https://developers.facebook.com/docs/marketing-api/insights/v2.5}
 }
 
