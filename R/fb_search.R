@@ -6,8 +6,8 @@
 #' @param ... other optional parameters accepted by the endpoint as key = value pairs eg: \code{limit = 5000}.
 #' @return \code{data.frame} containing results
 #' @examples \dontrun{
-#' fbacc <- fbad_init(...)
-#' fbad_get_search(type = c('dog', 'cat'), type = 'adinterestvalid')
+#' fbad_get_search(q = 'r programming language', type = 'adinterest')
+#' fbad_get_search(q = c('dog', 'cat'), type = 'adinterestvalid')
 #' }
 #' @export
 fbad_get_search <- function(

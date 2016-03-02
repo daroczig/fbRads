@@ -27,8 +27,8 @@ FB Search API Querying
 }
 \examples{
 \dontrun{
-fbacc <- fbad_init(...)
-fbad_get_search(type = c('dog', 'cat'), type = 'adinterestvalid')
+fbad_get_search(q = 'r programming language', type = 'adinterest')
+fbad_get_search(q = c('dog', 'cat'), type = 'adinterestvalid')
 }
 }
 \references{
