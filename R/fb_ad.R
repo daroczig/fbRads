@@ -60,7 +60,13 @@ fbad_create_ad <- function(fbacc,
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Reading}
+#' @examples \dontrun{
+#' ## get and Ad ID from yesterday
+#' adid <- fb_insights(date_preset = 'yesterday', level = 'ad')[[1]]$ad_id[1]
+#' ## look for current status of the Ad
+#' fbad_read_ad(id = adid, fields = c('effective_status'))
+#' }
 fbad_read_ad <- function(fbacc, id, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
