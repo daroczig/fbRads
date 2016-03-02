@@ -22,8 +22,6 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
         stop('A campaign name is required.')
 
     buying_type           <- match.arg(buying_type)
-    objective             <- match.arg(objective)
-    campaign_group_status <- match.arg(campaign_group_status)
 
     ## build params list
     params <- list(
@@ -35,6 +33,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
 
     ## version specific params
     if (fb_api_version() < '2.5') {
+
         params$objective <- match.arg(
             objective,
             c(
@@ -43,8 +42,10 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
                 'MOBILE_APP_INSTALLS', 'OFFER_CLAIMS', 'PAGE_LIKES',
                 'POST_ENGAGEMENT', 'VIDEO_VIEWS', 'WEBSITE_CLICKS',
                 'WEBSITE_CONVERSIONS'))
-        params$campaign_group_status = campaign_group_status
+        params$campaign_group_status <- match.arg(campaign_group_status)
+
     } else {
+
         ## objectives were changed in v2.5
         ## * WEBSITE_CLICKS -> LINK_CLICKS
         ## * WEBSITE_CONVERSIONS -> CONVERSIONS
@@ -55,9 +56,9 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
               'LINK_CLICKS', 'LOCAL_AWARENESS', 'MOBILE_APP_ENGAGEMENT',
               'MOBILE_APP_INSTALLS', 'OFFER_CLAIMS', 'PAGE_LIKES',
               'POST_ENGAGEMENT', 'PRODUCT_CATALOG_SALES', 'VIDEO_VIEWS'))
-        params$campaign_status = campaign_status
-    }
+        params$campaign_status <- match.arg(campaign_status)
 
+    }
 
     ## drop NULL args
     params <- as.list(unlist(params, recursive = FALSE))

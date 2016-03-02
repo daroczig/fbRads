@@ -10,12 +10,19 @@
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Creating}
 fbad_create_ad <- function(fbacc,
-                           name, campaign_id, creative_id,
+                           name,
+                           ## v2.4
+                           campaign_id,
+                           ## v2.5
+                           adset_id,
+                           creative_id,
                            adgroup_status = c('ACTIVE', 'PAUSED'),
                            status = c('ACTIVE', 'PAUSED'),...) {
 
     fbacc <- fbad_check_fbacc()
-    stopifnot(!missing(name), !missing(campaign_id), !missing(creative_id))
+    stopifnot(!missing(name),
+              !missing(campaign_id) | !missing(adset_id),
+              !missing(creative_id))
 
     ## initial status of the ad to be created
     status <- match.arg(status)
@@ -27,13 +34,16 @@ fbad_create_ad <- function(fbacc,
     ## build params list
     params <- list(
         name           = name,
-        campaign_id    = campaign_id,
         creative       = toJSON(list(creative_id = unbox(creative_id))))
 
-    ## add status for v2.4 VS v2.5
-    params <- c(params, ifelse(fb_api_version() < '2.5',
-                               list(adgroup_status = status),
-                               list(status = status)))
+    ## different campaign names in v2.4 VS v2.5
+    if (fb_api_version() < '2.5') {
+        params$campaign_id    <-  campaign_id
+        params$adgroup_status <- status
+    } else {
+        params$adset_id <- adset_id
+        params$status   <- status
+    }
 
     ## add further params if provided
     if (length(list(...)) > 0) {

@@ -41,7 +41,6 @@ fbad_create_adset <- function(fbacc,
     billing_event     <- match.arg(billing_event)
 
     ## update args for the first or selected value
-    campaign_status <- match.arg(campaign_status)
     status <- match.arg(status)
 
     ## match call for future reference
@@ -68,8 +67,6 @@ fbad_create_adset <- function(fbacc,
     ## build base params list
     params <- list(
         name              = name,
-        campaign_status   = campaign_status,
-        campaign_group_id = campaign_group_id,
         optimization_goal = optimization_goal,
         billing_event     = billing_event,
         bid_amount        = bid_amount)
@@ -78,12 +75,12 @@ fbad_create_adset <- function(fbacc,
     if (fb_api_version() < '2.5') {
 
         params$campaign_group_id <- campaign_group_id
-        params$campaign_status <- campaign_status
+        params$campaign_status <- match.arg(campaign_status)
 
     } else {
 
         params$campaign_id <- campaign_id
-        params$configured_status <- status
+        params$configured_status <- match.arg(status)
 
     }
 
@@ -113,7 +110,8 @@ fbad_create_adset <- function(fbacc,
     ## promoted object based on parent campaign
     campaign <- fbad_read_campaign(fbacc, ifelse(fb_api_version() < '2.5',
                                                  campaign_group_id,
-                                                 campaign_id))
+                                                 campaign_id),
+                                   fields = 'objective')
     if (campaign$objective %in% c('WEBSITE_CONVERSIONS', 'PAGE_LIKES', 'OFFER_CLAIMS', 'MOBILE_APP_INSTALLS', 'CANVAS_APP_INSTALLS', 'MOBILE_APP_ENGAGEMENT', 'CANVAS_APP_ENGAGEMENT') && missing(promoted_object)) {
         stop(paste('A promoted object is needed when having the objective of', campaign$objective, 'in the parent ad campaign.'))
     }
