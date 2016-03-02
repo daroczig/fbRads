@@ -119,7 +119,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
 #' @param ... parameters passed to Facebook API
 #' @return invisible TRUE
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#update}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Updating}
 fbad_update_ad <- function(fbacc, id, ...) {
 
     fbacc <- fbad_check_fbacc()
@@ -149,7 +149,7 @@ fbad_update_ad <- function(fbacc, id, ...) {
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read-adaccount}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#read-adaccount}
 fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
@@ -185,9 +185,12 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
 
     ## API endpoint
     endpoint <- switch(fn,
-                   'fbad_list_ad'       = 'adgroups',
-                   'fbad_list_adset'    = 'adcampaigns',
-                   'fbad_list_campaign' = 'adcampaign_groups')
+                       'fbad_list_ad'       = ifelse(fb_api_version() < '2.5',
+                                                     'adgroups', 'ads'),
+                       'fbad_list_adset'    = ifelse(fb_api_version() < '2.5',
+                                                     'adcampaigns', 'adsets'),
+                       'fbad_list_campaign' = ifelse(fb_api_version() < '2.5',
+                                                     'adcampaign_groups', 'campaigns'))
 
     ## paged query for one id
     if (length(id) == 1) {
