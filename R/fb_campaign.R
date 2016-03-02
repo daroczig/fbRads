@@ -28,7 +28,6 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
     ## build params list
     params <- list(
         buying_type           = buying_type,
-        campaign_group_status = campaign_group_status,
         objective             = objective,
         name                  = name,
         execution_options     = execution_options,
@@ -44,6 +43,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
                 'MOBILE_APP_INSTALLS', 'OFFER_CLAIMS', 'PAGE_LIKES',
                 'POST_ENGAGEMENT', 'VIDEO_VIEWS', 'WEBSITE_CLICKS',
                 'WEBSITE_CONVERSIONS'))
+        campaign_group_status = campaign_group_status,
     } else {
         ## objectives were changed in v2.5
         ## * WEBSITE_CLICKS -> LINK_CLICKS
@@ -55,6 +55,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
               'LINK_CLICKS', 'LOCAL_AWARENESS', 'MOBILE_APP_ENGAGEMENT',
               'MOBILE_APP_INSTALLS', 'OFFER_CLAIMS', 'PAGE_LIKES',
               'POST_ENGAGEMENT', 'PRODUCT_CATALOG_SALES', 'VIDEO_VIEWS'))
+        campaign_status = campaign_status,
     }
 
 
