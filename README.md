@@ -12,28 +12,28 @@ Vignette and more detailed documentation is coming soon, until then please see t
 4. In the "Settings/Advanced" tab I added http://localhost:1410/ as the "Valid OAuth redirect URIs". Click "Save Changes".
 5. Note your "App ID" and "App Secret" on your dashboard, and use those in the below R script to get a token for future authentication:
 
-```r
-library(httr)
-app <- oauth_app('facebook', 'your app id', 'your app secret')
-Sys.setenv('HTTR_SERVER_PORT' = '1410/')
-tkn <- oauth2.0_token(
-    oauth_endpoints('facebook'), app, scope = 'ads_management',
-    type  = 'application/x-www-form-urlencoded', cache = FALSE)
-tkn <- tkn$credentials$access_token
-```
+    ```r
+    library(httr)
+    app <- oauth_app('facebook', 'your app id', 'your app secret')
+    Sys.setenv('HTTR_SERVER_PORT' = '1410/')
+    tkn <- oauth2.0_token(
+        oauth_endpoints('facebook'), app, scope = 'ads_management',
+        type  = 'application/x-www-form-urlencoded', cache = FALSE)
+    tkn <- tkn$credentials$access_token
+    ```
 
 6. Please note the above last step: we store the token as a string. Now you can save that token in a safe place and start using `fbRads`, eg:
 
-```r
-fbad_init(accountid = accountid, token = tkn, version = '2.5')
-```
+    ```r
+    fbad_init(accountid = accountid, token = tkn, version = '2.5')
+    ```
 
 7. And list all your ads along with the ad name and status or eg filter for the active ads:
 
-```r
-fbad_list_ad(fields = c('name', 'effective_status'))
-fbad_list_ad(statuses = 'ACTIVE', fields = 'name')
-```
+    ```r
+    fbad_list_ad(fields = c('name', 'effective_status'))
+    fbad_list_ad(statuses = 'ACTIVE', fields = 'name')
+    ```
 
 ---
 
