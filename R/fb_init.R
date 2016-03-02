@@ -11,7 +11,10 @@ fb_api_version <- function() {
     ## get the version of API currently used
     fbacc <- tryCatch(fbad_check_fbacc(),
                       ## or return the most recent version
-                      error = function(e) fb_api_version)
+                      error = function(e) list(api_version = fb_api_version))
+
+    ## return
+    fbacc$api_version
 
 }
 
