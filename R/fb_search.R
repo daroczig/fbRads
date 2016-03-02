@@ -1,5 +1,4 @@
 #' FB Search API Querying
-#' @references \url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.4#interests}
 #' @inheritParams fbad_request
 #' @param q string that is being searched for
 #' @param type describes the type of search eg: adinterest, adeducationmajor etc
@@ -9,12 +8,13 @@
 #' fbad_get_search(q = 'r programming language', type = 'adinterest')
 #' fbad_get_search(q = c('dog', 'cat'), type = 'adinterestvalid')
 #' }
+#' @references \url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.5}
 #' @export
 fbad_get_search <- function(
     fbacc, q,
     type = c(
         'adeducationschool', 'adeducationmajor',
-        'adgeolocation', 'adcountry', 'adregion', 'adcity', 'adzipcode', 'adgeolocationmeta', 'adradiussuggestion',
+        'adgeolocation', 'adcountry', 'adzipcode', 'adgeolocationmeta', 'adradiussuggestion',
         'adinterest', 'adinterestsuggestion', 'adinterestvalid',
         'adlocale', 'adTargetingCategory', 'adworkemployer'), ... ) {
 
@@ -32,8 +32,7 @@ fbad_get_search <- function(
     }
 
     ## Handle term input variation in API
-    if (type %in% c("adinterestvalid",
-                         "adinterestsuggestion")) {
+    if (type %in% c("adinterestvalid", "adinterestsuggestion")) {
 
         params <- c(params, list(interest_list = toJSON((q))))
 

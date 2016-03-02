@@ -17,9 +17,9 @@ fbad_create_ad(fbacc, name, campaign_id, creative_id,
 
 \item{creative_id}{creative ID}
 
-\item{adgroup_status}{initial status of the Ad group}
+\item{adgroup_status}{initial status of the Ad group (v2.4)}
 
-\item{status}{initial status of the Ad group}
+\item{status}{initial status of the Ad group (v2.5)}
 
 \item{...}{further parameters passed to the Facebook API}
 }
