@@ -3,8 +3,8 @@
 #' @param name Ad group name
 #' @param campaign_id Ad Set id
 #' @param creative_id creative ID
-#' @param adgroup_status initial status of the Ad group
-#' @param status initial status of the Ad group
+#' @param adgroup_status initial status of the Ad group (v2.4)
+#' @param status initial status of the Ad group (v2.5)
 #' @param ... further parameters passed to the Facebook API
 #' @return ad id
 #' @export
@@ -166,14 +166,22 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
     ## filter for status
     if (!missing(statuses)) {
 
-        params$adgroup_status <- toJSON(statuses)
+        if (fb_api_version() < '2.5') {
 
-        ## update filter name for Ad Sets and Campaigns
-        if (fn == 'fbad_list_adset') {
-            names(params)[3] <- 'campaign_status'
-        }
-        if (fn == 'fbad_list_campaign') {
-            names(params)[3] <- 'campaign_group_status'
+            params$adgroup_status <- toJSON(statuses)
+
+            ## update filter name for Ad Sets and Campaigns
+            if (fn == 'fbad_list_adset') {
+                names(params)[3] <- 'campaign_status'
+            }
+            if (fn == 'fbad_list_campaign') {
+                names(params)[3] <- 'campaign_group_status'
+            }
+
+        } else {
+
+            params$effective_status <- toJSON(statuses)
+
         }
 
     }
