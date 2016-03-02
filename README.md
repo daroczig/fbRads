@@ -9,7 +9,7 @@ Vignette and more detailed documentation is coming soon, until then please see t
 1. Create new application at https://developers.facebook.com/apps with "basic setup".
 2. Fill in a unique `Display Name` (eg "app_testing_foobar_42"), set the category to eg "Business". Click on "Create App ID" & pass the captcha test.
 3. In "Settings/Basic", click "Add Platform" add create "Website" platform with the URL of http://localhost:1410/ and "localhost" as the "App Domain". Click "Save Changes".
-4. In the "Settings/Advanced" tab I added http://localhost:1410/ as the "Valid OAuth redirect URIs". Click "Save Changes".
+4. In the "Settings/Advanced" tab, add http://localhost:1410/ as the "Valid OAuth redirect URIs". Click "Save Changes".
 5. Note your "App ID" and "App Secret" on your dashboard, and use those in the below R script to get a token for future authentication:
 
     ```r
