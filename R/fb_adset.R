@@ -5,12 +5,14 @@
 #' @param billing_event the billing event
 #' @param bid_amount integer
 #' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}
-#' @param campaign_group_id parent Ad Campaign id
-#' @param campaign_status Ad Set status
-#' @param daily_budget in account currency
-#' @param lifetime_budget in account currency
-#' @param end_time datetime
-#' @param start_time datetime
+#' @param campaign_group_id parent Ad Campaign id (v2.4)
+#' @param campaign_id parent Ad Campaign id (v2.5)
+#' @param campaign_status Ad Set status (v2.4)
+#' @param status Ad Set status (v2.5)
+#' @param daily_budget using account currency
+#' @param lifetime_budget using account currency
+#' @param end_time UTC UNIX timestamp
+#' @param start_time UTC UNIX timestamp
 #' @param targeting list
 #' @param ... further arguments passed to the API endpoint
 #' @return Ad Set id
@@ -18,17 +20,20 @@
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Creating}
 fbad_create_adset <- function(fbacc,
                               name,
-                              ## from v2.4
                               optimization_goal = c('NONE', 'APP_INSTALLS', 'CLICKS', 'ENGAGED_USERS', 'EXTERNAL', 'EVENT_RESPONSES', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'OFFSITE_CONVERSIONS', 'PAGE_ENGAGEMENT', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'REACH', 'SOCIAL_IMPRESSIONS', 'VIDEO_VIEWS'),
                               billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'),
                               bid_amount,
-                              ## end of special params
                               promoted_object,
-                              campaign_group_id,
-                              campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
+                              campaign_id,
+                              status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
                               daily_budget, lifetime_budget,
                               end_time, start_time,
-                              targeting, ...) {
+                              targeting,
+                              ## v2.4 arguments
+                              campaign_group_id,
+                              campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
+                              ## other
+                              ...) {
 
     fbacc <- fbad_check_fbacc()
 
@@ -37,6 +42,7 @@ fbad_create_adset <- function(fbacc,
 
     ## update args for the first or selected value
     campaign_status <- match.arg(campaign_status)
+    status <- match.arg(status)
 
     ## match call for future reference
     mc <- match.call()
@@ -60,13 +66,23 @@ fbad_create_adset <- function(fbacc,
     params <- list(
         name              = name,
         campaign_status   = campaign_status,
-        campaign_group_id = campaign_group_id)
+        campaign_group_id = campaign_group_id,
+        optimization_goal = optimization_goal,
+        billing_event     = billing_event,
+        bid_amount        = bid_amount)
 
     ## version specific params
-    params <- c(params, list(
-                            optimization_goal = optimization_goal,
-                            billing_event     = billing_event,
-                            bid_amount        = bid_amount))
+    if (fb_api_version() < '2.5') {
+
+        params$campaign_group_id <- campaign_group_id
+        params$campaign_status <- campaign_status
+
+    } else {
+
+        params$campaign_id <- campaign_group_id
+        params$configured_status <- status
+
+    }
 
     ## end_time for lifetime budget
     if (!missing(lifetime_budget) && missing(end_time)) {
@@ -107,7 +123,9 @@ fbad_create_adset <- function(fbacc,
 
     ## get results
     res <- fbad_request(fbacc,
-        path   = paste0('act_', fbacc$account_id, '/adcampaigns'),
+                        path   = paste0('act_', fbacc$account_id,
+                                        ifelse(fb_api_version() < '2.5',
+                                               '/adcampaigns', '/adsets')),
         method = "POST",
         params = params)
 

@@ -9,42 +9,42 @@ fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
   "LINK_CLICKS", "OFFER_CLAIMS", "OFFSITE_CONVERSIONS", "PAGE_ENGAGEMENT",
   "PAGE_LIKES", "POST_ENGAGEMENT", "REACH", "SOCIAL_IMPRESSIONS",
   "VIDEO_VIEWS"), billing_event = c("APP_INSTALLS", "CLICKS", "IMPRESSIONS",
-  "LINK_CLICKS", "NONE", "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT"),
-  bid_amount, bid_type = c("CPC", "CPM", "ABSOLUTE_OCPM", "CPA"), bid_info,
-  promoted_object, campaign_group_id, campaign_status = c("ACTIVE", "PAUSED",
-  "ARCHIVED", "DELETED"), daily_budget, lifetime_budget, end_time, start_time,
-  targeting, ...)
+  "LINK_CLICKS", "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT",
+  "VIDEO_VIEWS"), bid_amount, promoted_object, campaign_id,
+  status = c("ACTIVE", "PAUSED", "ARCHIVED", "DELETED"), daily_budget,
+  lifetime_budget, end_time, start_time, targeting, campaign_group_id,
+  campaign_status = c("ACTIVE", "PAUSED", "ARCHIVED", "DELETED"), ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{name}{name of the Ad Set}
 
-\item{optimization_goal}{v2.4 only parameter}
+\item{optimization_goal}{optimization goal}
 
-\item{billing_event}{v2.4 only parameter}
+\item{billing_event}{the billing event}
 
-\item{bid_amount}{v2.4 only parameter}
-
-\item{bid_type}{v2.3 only parameter}
-
-\item{bid_info}{v2.3 only parameter}
+\item{bid_amount}{integer}
 
 \item{promoted_object}{see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}}
 
-\item{campaign_group_id}{parent Ad Campaign id}
+\item{campaign_id}{parent Ad Campaign id (v2.5)}
 
-\item{campaign_status}{Ad Set status}
+\item{status}{Ad Set status (v2.5)}
 
-\item{daily_budget}{in account currency}
+\item{daily_budget}{using account currency}
 
-\item{lifetime_budget}{in account currency}
+\item{lifetime_budget}{using account currency}
 
-\item{end_time}{datetime}
+\item{end_time}{UTC UNIX timestamp}
 
-\item{start_time}{datetime}
+\item{start_time}{UTC UNIX timestamp}
 
 \item{targeting}{list}
+
+\item{campaign_group_id}{parent Ad Campaign id (v2.4)}
+
+\item{campaign_status}{Ad Set status (v2.4)}
 
 \item{...}{further arguments passed to the API endpoint}
 }
@@ -55,6 +55,6 @@ Ad Set id
 Create Ad Set
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
+\url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Creating}
 }
 
