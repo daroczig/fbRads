@@ -53,7 +53,10 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## we need a campaign_group_id
-    if (missing(campaign_group_id)) {
+    if (fb_api_version() < '2.5' && missing(campaign_group_id)) {
+        stop('A campaign ad ID is required.')
+    }
+    if (fb_api_version() >= '2.5' && missing(campaign_id)) {
         stop('A campaign ad ID is required.')
     }
 
@@ -79,7 +82,7 @@ fbad_create_adset <- function(fbacc,
 
     } else {
 
-        params$campaign_id <- campaign_group_id
+        params$campaign_id <- campaign_id
         params$configured_status <- status
 
     }
@@ -108,7 +111,9 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## promoted object based on parent campaign
-    campaign <- fbad_read_campaign(fbacc, campaign_group_id)
+    campaign <- fbad_read_campaign(fbacc, ifelse(fb_api_version() < '2.5',
+                                                 campaign_group_id,
+                                                 campaign_id))
     if (campaign$objective %in% c('WEBSITE_CONVERSIONS', 'PAGE_LIKES', 'OFFER_CLAIMS', 'MOBILE_APP_INSTALLS', 'CANVAS_APP_INSTALLS', 'MOBILE_APP_ENGAGEMENT', 'CANVAS_APP_ENGAGEMENT') && missing(promoted_object)) {
         stop(paste('A promoted object is needed when having the objective of', campaign$objective, 'in the parent ad campaign.'))
     }
