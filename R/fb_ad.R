@@ -165,7 +165,7 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
     fbacc <- fbad_check_fbacc()
 
     ## lookup caller fn name
-    fn <- deparse(match.call()[[1]])
+    fn <- this_function_name()
 
     ## merge fields
     fields <- paste(fields, collapse = ',')
