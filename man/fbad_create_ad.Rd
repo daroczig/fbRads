@@ -4,7 +4,7 @@
 \alias{fbad_create_ad}
 \title{Create ad}
 \usage{
-fbad_create_ad(fbacc, name, campaign_id, creative_id,
+fbad_create_ad(fbacc, name, campaign_id, adset_id, creative_id,
   adgroup_status = c("ACTIVE", "PAUSED"), status = c("ACTIVE", "PAUSED"),
   ...)
 }
