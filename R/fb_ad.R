@@ -49,6 +49,7 @@ fbad_create_ad <- function(fbacc,
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read}
+#' @importFrom data.table rbindlist setDF
 fbad_read_ad <- function(fbacc, id, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
@@ -83,14 +84,13 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
                                     fields = fields),
                                 method = "GET")
 
-            ## transform to data.frame
-            do.call(rbind, lapply(fromJSON(res),
-                                  as.data.frame, stringsAsFactors = FALSE))
+            rbindlist(lapply(fromJSON(res),
+                             as.data.frame, stringsAsFactors = FALSE), fill = TRUE)
 
         })
 
     ## return
-    do.call(rbind, res)
+    setDF(rbindlist(res, fill = TRUE))
 
 }
 
