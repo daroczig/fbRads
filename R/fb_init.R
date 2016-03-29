@@ -327,6 +327,9 @@ fbad_init <- function(accountid, token, version = fb_api_most_recent_version()) 
         warning('FB Graph API v2.3 and previous versions are deprecated now.')
     }
 
+    flog.trace(paste0('Initializing connection to account ', accountid,
+                      ' via API v', version))
+
     ## API endpoint
     url <- paste(
         'https://graph.facebook.com',
