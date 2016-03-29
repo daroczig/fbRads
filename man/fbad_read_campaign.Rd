@@ -17,6 +17,6 @@ fbad_read_campaign(fbacc, id, fields = "id")
 Read Ad Campaign details
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4$read}
+\url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Reading}
 }
 

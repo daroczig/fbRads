@@ -4,16 +4,16 @@
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.
 #' @param retries number of times this query has been sent to Facebook previously and failed -- to be used internally for error handling
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
-#' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.4}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.5}
 #' @return list
 #' @export
 #' @examples \dontrun{
 #' fb_insights(fbacc)
 #'
 #' ## process results
-#' l <- fb_insights(fbacc, date_preset = 'today', level = 'adgroup')
+#' l <- fb_insights(fbacc, date_preset = 'today', level = 'ad')
 #' library(rlist)
-#' list.stack(list.select(l, date_start, date_stop, adgroup_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
+#' list.stack(list.select(l, date_start, date_stop, ad_id, total_actions, total_unique_actions, total_action_value, impressions, unique_impressions, social_impressions, unique_social_impressions, clicks, unique_clicks, social_clicks, unique_social_clicks, spend, frequency, deeplink_clicks, app_store_clicks, website_clicks, reach, social_reach, ctr, unique_ctr, cpc, cpm, cpp, cost_per_total_action, cost_per_unique_click, relevance_score = relevance_score$score))
 #' }
 fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), retries = 0, ...) {
 

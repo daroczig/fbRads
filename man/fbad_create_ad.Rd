@@ -4,8 +4,9 @@
 \alias{fbad_create_ad}
 \title{Create ad}
 \usage{
-fbad_create_ad(fbacc, name, campaign_id, creative_id,
-  adgroup_status = c("ACTIVE", "PAUSED"), ...)
+fbad_create_ad(fbacc, name, campaign_id, adset_id, creative_id,
+  adgroup_status = c("ACTIVE", "PAUSED"), status = c("ACTIVE", "PAUSED"),
+  ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -16,7 +17,9 @@ fbad_create_ad(fbacc, name, campaign_id, creative_id,
 
 \item{creative_id}{creative ID}
 
-\item{adgroup_status}{initial status of the Ad group}
+\item{adgroup_status}{initial status of the Ad group (v2.4)}
+
+\item{status}{initial status of the Ad group (v2.5)}
 
 \item{...}{further parameters passed to the Facebook API}
 }
@@ -27,6 +30,6 @@ ad id
 Create ad
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#create}
+\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Creating}
 }
 

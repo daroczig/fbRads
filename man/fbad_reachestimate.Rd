@@ -4,14 +4,20 @@
 \alias{fbad_reachestimate}
 \title{Query for reach estimate for given targeting spec}
 \usage{
-fbad_reachestimate(fbacc, targeting_spec, currency = "USD")
+fbad_reachestimate(fbacc, targeting_spec, currency = "USD",
+  optimize_for = c("NONE", "APP_INSTALLS", "CLICKS", "ENGAGED_USERS",
+  "EXTERNAL", "EVENT_RESPONSES", "IMPRESSIONS", "LINK_CLICKS", "OFFER_CLAIMS",
+  "OFFSITE_CONVERSIONS", "PAGE_ENGAGEMENT", "PAGE_LIKES", "POST_ENGAGEMENT",
+  "REACH", "SOCIAL_IMPRESSIONS", "VIDEO_VIEWS"))
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{targeting_spec}{lists of targeting spec characteristics}
+\item{targeting_spec}{lists of targeting spec characteristics as described at \url{https://developers.facebook.com/docs/marketing-api/targeting-specs/v2.5}}
 
 \item{currency}{string}
+
+\item{optimize_for}{what are you optimizing for in the planned Ad Set?}
 }
 \value{
 list
@@ -25,9 +31,10 @@ targetspec <- list(
   age_min = unbox(24),
   age_max = unbox(55),
   geo_locations = list(countries = 'US'))
+fbad_reachestimate(targeting_spec = targetspec)
 }
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/reachestimate/v2.4}
+\url{https://developers.facebook.com/docs/marketing-api/reference/ad-account/reachestimate/}
 }
 

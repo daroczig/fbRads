@@ -22,7 +22,15 @@ Read ad details
 \note{
 Will do a batched request to the Facebook API if multiple ids are provided.
 }
+\examples{
+\dontrun{
+## get and Ad ID from yesterday
+adid <- fb_insights(date_preset = 'yesterday', level = 'ad')[[1]]$ad_id[1]
+## look for current status of the Ad
+fbad_read_ad(id = adid, fields = c('effective_status'))
+}
+}
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read}
+\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Reading}
 }
 

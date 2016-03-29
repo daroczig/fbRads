@@ -6,18 +6,17 @@
 \usage{
 fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
   "RESERVED"), campaign_group_status = c("ACTIVE", "PAUSED"),
-  execution_options = NULL, name, objective = c("NONE",
-  "CANVAS_APP_ENGAGEMENT", "CANVAS_APP_INSTALLS", "EVENT_RESPONSES",
-  "LOCAL_AWARENESS", "MOBILE_APP_ENGAGEMENT", "MOBILE_APP_INSTALLS",
-  "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT", "VIDEO_VIEWS",
-  "WEBSITE_CLICKS", "WEBSITE_CONVERSIONS"), spend_cap = NULL)
+  campaign_status = c("ACTIVE", "PAUSED"), execution_options = NULL, name,
+  objective, spend_cap = NULL)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{buying_type}{Facebook optimization algorithm to delivery, pricing, and limits}
 
-\item{campaign_group_status}{initial status of the Ad Campaign}
+\item{campaign_group_status}{initial status of the Ad Campaign (v2.4)}
+
+\item{campaign_status}{initial status of the Ad Campaign (v2.5)}
 
 \item{execution_options}{special execution settings passed to the API}
 
@@ -34,6 +33,6 @@ Ad Campaign id
 Created Ad Campaign
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adcampaign/v2.4#create}
+\url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Creating}
 }
 

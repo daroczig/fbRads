@@ -3,26 +3,47 @@
 #' @param name Ad group name
 #' @param campaign_id Ad Set id
 #' @param creative_id creative ID
-#' @param adgroup_status initial status of the Ad group
+#' @param adgroup_status initial status of the Ad group (v2.4)
+#' @param status initial status of the Ad group (v2.5)
 #' @param ... further parameters passed to the Facebook API
 #' @return ad id
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Creating}
 fbad_create_ad <- function(fbacc,
-                           name, campaign_id, creative_id,
-                           adgroup_status = c('ACTIVE', 'PAUSED'), ...) {
+                           name,
+                           ## v2.4
+                           campaign_id,
+                           ## v2.5
+                           adset_id,
+                           creative_id,
+                           adgroup_status = c('ACTIVE', 'PAUSED'),
+                           status = c('ACTIVE', 'PAUSED'),...) {
 
     fbacc <- fbad_check_fbacc()
-    stopifnot(!missing(name), !missing(campaign_id), !missing(creative_id))
+    stopifnot(!missing(name),
+              !missing(campaign_id) | !missing(adset_id),
+              !missing(creative_id))
 
-    adgroup_status <- match.arg(adgroup_status)
+    ## initial status of the ad to be created
+    status <- match.arg(status)
+    if (!missing(adgroup_status)) {
+        warning('"adgroup_status" argument is deprecated, use "status" instead from v2.5')
+        status <- match.arg(adgroup_status)
+    }
 
     ## build params list
     params <- list(
         name           = name,
-        campaign_id    = campaign_id,
-        creative       = toJSON(list(creative_id = unbox(creative_id))),
-        adgroup_status = adgroup_status)
+        creative       = toJSON(list(creative_id = unbox(creative_id))))
+
+    ## different campaign names in v2.4 VS v2.5
+    if (fb_api_version() < '2.5') {
+        params$campaign_id    <-  campaign_id
+        params$adgroup_status <- status
+    } else {
+        params$adset_id <- adset_id
+        params$status   <- status
+    }
 
     ## add further params if provided
     if (length(list(...)) > 0) {
@@ -31,7 +52,8 @@ fbad_create_ad <- function(fbacc,
 
     ## get results
     res <- fbad_request(fbacc,
-        path   = paste0('act_', fbacc$account_id, '/adgroups'),
+        path   = paste0('act_', fbacc$account_id,
+                        ifelse(fb_api_version() < '2.5', '/adgroups', '/ads')),
         method = "POST",
         params = params)
 
@@ -48,7 +70,13 @@ fbad_create_ad <- function(fbacc,
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Reading}
+#' @examples \dontrun{
+#' ## get and Ad ID from yesterday
+#' adid <- fb_insights(date_preset = 'yesterday', level = 'ad')[[1]]$ad_id[1]
+#' ## look for current status of the Ad
+#' fbad_read_ad(id = adid, fields = c('effective_status'))
+#' }
 #' @importFrom data.table rbindlist setDF
 fbad_read_ad <- function(fbacc, id, fields = 'id') {
 
@@ -101,7 +129,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
 #' @param ... parameters passed to Facebook API
 #' @return invisible TRUE
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#update}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Updating}
 fbad_update_ad <- function(fbacc, id, ...) {
 
     fbacc <- fbad_check_fbacc()
@@ -131,13 +159,13 @@ fbad_update_ad <- function(fbacc, id, ...) {
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adgroup/v2.4#read-adaccount}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#read-adaccount}
 fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
 
     ## lookup caller fn name
-    fn <- deparse(match.call()[[1]])
+    fn <- this_function_name()
 
     ## merge fields
     fields <- paste(fields, collapse = ',')
@@ -148,14 +176,22 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
     ## filter for status
     if (!missing(statuses)) {
 
-        params$adgroup_status <- toJSON(statuses)
+        if (fb_api_version() < '2.5') {
 
-        ## update filter name for Ad Sets and Campaigns
-        if (fn == 'fbad_list_adset') {
-            names(params)[3] <- 'campaign_status'
-        }
-        if (fn == 'fbad_list_campaign') {
-            names(params)[3] <- 'campaign_group_status'
+            params$adgroup_status <- toJSON(statuses)
+
+            ## update filter name for Ad Sets and Campaigns
+            if (fn == 'fbad_list_adset') {
+                names(params)[3] <- 'campaign_status'
+            }
+            if (fn == 'fbad_list_campaign') {
+                names(params)[3] <- 'campaign_group_status'
+            }
+
+        } else {
+
+            params$effective_status <- toJSON(statuses)
+
         }
 
     }
@@ -167,9 +203,12 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
 
     ## API endpoint
     endpoint <- switch(fn,
-                   'fbad_list_ad'       = 'adgroups',
-                   'fbad_list_adset'    = 'adcampaigns',
-                   'fbad_list_campaign' = 'adcampaign_groups')
+                       'fbad_list_ad'       = ifelse(fb_api_version() < '2.5',
+                                                     'adgroups', 'ads'),
+                       'fbad_list_adset'    = ifelse(fb_api_version() < '2.5',
+                                                     'adcampaigns', 'adsets'),
+                       'fbad_list_campaign' = ifelse(fb_api_version() < '2.5',
+                                                     'adcampaign_groups', 'campaigns'))
 
     ## paged query for one id
     if (length(id) == 1) {

@@ -1,93 +1,47 @@
 #' Create Ad Set
 #' @inheritParams fbad_request
 #' @param name name of the Ad Set
-#' @param optimization_goal v2.4 only parameter
-#' @param billing_event v2.4 only parameter
-#' @param bid_amount v2.4 only parameter
-#' @param bid_type v2.3 only parameter
-#' @param bid_info v2.3 only parameter
+#' @param optimization_goal optimization goal
+#' @param billing_event the billing event
+#' @param bid_amount integer
 #' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}
-#' @param campaign_group_id parent Ad Campaign id
-#' @param campaign_status Ad Set status
-#' @param daily_budget in account currency
-#' @param lifetime_budget in account currency
-#' @param end_time datetime
-#' @param start_time datetime
+#' @param campaign_group_id parent Ad Campaign id (v2.4)
+#' @param campaign_id parent Ad Campaign id (v2.5)
+#' @param campaign_status Ad Set status (v2.4)
+#' @param status Ad Set status (v2.5)
+#' @param daily_budget using account currency
+#' @param lifetime_budget using account currency
+#' @param end_time UTC UNIX timestamp
+#' @param start_time UTC UNIX timestamp
 #' @param targeting list
 #' @param ... further arguments passed to the API endpoint
 #' @return Ad Set id
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adset/v2.4#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Creating}
 fbad_create_adset <- function(fbacc,
                               name,
-                              ## from v2.4
                               optimization_goal = c('NONE', 'APP_INSTALLS', 'CLICKS', 'ENGAGED_USERS', 'EXTERNAL', 'EVENT_RESPONSES', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'OFFSITE_CONVERSIONS', 'PAGE_ENGAGEMENT', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'REACH', 'SOCIAL_IMPRESSIONS', 'VIDEO_VIEWS'),
-                              billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'NONE', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT'),
+                              billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'),
                               bid_amount,
-                              ## up to v2.3
-                              bid_type = c('CPC', 'CPM', 'ABSOLUTE_OCPM', 'CPA'),
-                              bid_info,
-                              ## end of special params
                               promoted_object,
-                              campaign_group_id,
-                              campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
+                              campaign_id,
+                              status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
                               daily_budget, lifetime_budget,
                               end_time, start_time,
-                              targeting, ...) {
+                              targeting,
+                              ## v2.4 arguments
+                              campaign_group_id,
+                              campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
+                              ## other
+                              ...) {
 
     fbacc <- fbad_check_fbacc()
 
-    if (fbacc$api_version < '2.4') {
-
-        bid_type <- match.arg(bid_type)
-
-        ## we need bid info as a list
-        if (missing(bid_info) || !is.list(bid_info)) {
-            stop('Invalid bid_info provided. Please set a bid related to the bid_type.')
-        }
-
-        ## more detailed bid info checks
-        if (bid_type == 'CPC' &&
-            (names(bid_info) != 'CLICKS' ||
-                 !is.numeric(bid_info$CLICKS) ||
-                 bid_info$CLICKS < 1)) {
-            stop('For CPC, you have to specify min. 1 cent for CLICKS.')
-        }
-
-        if (bid_type == 'CPM' &&
-            (names(bid_info) != 'IMPRESSIONS' ||
-                 !is.numeric(bid_info$IMPRESSIONS) ||
-                 bid_info$IMPRESSIONS < 1)) {
-            stop('For CPM, you have to specify min. 1 cent for IMPRESSIONS.')
-        }
-
-        if (bid_type == 'CPA' &&
-            (names(bid_info) != 'ACTIONS' ||
-                 !is.numeric(bid_info$IMPRESSIONS) ||
-                 bid_info$IMPRESSIONS < 1)) {
-            stop('For CPA, you have to specify min. 1 cent for ACTIONS')
-        }
-
-        if (bid_type == 'ABSOLUTE_OCPM' &&
-            (length(names(bid_info)) != 4 ||
-                 !all(names(bid_info) %in% c('ACTIONS', 'REACH', 'CLICKS', 'SOCIAL')) ||
-                 sum(sapply(bid_info, is.numeric)) != 4 ||
-                 bid_info$ACTIONS < 1 ||
-                 bid_info$REACH   < 2 ||
-                 bid_info$CLICKS  < 1 ||
-                 bid_info$SOCIAL  < 1)) {
-            stop('For ABSOLUTE_OCPM, you have to specify min. 1 cent for ACTIONS, CLICKS, SOCIAL and min. 2 cents for REACH.')
-        }
-
-    } else {
-
-        optimization_goal <- match.arg(optimization_goal)
-        billing_event     <- match.arg(billing_event)
-
-    }
+    optimization_goal <- match.arg(optimization_goal)
+    billing_event     <- match.arg(billing_event)
 
     ## update args for the first or selected value
-    campaign_status <- match.arg(campaign_status)
+    status <- match.arg(status)
 
     ## match call for future reference
     mc <- match.call()
@@ -98,7 +52,10 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## we need a campaign_group_id
-    if (missing(campaign_group_id)) {
+    if (fb_api_version() < '2.5' && missing(campaign_group_id)) {
+        stop('A campaign ad ID is required.')
+    }
+    if (fb_api_version() >= '2.5' && missing(campaign_id)) {
         stop('A campaign ad ID is required.')
     }
 
@@ -110,19 +67,21 @@ fbad_create_adset <- function(fbacc,
     ## build base params list
     params <- list(
         name              = name,
-        campaign_status   = campaign_status,
-        campaign_group_id = campaign_group_id)
+        optimization_goal = optimization_goal,
+        billing_event     = billing_event,
+        bid_amount        = bid_amount)
 
     ## version specific params
-    if (fbacc$api_version < '2.4') {
-        params <- c(params, list(
-            bid_type = bid_type,
-            bid_info = toJSON(bid_info, auto_unbox = TRUE)))
+    if (fb_api_version() < '2.5') {
+
+        params$campaign_group_id <- campaign_group_id
+        params$campaign_status <- match.arg(campaign_status)
+
     } else {
-        params <- c(params, list(
-            optimization_goal = optimization_goal,
-            billing_event     = billing_event,
-            bid_amount        = bid_amount))
+
+        params$campaign_id <- campaign_id
+        params$configured_status <- match.arg(status)
+
     }
 
     ## end_time for lifetime budget
@@ -149,7 +108,10 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## promoted object based on parent campaign
-    campaign <- fbad_read_campaign(fbacc, campaign_group_id)
+    campaign <- fbad_read_campaign(fbacc, ifelse(fb_api_version() < '2.5',
+                                                 campaign_group_id,
+                                                 campaign_id),
+                                   fields = 'objective')
     if (campaign$objective %in% c('WEBSITE_CONVERSIONS', 'PAGE_LIKES', 'OFFER_CLAIMS', 'MOBILE_APP_INSTALLS', 'CANVAS_APP_INSTALLS', 'MOBILE_APP_ENGAGEMENT', 'CANVAS_APP_ENGAGEMENT') && missing(promoted_object)) {
         stop(paste('A promoted object is needed when having the objective of', campaign$objective, 'in the parent ad campaign.'))
     }
@@ -164,7 +126,9 @@ fbad_create_adset <- function(fbacc,
 
     ## get results
     res <- fbad_request(fbacc,
-        path   = paste0('act_', fbacc$account_id, '/adcampaigns'),
+                        path   = paste0('act_', fbacc$account_id,
+                                        ifelse(fb_api_version() < '2.5',
+                                               '/adcampaigns', '/adsets')),
         method = "POST",
         params = params)
 

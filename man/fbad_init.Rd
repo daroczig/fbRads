@@ -4,7 +4,7 @@
 \alias{fbad_init}
 \title{Initiate Facebook Account with OAuth token}
 \usage{
-fbad_init(accountid, token, version = fb_api_version())
+fbad_init(accountid, token, version = fb_api_most_recent_version())
 }
 \arguments{
 \item{accountid}{Facebook Ad account id without the \code{act_} prefix}

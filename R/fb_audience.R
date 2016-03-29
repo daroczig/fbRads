@@ -126,7 +126,7 @@ fbad_add_audience <- function(fbacc, audience_id,
                               hashes) {
 
     ## match called function name for future reference
-    fn <- deparse(match.call()[[1]])
+    fn <- this_function_name()
 
     ## check params and log
     fbacc <- fbad_check_fbacc()

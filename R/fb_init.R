@@ -1,7 +1,22 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_version <- function() '2.4'
+fb_api_most_recent_version <- function() '2.5'
+
+#' Returns the currently used version of the Facebook Marketing API
+#' @return string
+#' @export
+fb_api_version <- function() {
+
+    ## get the version of API currently used
+    fbacc <- tryCatch(fbad_check_fbacc(),
+                      ## or return the most recent version
+                      error = function(e) list(api_version = fb_api_version))
+
+    ## return
+    fbacc$api_version
+
+}
 
 
 ## initialize internal placeholder for FB Ad Account
@@ -49,7 +64,7 @@ fbad_check_curl_params <- function(params) {
 #' @param retries number of times the current query was tried previously -- used to handle network errors
 #' @return json object containing results
 #' @keywords internal
-fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_version(), retries = 0) {
+fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_most_recent_version(), retries = 0) {
 
     mc     <- match.call()
     method <- match.arg(method)
@@ -270,11 +285,6 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
           'spend_cap', 'timezone_id', 'users'),
         collapse = ',')
 
-    ## daily_spend_limit field was supported up to v2.3
-    if (version < '2.4') {
-        scope <- paste(scope, 'daily_spend_limit', sep = ',')
-    }
-
     ## Get account details
     account_details <-
         fbad_request(
@@ -308,10 +318,13 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #'
 #' ## Then pass this token with your account ID to fbad_init
 #' }
-fbad_init <- function(accountid, token, version = fb_api_version()) {
+fbad_init <- function(accountid, token, version = fb_api_most_recent_version()) {
 
+    if (version < '2.5') {
+        warning('FB Graph API v2.4 to be deprecated in a few days! Change to v2.5 ASAP.')
+    }
     if (version < '2.4') {
-        warning('FB Graph API v2.3 to be deprecated in a few days! Change to v2.4 ASAP.')
+        warning('FB Graph API v2.3 and previous versions are deprecated now.')
     }
 
     ## API endpoint

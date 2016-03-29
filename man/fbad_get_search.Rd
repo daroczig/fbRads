@@ -5,10 +5,9 @@
 \title{FB Search API Querying}
 \usage{
 fbad_get_search(fbacc, q, type = c("adeducationschool", "adeducationmajor",
-  "adgeolocation", "adcountry", "adregion", "adcity", "adzipcode",
-  "adgeolocationmeta", "adradiussuggestion", "adinterest",
-  "adinterestsuggestion", "adinterestvalid", "adlocale", "adTargetingCategory",
-  "adworkemployer"), ...)
+  "adgeolocation", "adcountry", "adzipcode", "adgeolocationmeta",
+  "adradiussuggestion", "adinterest", "adinterestsuggestion", "adinterestvalid",
+  "adlocale", "adTargetingCategory", "adworkemployer"), ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -27,11 +26,11 @@ FB Search API Querying
 }
 \examples{
 \dontrun{
-fbacc <- fbad_init(...)
-fbad_get_search(type = c('dog', 'cat'), type = 'adinterestvalid')
+fbad_get_search(q = 'r programming language', type = 'adinterest')
+fbad_get_search(q = c('dog', 'cat'), type = 'adinterestvalid')
 }
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.4#interests}
+\url{https://developers.facebook.com/docs/marketing-api/targeting-search/v2.5}
 }
 
