@@ -77,6 +77,7 @@ fbad_create_ad <- function(fbacc,
 #' ## look for current status of the Ad
 #' fbad_read_ad(id = adid, fields = c('effective_status'))
 #' }
+#' @importFrom data.table rbindlist setDF
 fbad_read_ad <- function(fbacc, id, fields = 'id') {
 
     fbacc <- fbad_check_fbacc()
@@ -111,14 +112,13 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
                                     fields = fields),
                                 method = "GET")
 
-            ## transform to data.frame
-            do.call(rbind, lapply(fromJSON(res),
-                                  as.data.frame, stringsAsFactors = FALSE))
+            rbindlist(lapply(fromJSON(res),
+                             as.data.frame, stringsAsFactors = FALSE), fill = TRUE)
 
         })
 
     ## return
-    do.call(rbind, res)
+    setDF(rbindlist(res, fill = TRUE))
 
 }
 
