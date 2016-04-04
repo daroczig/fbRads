@@ -6,6 +6,8 @@ Vignette and more detailed documentation is coming soon, until then please see t
 
 ## Creating a Facebook App & connect with OAuth token
 
+To be able to use this package, you will have to create a Facebook App and authorize it to mange your Facebook ads. Basic steps to create an app with Development access level letting you manage up to 5 Facebook ad accounts:
+
 1. Create new application at https://developers.facebook.com/apps with "basic setup".
 2. Fill in a unique `Display Name` (eg "app_testing_foobar_42"), set the category to eg "Business". Click on "Create App ID" & pass the captcha test.
 3. In "Settings/Basic", click "Add Platform" add create "Website" platform with the URL of http://localhost:1410/ and "localhost" as the "App Domain". Click "Save Changes".
@@ -34,6 +36,10 @@ Vignette and more detailed documentation is coming soon, until then please see t
     fbad_list_ad(fields = c('name', 'effective_status'))
     fbad_list_ad(statuses = 'ACTIVE', fields = 'name')
     ```
+
+## Using the package
+
+This package makes your life more convenient when it comes to interacting with the Facebook Marketing API, but unfortunately, it cannot save you the time to get familiar with the actual API. To be able to interact with Facebook, you have to learn about how the API works etc -- see the documentation at <https://developers.facebook.com/docs/marketing-apis>
 
 ---
 
