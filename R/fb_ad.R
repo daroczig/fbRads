@@ -1,7 +1,8 @@
 #' Create ad
 #' @inheritParams fbad_request
 #' @param name Ad group name
-#' @param campaign_id Ad Set id
+#' @param campaign_id Ad Set id (v2.4)
+#' @param adset_id Ad Set id (v2.5)
 #' @param creative_id creative ID
 #' @param adgroup_status initial status of the Ad group (v2.4)
 #' @param status initial status of the Ad group (v2.5)

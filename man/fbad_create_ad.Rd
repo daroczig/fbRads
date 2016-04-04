@@ -13,7 +13,9 @@ fbad_create_ad(fbacc, name, campaign_id, adset_id, creative_id,
 
 \item{name}{Ad group name}
 
-\item{campaign_id}{Ad Set id}
+\item{campaign_id}{Ad Set id (v2.4)}
+
+\item{adset_id}{Ad Set id (v2.5)}
 
 \item{creative_id}{creative ID}
 
