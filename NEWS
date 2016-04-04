@@ -1,0 +1,33 @@
+fbRads 0.2 (2016-04-04)
+----------------------------------------------------------------
+
+Documentation cleanup and first CRAN release with support for
+Facebook Marketing API v2.4 and v2.5.
+
+fbRads 0.1 (2015-02-15)
+----------------------------------------------------------------
+
+Internal CARD.com R scripts were published publicicly as an
+open-source R package after Facebook made it's Marketing API
+generally available at the F8 2015 conference in March 2015.
+
+Supported API versions in the development verison of the
+package hosted on GitHub at https://github.com/cardcorp/fbRads:
+
+ * initial support with v2.2 to search keywords (2015-02-15)
+ * add people to custom audiences (2015-04-29)
+ * create and share custom and lookalike audiences (2015-05-08)
+ * get reach estimates (2015-06-05)
+ * update to v2.3 without any major impact on available functionality (2015-06-18)
+ * create and read images, creatives, ads, adsets and campaigns (2015-06-18)
+ * first steps with the Insights API access (2015-07-08)
+ * full support for the adreportstats API endpoint (2015-07-09)
+ * drop requiring the "fbacc" argument in fbRads functions (2015-07-21)
+ * update to v2.4 (2015-07-22)
+ * batch query to read ad attributes (2015-07-28)
+ * update ads, adsets and campaigns (2015-07-29)
+ * support for the adstatistics API endpoint (2015-08-11)
+ * batched listing of ads, adsets and campaigns (2015-08-12)
+ * improved support for the Insights API (2015-09-28, 2015-10-06, 2015-10-20)
+ * remove members from custom audience (2016-01-19)
+ * support for v2.5 (2016-01-19, 2016-03-01, 2016-03-02)
