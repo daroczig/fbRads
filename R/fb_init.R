@@ -64,6 +64,7 @@ fbad_check_curl_params <- function(params) {
 #' @param retries number of times the current query was tried previously -- used to handle network errors
 #' @return json object containing results
 #' @keywords internal
+#' @importFrom utils getFromNamespace URLencode capture.output str
 fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_most_recent_version(), retries = 0) {
 
     mc     <- match.call()
@@ -318,6 +319,7 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #'
 #' ## Then pass this token with your account ID to fbad_init
 #' }
+#' @importFrom utils assignInMyNamespace
 fbad_init <- function(accountid, token, version = fb_api_most_recent_version()) {
 
     if (version < '2.5') {

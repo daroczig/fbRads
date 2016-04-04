@@ -1,6 +1,7 @@
 #' Return the name of the parent function
 #' @return string
 #' @keywords internal
+#' @importFrom utils tail
 this_function_name <- function() {
     sc <- sys.call(-1)[[1]]
     ifelse(is.symbol(sc),
