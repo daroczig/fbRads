@@ -169,8 +169,18 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
     ## and percentage
     percentage <- res$async_percent_completion
 
+    ## record time of first query so that we can stop doing
+    ## any further lookups after 45 mins as per
+    ## https://developers.facebook.com/bugs/811986068934782/
+    job_started_at <- as.numeric(Sys.time())
+
     ## job still running
     while (res$async_status %in% c('Job Not Started', 'Job Started', 'Job Running')) {
+
+        ## stop with an error after 45 mins even if job is still running
+        if (as.numeric(Sys.time()) - job_started_at > 45*60) {
+            stop(sprintf('Async query took more than 45 mins for job ID %s', id))
+        }
 
         ## update polling interval
         dpercentage <- res$async_percent_completion - percentage
