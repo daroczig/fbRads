@@ -4,6 +4,7 @@
 #' @param optimization_goal optimization goal
 #' @param billing_event the billing event
 #' @param bid_amount integer
+#' @param is_autobid logical; if TRUE, then auto bid 
 #' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}
 #' @param campaign_group_id parent Ad Campaign id (v2.4)
 #' @param campaign_id parent Ad Campaign id (v2.5)
@@ -23,6 +24,7 @@ fbad_create_adset <- function(fbacc,
                               optimization_goal = c('NONE', 'APP_INSTALLS', 'CLICKS', 'ENGAGED_USERS', 'EXTERNAL', 'EVENT_RESPONSES', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'OFFSITE_CONVERSIONS', 'PAGE_ENGAGEMENT', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'REACH', 'SOCIAL_IMPRESSIONS', 'VIDEO_VIEWS'),
                               billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'),
                               bid_amount,
+                              is_autobid = FALSE,
                               promoted_object,
                               campaign_id,
                               status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
@@ -65,11 +67,20 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## build base params list
-    params <- list(
+    if (is_autobid) {
+      params <- list(
         name              = name,
         optimization_goal = optimization_goal,
         billing_event     = billing_event,
-        bid_amount        = bid_amount)
+        is_autobid        = is_autobid)
+    } else {
+      params <- list(
+        name              = name,
+        optimization_goal = optimization_goal,
+        billing_event     = billing_event,
+        bid_amount        = bid_amount)      
+    }
+
 
     ## version specific params
     if (fb_api_version() < '2.5') {
