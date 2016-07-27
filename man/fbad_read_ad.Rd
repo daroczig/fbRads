@@ -31,6 +31,6 @@ fbad_read_ad(id = adid, fields = c('effective_status'))
 }
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Reading}
+\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#Reading}
 }
 

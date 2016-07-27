@@ -3,7 +3,7 @@
 #' @param img file path
 #' @return list of file name, hash and URL
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adimage/v2.4#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-image#Creating}
 fbad_create_image <- function(fbacc, img) {
 
     fbacc <- fbad_check_fbacc()

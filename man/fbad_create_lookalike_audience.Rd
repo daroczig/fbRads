@@ -25,6 +25,6 @@ lookalike audience ID
 Create a new FB lookalike audience similar to an already existing custom audience
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/lookalike-audience-targeting/v2.4#create}
+\url{https://developers.facebook.com/docs/marketing-api/lookalike-audience-targeting#create}
 }
 

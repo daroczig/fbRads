@@ -22,6 +22,6 @@ custom audience ID
 Create a new FB custom audience
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/custom-audience-targeting/v2.4#create}
+\url{https://developers.facebook.com/docs/marketing-api/reference/custom-audience#Creating}
 }
 
