@@ -1,6 +1,6 @@
 #' Query for reach estimate for given targeting spec
 #' @inheritParams fbad_request
-#' @param targeting_spec lists of targeting spec characteristics as described at \url{https://developers.facebook.com/docs/marketing-api/targeting-specs/v2.5}
+#' @param targeting_spec lists of targeting spec characteristics as described at \url{https://developers.facebook.com/docs/marketing-api/targeting-specs}
 #' @param currency string
 #' @param optimize_for what are you optimizing for in the planned Ad Set?
 #' @return list
@@ -30,12 +30,8 @@ fbad_reachestimate <- function(fbacc, targeting_spec, currency = 'USD',
     ## default parameters
     params = list(
         currency       = currency,
-        targeting_spec = toJSON(targeting_spec))
-
-    ## optimize_for was introduced in v2.5
-    if (fb_api_version() >= '2.5') {
-        params$optimize_for <- match.arg(optimize_for)
-    }
+        targeting_spec = toJSON(targeting_spec),
+        optimize_for   = match.arg(optimize_for))
 
     ## get results
     res <- fbad_request(fbacc,
@@ -52,9 +48,7 @@ fbad_reachestimate <- function(fbacc, targeting_spec, currency = 'USD',
     }
 
     ## v2.5 returns a "data" list
-    if (fb_api_version() >= '2.5') {
-        res <- res$data
-    }
+    res <- res$data
 
     ## return
     c(res['users'], res$bid_estimations[-(1:2)])

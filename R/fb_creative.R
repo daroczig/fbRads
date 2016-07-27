@@ -19,7 +19,7 @@
 #' @return creative id
 #' @export
 #' @note There are no checks done before passing provided arguments to Facebook. You have to know what you are up to. Read the Facebook docs.
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adcreative/v2.4#create}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-creative#Creating}
 fbad_create_creative <- function(
     fbacc,
     title, body, name,
@@ -65,7 +65,7 @@ fbad_create_creative <- function(
 #' @param fields character vector of fields to get from the API
 #' @return list to be post-processed
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adcreative/v2.4#read}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-creative#Reading}
 #' @examples \dontrun{
 #' ## get all creatives for the current account
 #' fbad_read_creative(fbacc)

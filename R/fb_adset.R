@@ -4,11 +4,9 @@
 #' @param optimization_goal optimization goal
 #' @param billing_event the billing event
 #' @param bid_amount integer
-#' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object/v2.4}
-#' @param campaign_group_id parent Ad Campaign id (v2.4)
-#' @param campaign_id parent Ad Campaign id (v2.5)
-#' @param campaign_status Ad Set status (v2.4)
-#' @param status Ad Set status (v2.5)
+#' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object}
+#' @param campaign_id parent Ad Campaign id
+#' @param status Ad Set status
 #' @param daily_budget using account currency
 #' @param lifetime_budget using account currency
 #' @param end_time UTC UNIX timestamp
@@ -29,10 +27,6 @@ fbad_create_adset <- function(fbacc,
                               daily_budget, lifetime_budget,
                               end_time, start_time,
                               targeting,
-                              ## v2.4 arguments
-                              campaign_group_id,
-                              campaign_status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
-                              ## other
                               ...) {
 
     fbacc <- fbad_check_fbacc()
@@ -52,10 +46,7 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## we need a campaign_group_id
-    if (fb_api_version() < '2.5' && missing(campaign_group_id)) {
-        stop('A campaign ad ID is required.')
-    }
-    if (fb_api_version() >= '2.5' && missing(campaign_id)) {
+    if (missing(campaign_id)) {
         stop('A campaign ad ID is required.')
     }
 
@@ -69,20 +60,9 @@ fbad_create_adset <- function(fbacc,
         name              = name,
         optimization_goal = optimization_goal,
         billing_event     = billing_event,
-        bid_amount        = bid_amount)
-
-    ## version specific params
-    if (fb_api_version() < '2.5') {
-
-        params$campaign_group_id <- campaign_group_id
-        params$campaign_status <- match.arg(campaign_status)
-
-    } else {
-
-        params$campaign_id <- campaign_id
-        params$configured_status <- match.arg(status)
-
-    }
+        bid_amount        = bid_amount,
+        campaign_id       = campaign_id,
+        configured_status = match.arg(status))
 
     ## end_time for lifetime budget
     if (!missing(lifetime_budget) && missing(end_time)) {
@@ -108,9 +88,7 @@ fbad_create_adset <- function(fbacc,
     }
 
     ## promoted object based on parent campaign
-    campaign <- fbad_read_campaign(fbacc, ifelse(fb_api_version() < '2.5',
-                                                 campaign_group_id,
-                                                 campaign_id),
+    campaign <- fbad_read_campaign(fbacc, campaign_id,
                                    fields = 'objective')
     if (campaign$objective %in% c('WEBSITE_CONVERSIONS', 'PAGE_LIKES', 'OFFER_CLAIMS', 'MOBILE_APP_INSTALLS', 'CANVAS_APP_INSTALLS', 'MOBILE_APP_ENGAGEMENT', 'CANVAS_APP_ENGAGEMENT') && missing(promoted_object)) {
         stop(paste('A promoted object is needed when having the objective of', campaign$objective, 'in the parent ad campaign.'))
@@ -126,9 +104,7 @@ fbad_create_adset <- function(fbacc,
 
     ## get results
     res <- fbad_request(fbacc,
-                        path   = paste0('act_', fbacc$account_id,
-                                        ifelse(fb_api_version() < '2.5',
-                                               '/adcampaigns', '/adsets')),
+                        path   = paste0('act_', fbacc$account_id, '/adsets'),
         method = "POST",
         params = params)
 

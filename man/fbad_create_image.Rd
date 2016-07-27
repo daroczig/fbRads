@@ -18,6 +18,6 @@ list of file name, hash and URL
 Upload image
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/adimage/v2.4#create}
+\url{https://developers.facebook.com/docs/marketing-api/reference/ad-image#Creating}
 }
 

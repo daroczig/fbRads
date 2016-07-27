@@ -13,7 +13,7 @@ fbad_reachestimate(fbacc, targeting_spec, currency = "USD",
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{targeting_spec}{lists of targeting spec characteristics as described at \url{https://developers.facebook.com/docs/marketing-api/targeting-specs/v2.5}}
+\item{targeting_spec}{lists of targeting spec characteristics as described at \url{https://developers.facebook.com/docs/marketing-api/targeting-specs}}
 
 \item{currency}{string}
 

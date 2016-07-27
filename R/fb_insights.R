@@ -4,7 +4,7 @@
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.
 #' @param retries number of times this query has been sent to Facebook previously and failed -- to be used internally for error handling
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
-#' @references \url{https://developers.facebook.com/docs/marketing-api/insights/v2.5}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/insights}
 #' @return list
 #' @export
 #' @examples \dontrun{

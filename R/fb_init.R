@@ -1,7 +1,7 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_most_recent_version <- function() '2.5'
+fb_api_most_recent_version <- function() '2.6'
 
 #' Returns the currently used version of the Facebook Marketing API
 #' @return string
@@ -267,7 +267,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
 
 #' Get details for a Facebook Ads Account
-#' @references \url{https://developers.facebook.com/docs/marketing-api/adaccount/v2.3}
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account}
 #' @param accountid Ads account graph object id
 #' @param token FB Ads API token
 #' @param version Facebook Marketing API version
@@ -322,13 +322,6 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' }
 #' @importFrom utils assignInMyNamespace
 fbad_init <- function(accountid, token, version = fb_api_most_recent_version()) {
-
-    if (version < '2.5') {
-        warning('FB Graph API v2.4 to be deprecated in a few days! Change to v2.5 ASAP.')
-    }
-    if (version < '2.4') {
-        warning('FB Graph API v2.3 and previous versions are deprecated now.')
-    }
 
     flog.trace(paste0('Initializing connection to account ', accountid,
                       ' via API v', version))

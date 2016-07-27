@@ -19,6 +19,6 @@ fbad_remove_audience(fbacc, audience_id, schema = c("EMAIL", "PHONE"), hashes)
 Add people from a custom FB audience
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/reference/custom-audience/users#Deleting}
+\url{https://developers.facebook.com/docs/marketing-api/reference/custom-audience/users/#Deleting}
 }
 
