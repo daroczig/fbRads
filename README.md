@@ -9,9 +9,9 @@ Vignette and more detailed documentation is coming soon, until then please see t
 To be able to use this package, you will have to create a Facebook App and authorize it to mange your Facebook ads. Basic steps to create an app with Development access level letting you manage up to 5 Facebook ad accounts:
 
 1. Create new application at https://developers.facebook.com/apps with "basic setup".
-2. Fill in a unique `Display Name` (eg "app_testing_foobar_42"), set the category to eg "Business". Click on "Create App ID" & pass the captcha test.
+2. Fill in a unique `Display Name` (eg "app_testing_foobar_42"), set the category to eg "Business" and provide your e-mail address. Click on "Create App ID" & pass the captcha test.
 3. In "Settings/Basic", click "Add Platform" add create "Website" platform with the URL of http://localhost:1410/ and "localhost" as the "App Domain". Click "Save Changes".
-4. In the "Settings/Advanced" tab, add http://localhost:1410/ as the "Valid OAuth redirect URIs". Click "Save Changes".
+4. Add a new "Facebook Login" product, and then set http://localhost:1410/ as the "Valid OAuth redirect URIs". Click "Save Changes".
 5. Note your "App ID" and "App Secret" on your dashboard, and use those in the below R script to get a token for future authentication:
 
     ```r
@@ -27,7 +27,7 @@ To be able to use this package, you will have to create a Facebook App and autho
 6. Please note the above last step: we store the token as a string. Now you can save that token in a safe place and start using `fbRads`, eg:
 
     ```r
-    fbad_init(accountid = accountid, token = tkn, version = '2.5')
+    fbad_init(accountid = accountid, token = tkn, version = '2.6')
     ```
 
 7. And list all your ads along with the ad name and status or eg filter for the active ads:
