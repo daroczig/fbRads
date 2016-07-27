@@ -54,7 +54,7 @@ fbad_get_search <- function(
         params = params)
 
     ## transform data into data frame
-    res <- fromJSON(properties)$data
+    res <- fromJSON(jsonlite::fromJSON(gsub('\n', '', properties)))$data
 
     ## list to data.frame with know colnames
     if (type %in% c(
