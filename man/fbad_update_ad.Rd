@@ -20,6 +20,6 @@ invisible TRUE
 Update ad
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#Updating}
+\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#Updating}
 }
 

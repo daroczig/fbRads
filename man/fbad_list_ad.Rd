@@ -25,6 +25,6 @@ List all Ads for current account, list of Ad Sets or Campaigns
 Will do a batched request to the Facebook API if multiple ids are provided.
 }
 \references{
-\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/v2.5#read-adaccount}
+\url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#read-adaccount}
 }
 
