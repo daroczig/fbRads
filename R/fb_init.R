@@ -241,7 +241,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
             ## log it
             flog.error(paste('This is a temporary',
                              shQuote(res$error$type),
-                             'FB error.'))
+                             'FB error:',
+                             res$error$message))
 
             ## give some chance for the system/network to recover
             Sys.sleep(2)
