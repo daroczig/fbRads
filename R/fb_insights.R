@@ -91,15 +91,10 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
         if (inherits(res, 'error')) {
 
             ## let's try an async query for larger data
-            if (res$message == "Please reduce the amount of data you're asking for, then retry your request") {
-                flog.debug('Sync request failed, starting async request.')
-                mc <- match.call()
-                mc$job_type <- 'async'
-                return(eval(mc))
-            }
-
-            ## otherwise return error message and fail
-            stop(res$message)
+            flog.debug('Sync request failed, starting async request.')
+            mc <- match.call()
+            mc$job_type <- 'async'
+            return(eval(mc))
 
         }
 
