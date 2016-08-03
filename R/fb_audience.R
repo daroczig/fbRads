@@ -6,16 +6,22 @@
 #' @param opt_out_link optional link
 #' @return custom audience ID
 #' @export
-fbad_create_audience <- function(fbacc, name, description, opt_out_link) {
+fbad_create_audience <- function(fbacc, name, description, opt_out_link,
+                                 subtype = c(
+                                     'CUSTOM', 'WEBSITE', 'APP', 'OFFLINE_CONVERSION',
+                                     'CLAIM', 'PARTNER', 'MANAGED', 'VIDEO', 'LOOKALIKE',
+                                     'ENGAGEMENT', 'DATA_SET', 'BAG_OF_ACCOUNTS')) {
 
     fbacc <- fbad_check_fbacc()
     if (missing(name))
         stop('The custom audience name is required.')
 
+    subtype <- match.arg(subtype)
+
     flog.info(paste('Creating new custom audience:', name))
 
     ## set params
-    params <- list(name = name)
+    params <- list(name = name, subtype = subtype)
     if (!missing(description)) {
         params$description <- description
     }

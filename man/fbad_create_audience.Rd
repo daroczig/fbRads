@@ -4,7 +4,10 @@
 \alias{fbad_create_audience}
 \title{Create a new FB custom audience}
 \usage{
-fbad_create_audience(fbacc, name, description, opt_out_link)
+fbad_create_audience(fbacc, name, description, opt_out_link,
+  subtype = c("CUSTOM", "WEBSITE", "APP", "OFFLINE_CONVERSION", "CLAIM",
+  "PARTNER", "MANAGED", "VIDEO", "LOOKALIKE", "ENGAGEMENT", "DATA_SET",
+  "BAG_OF_ACCOUNTS"))
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
