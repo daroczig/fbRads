@@ -12,7 +12,7 @@ To be able to use this package, you will have to create a Facebook App and autho
 2. Fill in a unique `Display Name` (eg "app_testing_foobar_42"), set the category to eg "Business" and provide your e-mail address. Click on "Create App ID" & pass the captcha test.
 3. In "Settings/Basic", click "Add Platform" add create "Website" platform with the URL of http://localhost:1410/ and "localhost" as the "App Domain". Click "Save Changes".
 4. Add a new "Facebook Login" product, and then set http://localhost:1410/ as the "Valid OAuth redirect URIs". Click "Save Changes".
-5. Note your "App ID" and "App Secret" on your dashboard, and use those in the below R script to get a token for future authentication:
+5. Note your "App ID" and "App Secret" on your dashboard, and use those in the below R script to get a token for future authentication (with recent version of `httr`, [users reported](https://github.com/cardcorp/fbRads/issues/28) that the `Sys.setenv` line is not needed):
 
     ```r
     library(httr)
