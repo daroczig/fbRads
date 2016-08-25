@@ -195,6 +195,7 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
     ## set params
     params <- list(
         name               = name,
+        subtype            = 'LOOKALIKE',
         origin_audience_id = origin_audience_id,
         lookalike_spec     = toJSON(list(
             ratio   = ratio,
