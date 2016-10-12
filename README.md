@@ -19,7 +19,7 @@ To be able to use this package, you will have to create a Facebook App and autho
     app <- oauth_app('facebook', 'your app id', 'your app secret')
     Sys.setenv('HTTR_SERVER_PORT' = '1410/')
     tkn <- oauth2.0_token(
-        oauth_endpoints('facebook'), app, scope = 'ads_management',
+        oauth_endpoints('facebook'), app, scope = 'business_management',
         type  = 'application/x-www-form-urlencoded', cache = FALSE)
     tkn <- tkn$credentials$access_token
     ```
@@ -27,7 +27,7 @@ To be able to use this package, you will have to create a Facebook App and autho
 6. Please note the above last step: we store the token as a string. Now you can save that token in a safe place and start using `fbRads`, eg:
 
     ```r
-    fbad_init(accountid = accountid, token = tkn, version = '2.6')
+    fbad_init(accountid = accountid, token = tkn, version = '2.7')
     ```
 
 7. And list all your ads along with the ad name and status or eg filter for the active ads:
