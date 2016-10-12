@@ -27,7 +27,7 @@ To be able to use this package, you will have to create a Facebook App and autho
 6. Please note the above last step: we store the token as a string. Now you can save that token in a safe place and start using `fbRads`, eg:
 
     ```r
-    fbad_init(accountid = accountid, token = tkn, version = '2.6')
+    fbad_init(accountid = accountid, token = tkn, version = '2.7')
     ```
 
 7. And list all your ads along with the ad name and status or eg filter for the active ads:
