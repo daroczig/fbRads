@@ -19,7 +19,7 @@ To be able to use this package, you will have to create a Facebook App and autho
     app <- oauth_app('facebook', 'your app id', 'your app secret')
     Sys.setenv('HTTR_SERVER_PORT' = '1410/')
     tkn <- oauth2.0_token(
-        oauth_endpoints('facebook'), app, scope = 'ads_management',
+        oauth_endpoints('facebook'), app, scope = 'business_management',
         type  = 'application/x-www-form-urlencoded', cache = FALSE)
     tkn <- tkn$credentials$access_token
     ```
