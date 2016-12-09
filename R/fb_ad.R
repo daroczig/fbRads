@@ -107,6 +107,26 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
 }
 
 
+#' Preview ad
+#' @inheritParams fbad_request
+#' @param id ad id(s)
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/generatepreview}
+fbad_preview_ad <- function(fbacc, id, ad_format = c(
+                                           'DESKTOP_FEED_STANDARD', 'RIGHT_COLUMN_STANDARD',
+                                           'MOBILE_FEED_STANDARD', 'MOBILE_BANNER', 'MOBILE_INTERSTITIAL',
+                                           'INSTAGRAM_STANDARD')) {
+
+    fbacc <- fbad_check_fbacc()
+    ad_format <- match.arg(ad_format)
+    fromJSON(fbad_request(fbacc,
+                          path   = file.path(id, 'previews'),
+                          params = list(ad_format = ad_format),
+                          method = "GET"))$data$body
+
+}
+
+
 #' Update ad
 #' @inheritParams fbad_request
 #' @param id ad id
