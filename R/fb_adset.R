@@ -20,7 +20,7 @@ fbad_create_adset <- function(fbacc,
                               name,
                               optimization_goal = c('NONE', 'APP_INSTALLS', 'CLICKS', 'ENGAGED_USERS', 'EXTERNAL', 'EVENT_RESPONSES', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'OFFSITE_CONVERSIONS', 'PAGE_ENGAGEMENT', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'REACH', 'SOCIAL_IMPRESSIONS', 'VIDEO_VIEWS'),
                               billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'),
-                              bid_amount,
+                              is_autobid, bid_amount,
                               promoted_object,
                               campaign_id,
                               status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
@@ -60,10 +60,15 @@ fbad_create_adset <- function(fbacc,
         name              = name,
         optimization_goal = optimization_goal,
         billing_event     = billing_event,
-        bid_amount        = bid_amount,
         campaign_id       = campaign_id,
         configured_status = match.arg(status))
-
+    ## 
+    if (is_autobid) {
+      params$is_autobid = TRUE
+    } else {
+      params$bid_amount = bid_amount
+    }
+    
     ## end_time for lifetime budget
     if (!missing(lifetime_budget) && missing(end_time)) {
         stop('End time of the ad set is required when using a lifetime budget.')
