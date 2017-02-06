@@ -62,7 +62,7 @@ fbad_create_adset <- function(fbacc,
         billing_event     = billing_event,
         campaign_id       = campaign_id,
         configured_status = match.arg(status))
-    ## 
+    ## option for auto bidding
     if (is_autobid) {
       params$is_autobid = TRUE
     } else {
