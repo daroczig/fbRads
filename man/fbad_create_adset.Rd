@@ -10,9 +10,9 @@ fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
   "PAGE_LIKES", "POST_ENGAGEMENT", "REACH", "SOCIAL_IMPRESSIONS",
   "VIDEO_VIEWS"), billing_event = c("APP_INSTALLS", "CLICKS", "IMPRESSIONS",
   "LINK_CLICKS", "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT",
-  "VIDEO_VIEWS"), bid_amount, promoted_object, campaign_id,
-  status = c("ACTIVE", "PAUSED", "ARCHIVED", "DELETED"), daily_budget,
-  lifetime_budget, end_time, start_time, targeting, ...)
+  "VIDEO_VIEWS"), is_autobid = FALSE, bid_amount, promoted_object,
+  campaign_id, status = c("ACTIVE", "PAUSED", "ARCHIVED", "DELETED"),
+  daily_budget, lifetime_budget, end_time, start_time, targeting, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -22,6 +22,8 @@ fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
 \item{optimization_goal}{optimization goal}
 
 \item{billing_event}{the billing event}
+
+\item{is_autobid}{logical. If \code{TRUE}, autobid is set and you do not need to specify \code{bid_amount}}
 
 \item{bid_amount}{integer}
 

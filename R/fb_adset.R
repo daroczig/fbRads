@@ -3,7 +3,7 @@
 #' @param name name of the Ad Set
 #' @param optimization_goal optimization goal
 #' @param billing_event the billing event
-#' @param is_autobid logical. If `TRUE`, autobid is set and you do not need to specify `bid_amount`.
+#' @param is_autobid logical. If \code{TRUE}, autobid is set and you do not need to specify \code{bid_amount}
 #' @param bid_amount integer
 #' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object}
 #' @param campaign_id parent Ad Campaign id
@@ -65,11 +65,11 @@ fbad_create_adset <- function(fbacc,
         configured_status = match.arg(status))
     ## option for auto bidding
     if (is_autobid) {
-      params$is_autobid = TRUE
+        params$is_autobid <- TRUE
     } else {
-      params$bid_amount = bid_amount
+        params$bid_amount <- bid_amount
     }
-    
+
     ## end_time for lifetime budget
     if (!missing(lifetime_budget) && missing(end_time)) {
         stop('End time of the ad set is required when using a lifetime budget.')
