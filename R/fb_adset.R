@@ -3,6 +3,7 @@
 #' @param name name of the Ad Set
 #' @param optimization_goal optimization goal
 #' @param billing_event the billing event
+#' @param is_autobid logical. If `TRUE`, autobid is set and you do not need to specify `bid_amount`.
 #' @param bid_amount integer
 #' @param promoted_object see at \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/promoted-object}
 #' @param campaign_id parent Ad Campaign id
@@ -20,7 +21,7 @@ fbad_create_adset <- function(fbacc,
                               name,
                               optimization_goal = c('NONE', 'APP_INSTALLS', 'CLICKS', 'ENGAGED_USERS', 'EXTERNAL', 'EVENT_RESPONSES', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'OFFSITE_CONVERSIONS', 'PAGE_ENGAGEMENT', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'REACH', 'SOCIAL_IMPRESSIONS', 'VIDEO_VIEWS'),
                               billing_event = c('APP_INSTALLS', 'CLICKS', 'IMPRESSIONS', 'LINK_CLICKS', 'OFFER_CLAIMS', 'PAGE_LIKES', 'POST_ENGAGEMENT', 'VIDEO_VIEWS'),
-                              is_autobid, bid_amount,
+                              is_autobid = FALSE, bid_amount,
                               promoted_object,
                               campaign_id,
                               status = c('ACTIVE', 'PAUSED', 'ARCHIVED', 'DELETED'),
