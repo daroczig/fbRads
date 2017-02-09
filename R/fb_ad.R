@@ -3,6 +3,7 @@
 #' @param name Ad group name
 #' @param adset_id Ad Set id
 #' @param creative_id creative ID
+#' @param campaign_id campaign ID
 #' @param status initial status of the Ad group
 #' @param ... further parameters passed to the Facebook API
 #' @return ad id
@@ -12,6 +13,7 @@ fbad_create_ad <- function(fbacc,
                            name,
                            adset_id,
                            creative_id,
+                           campaign_id, 
                            adgroup_status = c('ACTIVE', 'PAUSED'),
                            status = c('ACTIVE', 'PAUSED'),...) {
 
