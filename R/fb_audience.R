@@ -212,3 +212,10 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
     fromJSON(res)$id
 
 }
+
+#' List all Custom Audiences for Ad account
+#' @inheritParams fbad_list_ad
+#' @param id will do the look-up for all audiences based on this ID. Defaults to current FB account. Can be a (vector of) Ad Account id(s).
+#' @export
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account/customaudiences/#Reading}
+fbad_list_audience <- fbad_list_ad
