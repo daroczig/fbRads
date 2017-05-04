@@ -213,7 +213,7 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
 
 }
 
-#' List all Custom Audiences for Ad account
+#' List all Custom Audiences for current Ad account
 #' @inheritParams fbad_request
 #' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
 #' @export

@@ -2,7 +2,7 @@
 % Please edit documentation in R/fb_audience.R
 \name{fbad_list_audience}
 \alias{fbad_list_audience}
-\title{List all Custom Audiences for Ad account}
+\title{List all Custom Audiences for current Ad account}
 \usage{
 fbad_list_audience(fbacc, id, statuses, fields = "id")
 }
@@ -12,7 +12,7 @@ fbad_list_audience(fbacc, id, statuses, fields = "id")
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
 }
 \description{
-List all Custom Audiences for Ad account
+List all Custom Audiences for current Ad account
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account/customaudiences/#Reading}
