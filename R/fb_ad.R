@@ -183,7 +183,7 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
     }
 
     ## default ID for current Ad Account
-    if (missing(id) | fn == 'fbad_list_campaign') {
+    if (missing(id) | fn %in% c('fbad_list_campaign', 'fbad_list_audience')) {
         id <- paste0('act_', fbacc$account_id)
     }
 
