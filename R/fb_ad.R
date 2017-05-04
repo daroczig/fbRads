@@ -191,7 +191,8 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
     endpoint <- switch(fn,
                        'fbad_list_ad'       = 'ads',
                        'fbad_list_adset'    = 'adsets',
-                       'fbad_list_campaign' = 'campaigns')
+                       'fbad_list_campaign' = 'campaigns',
+                       'fbad_list_audience' = 'customaudiences')
 
     ## paged query for one id
     if (length(id) == 1) {
