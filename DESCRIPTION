@@ -16,3 +16,4 @@ Imports:
     bit64,
     plyr,
     data.table
+RoxygenNote: 5.0.1
