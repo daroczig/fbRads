@@ -1,9 +1,12 @@
 Type: Package
 Package: fbRads
-Maintainer: Gergely Daroczi <gergely.daroczi@card.com>
-Author: Ajaykumar Gopal <ajay@card.com>, Gergely Daroczi <gergely.daroczi@card.com>
+Maintainer: Gergely Daroczi <daroczig@rapporter.net>
+Author: Ajaykumar Gopal <ajay@pathsciences.com>, Gergely Daroczi
+    <daroczig@rapporter.net>
 Title: Analyzing and Managing Facebook Ads from R
-Description: Wrapper functions around the Facebook Marketing 'API' to create, read, update and delete custom audiences, images, campaigns, ad sets, ads and related content.
+Description: Wrapper functions around the Facebook Marketing 'API' to create,
+    read, update and delete custom audiences, images, campaigns, ad sets, ads and
+    related content.
 Version: 0.2
 Date: 2016-04-04
 URL: https://github.com/cardcorp/fbRads
