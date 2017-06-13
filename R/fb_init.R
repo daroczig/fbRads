@@ -313,13 +313,27 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' @export
 fbad_get_adaccounts <- function(id, token, version, fields = c('name')) {
 
-    fromJSON(fbad_request(
+    res <- fromJSON(fbad_request(
         path   = file.path(id, 'owned_ad_accounts'),
         method = 'GET',
         params = list(
             access_token = token,
             fields       = fields),
-        version = version))$data
+        version = version))
+    page <- res$paging$`next`
+    data <- res$data
+
+    ## iterate through all pages
+    while (!is.null(page)) {
+
+        res  <- fromJSON(res$paging$`next`)
+        data <- rbind(data, res$data)
+        page <- res$paging$`next`
+
+    }
+
+    ## return
+    data
 
 }
 
