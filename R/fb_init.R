@@ -309,9 +309,10 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' @param token FB Ads API token
 #' @param version Facebook Marketing API version
 #' @param fields character vector
+#' @param simplify return \code{data.frame} or \code{list}
 #' @return list(s) containing account details
 #' @export
-fbad_get_adaccounts <- function(id, token, version, fields = c('name')) {
+fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify = TRUE) {
 
     res <- fromJSON(fbad_request(
         path   = file.path(id, 'owned_ad_accounts'),
@@ -321,15 +322,19 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name')) {
             fields       = fields),
         version = version))
     page <- res$paging$`next`
-    data <- res$data
+    data <- list(res$data)
 
     ## iterate through all pages
     while (!is.null(page)) {
 
         res  <- fromJSON(res$paging$`next`)
-        data <- rbind(data, res$data)
+        data <- c(data, list(res$data))
         page <- res$paging$`next`
 
+    }
+
+    if (simplify) {
+        data <- do.call(rbind, data)
     }
 
     ## return
