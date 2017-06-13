@@ -9,9 +9,9 @@ fbad_get_adaccounts(id, token, version, fields = c("name"), simplify = TRUE)
 \arguments{
 \item{id}{Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID}
 
-\item{token}{FB Ads API token}
+\item{token}{FB Ads API token (if running before \code{fb_init})}
 
-\item{version}{Facebook Marketing API version}
+\item{version}{Facebook Marketing API version (if running before \code{fb_init})}
 
 \item{fields}{character vector}
 

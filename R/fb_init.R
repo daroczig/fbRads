@@ -306,8 +306,8 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' Get account details belonging to eg an Ad or Business Manager Account
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account#Reading}
 #' @param id Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID
-#' @param token FB Ads API token
-#' @param version Facebook Marketing API version
+#' @param token FB Ads API token (if running before \code{fb_init})
+#' @param version Facebook Marketing API version (if running before \code{fb_init})
 #' @param fields character vector
 #' @param simplify return \code{data.frame} or \code{list}
 #' @return list(s) containing account details
@@ -316,6 +316,14 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
 
     ## look up function name to know what API endpoint to use
     fn <- deparse(match.call()[[1]])
+
+    ## try to look up token and version if not provided
+    if (missing(token)) {
+        token <- fbacc$access_token
+    }
+    if (missing(version)) {
+        version <- fbacc$api_version
+    }
 
     res <- fromJSON(fbad_request(
         path   = file.path(id, switch(fn,
