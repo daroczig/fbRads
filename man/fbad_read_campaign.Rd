@@ -19,4 +19,3 @@ Read Ad Campaign details
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Reading}
 }
-

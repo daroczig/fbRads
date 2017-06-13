@@ -25,4 +25,3 @@ Read metadata on a FB custom audience
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/custom-audience#Reading}
 }
-

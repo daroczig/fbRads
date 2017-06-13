@@ -21,4 +21,3 @@ List all Ad Sets for current account or Ad Campaign(s)
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Reading}
 }
-

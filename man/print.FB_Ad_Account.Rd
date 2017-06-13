@@ -14,4 +14,3 @@
 \description{
 Print method for custom fbRads class
 }
-

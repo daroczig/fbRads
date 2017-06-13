@@ -19,4 +19,3 @@ Update Ad Set
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign#Updating}
 }
-

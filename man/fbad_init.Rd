@@ -31,4 +31,3 @@ oauth2.0_token(oauth_endpoints("facebook"), app,
 ## Then pass this token with your account ID to fbad_init
 }
 }
-

@@ -57,4 +57,3 @@ There are no checks done before passing provided arguments to Facebook. You have
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-creative#Creating}
 }
-

@@ -16,4 +16,3 @@ list if OK, error if not
 Run basic checks on curl get/post parameters
 }
 \keyword{internal}
-

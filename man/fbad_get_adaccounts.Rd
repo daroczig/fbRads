@@ -2,12 +2,12 @@
 % Please edit documentation in R/fb_init.R
 \name{fbad_get_adaccounts}
 \alias{fbad_get_adaccounts}
-\title{Get account details belonging to eg a Business Manager Account}
+\title{Get account details belonging to eg an Ad or Business Manager Account}
 \usage{
 fbad_get_adaccounts(id, token, version, fields = c("name"))
 }
 \arguments{
-\item{id}{Facebook Object, eg a Business Manager Account ID}
+\item{id}{Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID}
 
 \item{token}{FB Ads API token}
 
@@ -19,9 +19,8 @@ fbad_get_adaccounts(id, token, version, fields = c("name"))
 list(s) containing account details
 }
 \description{
-Get account details belonging to eg a Business Manager Account
+Get account details belonging to eg an Ad or Business Manager Account
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account#Reading}
 }
-

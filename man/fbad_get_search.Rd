@@ -33,4 +33,3 @@ fbad_get_search(q = c('dog', 'cat'), type = 'adinterestvalid')
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/targeting-search}
 }
-

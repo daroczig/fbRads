@@ -27,4 +27,3 @@ Will do a batched request to the Facebook API if multiple ids are provided.
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#read-adaccount}
 }
-

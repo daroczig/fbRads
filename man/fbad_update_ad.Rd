@@ -22,4 +22,3 @@ Update ad
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#Updating}
 }
-

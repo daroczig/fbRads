@@ -41,4 +41,3 @@ data.table::rbindlist(l)
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/insights}
 }
-

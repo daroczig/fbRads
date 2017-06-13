@@ -35,4 +35,3 @@ fbad_read_creative(fbacc)
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-creative#Reading}
 }
-

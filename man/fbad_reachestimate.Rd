@@ -37,4 +37,3 @@ fbad_reachestimate(targeting_spec = targetspec)
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account/reachestimate/}
 }
-

@@ -13,4 +13,3 @@ string
 Return the name of the parent function
 }
 \keyword{internal}
-

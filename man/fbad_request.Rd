@@ -32,4 +32,3 @@ json object containing results
 Get results of a synchronous query from FB graph API
 }
 \keyword{internal}
-

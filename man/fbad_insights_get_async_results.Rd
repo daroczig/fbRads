@@ -22,4 +22,3 @@ JSON
 Wait for and get asynchronous report results
 }
 \keyword{internal}
-

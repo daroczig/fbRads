@@ -21,4 +21,3 @@ Add people from a custom FB audience
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/custom-audience/users/#Deleting}
 }
-

@@ -12,4 +12,3 @@ string
 \description{
 Returns the currently used version of the Facebook Marketing API
 }
-

@@ -16,4 +16,3 @@ invisibly returned \code{FB_Ad_Account} object
 Check if provided or previously initialized  R object is a valid FB Ad Account
 }
 \keyword{internal}
-
