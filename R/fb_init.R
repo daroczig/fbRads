@@ -303,9 +303,9 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 }
 
 
-#' Get account details belonging to eg a Business Manager Account
+#' Get account details belonging to eg an Ad or Business Manager Account
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account#Reading}
-#' @param id Facebook Object, eg a Business Manager Account ID
+#' @param id Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID
 #' @param token FB Ads API token
 #' @param version Facebook Marketing API version
 #' @param fields character vector
@@ -315,6 +315,41 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name')) {
 
     res <- fromJSON(fbad_request(
         path   = file.path(id, 'owned_ad_accounts'),
+        method = 'GET',
+        params = list(
+            access_token = token,
+            fields       = fields),
+        version = version))
+    page <- res$paging$`next`
+    data <- res$data
+
+    ## iterate through all pages
+    while (!is.null(page)) {
+
+        res  <- fromJSON(res$paging$`next`)
+        data <- rbind(data, res$data)
+        page <- res$paging$`next`
+
+    }
+
+    ## return
+    data
+
+}
+
+
+#' Get tracking pixels of eg an Ad or Business Manager Account
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ads-pixel/#Reading}
+#' @inheritParams fbad_get_adaccounts
+#' @param token FB Ads API token
+#' @param version Facebook Marketing API version
+#' @param fields character vector
+#' @return list(s) containing Ads Pixels
+#' @export
+fbad_get_pixels <- function(id, token, version, fields = c('name')) {
+
+    res <- fromJSON(fbad_request(
+        path   = file.path(id, 'adspixels'),
         method = 'GET',
         params = list(
             access_token = token,
