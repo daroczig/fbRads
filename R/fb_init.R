@@ -314,8 +314,13 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' @export
 fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify = TRUE) {
 
+    ## look up function name to know what API endpoint to use
+    fn <- deparse(match.call()[[1]])
+
     res <- fromJSON(fbad_request(
-        path   = file.path(id, 'owned_ad_accounts'),
+        path   = file.path(id, switch(fn,
+                                      'fbad_get_adaccounts' = 'owned_ad_accounts',
+                                      'fbad_get_pixels' = 'adspixels')),
         method = 'GET',
         params = list(
             access_token = token,
@@ -351,31 +356,7 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
 #' @param fields character vector
 #' @return list(s) containing Ads Pixels
 #' @export
-fbad_get_pixels <- function(id, token, version, fields = c('name')) {
-
-    res <- fromJSON(fbad_request(
-        path   = file.path(id, 'adspixels'),
-        method = 'GET',
-        params = list(
-            access_token = token,
-            fields       = fields),
-        version = version))
-    page <- res$paging$`next`
-    data <- res$data
-
-    ## iterate through all pages
-    while (!is.null(page)) {
-
-        res  <- fromJSON(res$paging$`next`)
-        data <- rbind(data, res$data)
-        page <- res$paging$`next`
-
-    }
-
-    ## return
-    data
-
-}
+fbad_get_pixels <- fbad_get_adaccounts
 
 
 #' Initiate Facebook Account with OAuth token

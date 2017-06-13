@@ -4,7 +4,7 @@
 \alias{fbad_get_pixels}
 \title{Get tracking pixels of eg an Ad or Business Manager Account}
 \usage{
-fbad_get_pixels(id, token, version, fields = c("name"))
+fbad_get_pixels(id, token, version, fields = c("name"), simplify = TRUE)
 }
 \arguments{
 \item{id}{Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID}
@@ -14,6 +14,8 @@ fbad_get_pixels(id, token, version, fields = c("name"))
 \item{version}{Facebook Marketing API version}
 
 \item{fields}{character vector}
+
+\item{simplify}{return \code{data.frame} or \code{list}}
 }
 \value{
 list(s) containing Ads Pixels
