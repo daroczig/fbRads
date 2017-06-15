@@ -4,7 +4,7 @@
 \alias{fbad_read_campaign}
 \title{Read Ad Campaign details}
 \usage{
-fbad_read_campaign(fbacc, id, fields = "id")
+fbad_read_campaign(fbacc, id, fields = "id", simplify = TRUE)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -12,6 +12,8 @@ fbad_read_campaign(fbacc, id, fields = "id")
 \item{id}{Ad Campaign id(s)}
 
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
+
+\item{simplify}{return \code{data.frame} or \code{list}}
 }
 \description{
 Read Ad Campaign details
