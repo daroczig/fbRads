@@ -53,7 +53,7 @@ fbad_create_creative <- function(
         params = params)
 
     ## return
-    fromJSON(res)$id
+    .safeFromJSON(res)$id
 
 }
 
@@ -105,6 +105,6 @@ fbad_read_creative <- function(
         method = "GET")
 
     ## return
-    fromJSON(res)
+    .safeFromJSON(res)
 
 }

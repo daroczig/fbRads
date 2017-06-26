@@ -48,7 +48,7 @@ fbad_create_campaign <- function(fbacc, buying_type = c('AUCTION', 'FIXED_CPM', 
                         params = params)
 
     ## return Ad Campaign ID on success
-    fromJSON(res)$id
+    .safeFromJSON(res)$id
 
 }
 
