@@ -115,7 +115,7 @@ fbad_create_adset <- function(fbacc,
         params = params)
 
     ## return campaign ID on success
-    fromJSON(res)$id
+    .safeFromJSON(res)$id
 
 }
 

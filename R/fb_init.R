@@ -227,13 +227,13 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         }
 
         ## something nasty happened that we cannot help (yet)
-        if (inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') ||
-            is.null(fromJSON(res))) {
+        if (inherits(tryCatch(.safeFromJSON(res), error = function(e) e), 'error') ||
+            is.null(.safeFromJSON(res))) {
             stop('Some critical FB query error here.')
         }
 
         ## otherwise it's a JSON response
-        res <- fromJSON(res)
+        res <- .safeFromJSON(res)
 
         ## temporary "API Unknown" (1) or "API Service" (2) error at FB
         if (res$error$code %in% 1:2) {
@@ -298,7 +298,7 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
                 fields       = scope),
             version = version)
 
-    fromJSON(account_details)
+    .safeFromJSON(account_details)
 
 }
 

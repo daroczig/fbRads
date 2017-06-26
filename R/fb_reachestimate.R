@@ -40,7 +40,7 @@ fbad_reachestimate <- function(fbacc, targeting_spec, currency = 'USD',
         params = params)
 
     ## parse JSON
-    res <- fromJSON(res)
+    res <- .safeFromJSON(res)
 
     ## error handling
     if (isTRUE(res$unsupported) | isTRUE(res$bid_estimations$unsupported) | isTRUE(res$data$bid_estimations$unsupported))  {

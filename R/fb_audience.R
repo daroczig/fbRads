@@ -36,7 +36,7 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link,
         params = params)
 
     ## return ID
-    fromJSON(res)$id
+    .safeFromJSON(res)$id
 
 }
 
@@ -64,7 +64,7 @@ fbad_read_audience <- function(fbacc, audience_id, fields = c('id', 'account_id'
         method = "GET")
 
     ## return
-    fromJSON(res)
+    .safeFromJSON(res)
 
 }
 
@@ -87,7 +87,7 @@ fbad_delete_audience <- function(fbacc, audience_id) {
         method = "DELETE")
 
     ## return
-    fromJSON(res)
+    .safeFromJSON(res)
 
 }
 
@@ -209,7 +209,7 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
         params = params)
 
     ## return ID
-    fromJSON(res)$id
+    .safeFromJSON(res)$id
 
 }
 

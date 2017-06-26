@@ -67,8 +67,8 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
                     method = 'POST')
 
                 ## transform data part of the list to data.frame
-                do.call(rbind, lapply(fromJSON(res)$body,
-                                      function(x) fromJSON(x)$data))
+                do.call(rbind, lapply(.safeFromJSON(res)$body,
+                                      function(x) .safeFromJSON(x)$data))
 
             }))
 
@@ -100,7 +100,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
     } else {
 
         ## we have an async job, we need the job ID
-        id <- fromJSON(res)[[1]]
+        id <- .safeFromJSON(res)[[1]]
 
         ## capture current call with the number of (no) retrues
         mc <- match.call()
@@ -121,14 +121,14 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
     }
 
     ## otherwise parse the JSON
-    res <- fromJSON(res)
+    res <- .safeFromJSON(res)
 
     ## save data as list
     l <- list(res$data)
 
     ## get all pages (if any)
     while (!is.null(res$paging$'next')) {
-        res <- fromJSON(getURL(res$paging$'next'))
+        res <- .safeFromJSON(getURL(res$paging$'next'))
         l   <- c(l, list(res$data))
     }
 
@@ -155,7 +155,7 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
         method = "GET")
 
     ## parse JSON
-    res <- fromJSON(res)
+    res <- .safeFromJSON(res)
 
     ## default polling interval (in seconds)
     wait_time  <- 2/5
@@ -197,7 +197,7 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
 
         ## instead of a recursive call, let's specify the query again
         ## as nested calls was likely to cause segfault in R :(
-        res <- fromJSON(fbad_request(fbacc,
+        res <- .safeFromJSON(fbad_request(fbacc,
             path   = id,
             method = "GET"))
 
