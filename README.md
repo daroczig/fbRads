@@ -21,7 +21,7 @@ To be able to use this package, you will have to create a Facebook App and autho
     tkn <- oauth2.0_token(
         oauth_endpoints('facebook'), app, scope = 'business_management',
         type  = 'application/x-www-form-urlencoded', cache = FALSE)
-    tkn <- tkn$credentials$access_token
+    tkn <- jsonlite::fromJSON(names(tkn$credentials))$access_token
     ```
 
 6. Please note the above last step: we store the token as a string. Now you can save that token in a safe place and start using `fbRads`, eg:
