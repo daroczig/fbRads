@@ -171,11 +171,12 @@ fbad_update_ad <- function(fbacc, id, ...) {
 #' @param id will do the look-up for all Ads based on this ID. Defaults to current FB account. Can be a (vector of) Ad Set or Campaign id(s).
 #' @param statuses character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.
 #' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
+#' @param simplify boolean whether response is simplified to data.frame or else returned as raw list
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#read-adaccount}
-fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
+fbad_list_ad <- function(fbacc, id, statuses, fields = 'id', simplify = TRUE) {
 
     fbacc <- fbad_check_fbacc()
 
@@ -225,8 +226,11 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id') {
             l   <- c(l, list(res$data))
         }
 
-        ## return data.frame
-        return(do.call(rbind, l))
+        ## return data.frame if simplify is true
+        if (simplify) {
+          l <- do.call(rbind, l)
+        }
+        return(l)
     }
 
     ## batched query for multiple ids (no need for paging)
