@@ -40,7 +40,7 @@ To be able to use this package, you will have to create a Facebook App and autho
 
 ## Development version
 
-The package actively maintained, but not frequently pushed on CRAN, so to use the most recent version, install from GitHub:
+The package is actively maintained, but not frequently pushed to CRAN, so to use the most recent version, install from GitHub. The `master` branch is supposed to include a relatively stable version at all the time:
 
 ```r
 devtools::install_github('daroczig/fbRads')
@@ -48,7 +48,7 @@ devtools::install_github('daroczig/fbRads')
 
 ## Using the package
 
-This package makes your life more convenient when it comes to interacting with the Facebook Marketing API, but unfortunately, it cannot save you the time to get familiar with the actual API. To be able to interact with Facebook, you have to learn about how the API works etc -- see the documentation at <https://developers.facebook.com/docs/marketing-apis>
+This package makes your life more convenient when it comes to interacting with the Facebook Marketing API, but unfortunately, it cannot save you the time to get familiar with the actual API endpoints. To be able to interact with Facebook, you have to learn about how the API works etc -- see the documentation at <https://developers.facebook.com/docs/marketing-apis>
 
 ---
 
