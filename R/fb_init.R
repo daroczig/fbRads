@@ -303,6 +303,70 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 }
 
 
+#' Get account details belonging to eg an Ad or Business Manager Account
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account#Reading}
+#' @param id Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID
+#' @param token FB Ads API token (if running before \code{fb_init})
+#' @param version Facebook Marketing API version (if running before \code{fb_init})
+#' @param fields character vector
+#' @param simplify return \code{data.frame} or \code{list}
+#' @return list(s) containing account details
+#' @export
+fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify = TRUE) {
+
+    ## look up function name to know what API endpoint to use
+    fn <- deparse(match.call()[[1]])
+
+    ## try to look up token and version if not provided
+    if (missing(token)) {
+        token <- fbacc$access_token
+    }
+    if (missing(version)) {
+        version <- fbacc$api_version
+    }
+
+    res <- fromJSON(fbad_request(
+        path   = file.path(id, switch(fn,
+                                      'fbad_get_adaccounts' = 'owned_ad_accounts',
+                                      'fbad_get_pixels' = 'adspixels')),
+        method = 'GET',
+        params = list(
+            access_token = token,
+            fields       = fields),
+        version = version))
+    page <- res$paging$`next`
+    data <- list(res$data)
+
+    ## iterate through all pages
+    while (!is.null(page)) {
+
+        res  <- fromJSON(res$paging$`next`)
+        data <- c(data, list(res$data))
+        page <- res$paging$`next`
+
+    }
+
+    if (simplify) {
+        data <- do.call(rbind, data)
+    }
+
+    ## return
+    data
+
+}
+
+
+#' Get tracking pixels of eg an Ad or Business Manager Account
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ads-pixel/#Reading}
+#' @inheritParams fbad_get_adaccounts
+#' @param token FB Ads API token
+#' @param version Facebook Marketing API version
+#' @param fields character vector
+#' @return list(s) containing Ads Pixels
+#' @export
+fbad_get_pixels <- fbad_get_adaccounts
+
+
 #' Initiate Facebook Account with OAuth token
 #'
 #' If you do not have a token, then register an (e.g. "Website") application at \url{https://developers.facebook.com/apps} and make a note of your "App ID" and "App Secret" at the "Dashboard" of your application. Then go to "Settings", click on "Add Platform", then "Website" and paste \code{http://localhost:1410} as the "Site URL". Save, and then run the below example R commands to get your token. Please note that your app needs access to your ads as well, see \url{https://developers.facebook.com/docs/marketing-api/access} for more details.

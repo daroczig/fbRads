@@ -51,6 +51,7 @@ fbad_create_ad <- function(fbacc,
 #' @inheritParams fbad_request
 #' @param id ad id(s)
 #' @param fields character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.
+#' @param simplify return \code{data.frame} or \code{list}
 #' @return data.frame
 #' @note Will do a batched request to the Facebook API if multiple ids are provided.
 #' @export
@@ -62,7 +63,7 @@ fbad_create_ad <- function(fbacc,
 #' fbad_read_ad(id = adid, fields = c('effective_status'))
 #' }
 #' @importFrom data.table rbindlist setDF
-fbad_read_ad <- function(fbacc, id, fields = 'id') {
+fbad_read_ad <- function(fbacc, id, fields = 'id', simplify = TRUE) {
 
     fbacc <- fbad_check_fbacc()
 
@@ -80,7 +81,11 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
                             path   = id,
                             params = list(fields = fields),
                             method = "GET")
-        return(as.data.frame(fromJSON(res), stringsAsFactors = FALSE))
+        res <- fromJSON(res)
+        if (simplify) {
+            res <- as.data.frame(res, stringsAsFactors = FALSE)
+        }
+        return(res)
     }
 
     ## or do batched query
@@ -96,13 +101,19 @@ fbad_read_ad <- function(fbacc, id, fields = 'id') {
                                     fields = fields),
                                 method = "GET")
 
-            rbindlist(lapply(fromJSON(res),
-                             as.data.frame, stringsAsFactors = FALSE), fill = TRUE)
+            res <- fromJSON(res)
+            if (simplify) {
+                res <- rbindlist(lapply(res, as.data.frame, stringsAsFactors = FALSE), fill = TRUE)
+            }
+            res
 
         })
 
     ## return
-    setDF(rbindlist(res, fill = TRUE))
+    if (simplify) {
+        res <- setDF(rbindlist(res, fill = TRUE))
+    }
+    res
 
 }
 
