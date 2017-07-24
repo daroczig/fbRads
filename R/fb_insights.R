@@ -7,6 +7,7 @@
 #' @references \url{https://developers.facebook.com/docs/marketing-api/insights}
 #' @return list
 #' @export
+#' @importFrom utils URLdecode
 #' @examples \dontrun{
 #' fb_insights(fbacc)
 #'
@@ -128,8 +129,26 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
     ## get all pages (if any)
     while (!is.null(res$paging$'next')) {
-        res <- fromJSON(getURL(res$paging$'next'))
+
+        url <- res$paging$'next'
+
+        ## parse params from URL
+        url <- sub('^https://graph.facebook.com/v[0-9].[0-9]/act_[0-9]*/insights\\?access_token=[A-Za-z0-9]*&',
+                   '', url)
+        url <- sapply(strsplit(url, '&')[[1]], function(x) {
+            x <- strsplit(x, split = '=')[[1]]
+            setNames(URLdecode(x[2]), x[1])
+        }, USE.NAMES = FALSE)
+
+        ## hit Facebook API again with parsed params
+        res <- fbad_request(path = file.path(sub('/$', '', target), 'insights'),
+                     method = 'GET',
+                     params = as.list(url))
+
+        ## collect results
+        res <- fromJSON(res)
         l   <- c(l, list(res$data))
+
     }
 
     ## return list
