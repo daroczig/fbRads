@@ -4,7 +4,7 @@
 \alias{fbad_list_campaign}
 \title{List all Ad Campaigns for current account}
 \usage{
-fbad_list_campaign(fbacc, id, statuses, fields = "id")
+fbad_list_campaign(fbacc, id, statuses, fields = "id", simplify = TRUE)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -14,6 +14,8 @@ fbad_list_campaign(fbacc, id, statuses, fields = "id")
 \item{statuses}{character vector of statuses to use as a filter. Defaults to none. Please refer to the Facebook documentation for a list of possible values.}
 
 \item{fields}{character vector of fields to get from the API, defaults to \code{id}. Please refer to the Facebook documentation for a list of possible values.}
+
+\item{simplify}{boolean whether response is simplified to data.frame or else returned as raw list}
 }
 \description{
 List all Ad Campaigns for current account

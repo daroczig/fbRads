@@ -4,7 +4,7 @@
 \alias{fbad_list_audience}
 \title{List all Custom Audiences for Ad account}
 \usage{
-fbad_list_audience(fbacc, id, statuses, fields = "id")
+fbad_list_audience(fbacc, id, statuses, fields = "id", simplify = TRUE)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
