@@ -341,7 +341,7 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
     ## iterate through all pages
     while (!is.null(page)) {
 
-        res  <- fromJSONish(res$paging$`next`)
+        res  <- fromJSONish(getURL(res$paging$`next`))
         data <- c(data, list(res$data))
         page <- res$paging$`next`
 
