@@ -90,7 +90,7 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
         if (inherits(res, 'error')) {
 
             ## let's try an async query for larger data
-            flog.debug('Sync request failed, starting async request.')
+            flog.debug('Sync request failed, starting async request.', name = 'fbRads')
             mc <- match.call()
             mc$job_type <- 'async'
             return(eval(mc))
@@ -200,7 +200,8 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
         flog.debug(paste0(id, ' Async ',
                           res$async_status, ' (',
                           res$async_percent_completion,
-                          '%). Waiting ', round(wait_time, 1), ' seconds...'))
+                          '%). Waiting ', round(wait_time, 1), ' seconds...'),
+                   name = 'fbRads')
 
         ## wait a bit
         Sys.sleep(wait_time)
@@ -235,13 +236,13 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
 
         ## fail on 3rd error
         if (original_call$retries > 3) {
-            flog.error(toJSON(res))
+            flog.error(toJSON(res), name = 'fbRads')
             stop('Tried this query too many times, this is a serious issue.')
         }
 
         ## log this error
-        flog.error(toJSON(res))
-        flog.info(paste('Retrying query for the', original_call$retries, 'st/nd/rd time'))
+        flog.error(toJSON(res), name = 'fbRads')
+        flog.info(paste('Retrying query for the', original_call$retries, 'st/nd/rd time'), name = 'fbRads')
 
         ## give some chance for the system/network to recover
         Sys.sleep(60)
@@ -252,7 +253,7 @@ fbad_insights_get_async_results <- function(fbacc, id, original_call, original_e
     }
 
     ## other error?
-    flog.error(toJSON(res))
+    flog.error(toJSON(res), name = 'fbRads')
     stop('Unexpected response for the asynchronous job.')
 
 }

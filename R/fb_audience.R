@@ -18,7 +18,7 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link,
 
     subtype <- match.arg(subtype)
 
-    flog.info(paste('Creating new custom audience:', name))
+    flog.info(paste('Creating new custom audience:', name), name = 'fbRads')
 
     ## set params
     params <- list(name = name, subtype = subtype)
@@ -101,7 +101,8 @@ fbad_delete_audience <- function(fbacc, audience_id) {
 fbad_share_audience <- function(fbacc, audience_id, adaccounts) {
 
     fbacc <- fbad_check_fbacc()
-    flog.info(paste('Sharing', audience_id, 'custom audience ID with', length(adaccounts), 'accounts.'))
+    flog.info(paste('Sharing', audience_id, 'custom audience ID with', length(adaccounts), 'accounts.'),
+              name = 'fbRads')
 
     ## make sure adaccounts are integers
     adaccounts <- as.integer64(adaccounts)
@@ -133,7 +134,8 @@ fbad_add_audience <- function(fbacc, audience_id,
     flog.info(paste(switch(fn, 'fbad_add_audience' = 'Adding', 'Removing'),
                     length(hashes), schema,
                     switch(fn, 'fbad_add_audience' = 'to', 'from'),
-                    audience_id, 'custom audience ID.'))
+                    audience_id, 'custom audience ID.'),
+              name = 'fbRads')
 
     if (length(hashes) == 0) {
 
@@ -190,7 +192,9 @@ fbad_create_lookalike_audience <- function(fbacc, name, origin_audience_id, rati
     if (missing(origin_audience_id))
         stop('The origin custom audience id is required.')
 
-    flog.info(paste0('Creating new lookalike (', ratio*100, '%%) ', country, ' audience based on ', origin_audience_id, ': ', name))
+    flog.info(paste0('Creating new lookalike (', ratio*100, '%%) ',
+                     country, ' audience based on ', origin_audience_id, ': ', name),
+              name = 'fbRads')
 
     ## set params
     params <- list(

@@ -10,3 +10,7 @@
 #' @importFrom plyr ldply
 #' @name fbRads
 NULL
+
+.onLoad <- function(libname, pkgname) {
+    futile.logger::flog.layout(futile.logger::layout.simple, name = pkgname)
+}
