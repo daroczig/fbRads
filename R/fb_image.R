@@ -20,7 +20,7 @@ fbad_create_image <- function(fbacc, img) {
         params = list(image_file = fileUpload(img)))
 
     ## parse JSON
-    res <- fromJSON(res)[[1]]
+    res <- fromJSONish(res)[[1]]
 
     ## return
     list(filename = names(res), hash = res[[1]]$hash, url = res[[1]]$url)

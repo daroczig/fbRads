@@ -42,7 +42,7 @@ fbad_create_ad <- function(fbacc,
         params = params)
 
     ## return campaign ID on success
-    fromJSON(res)$id
+    fromJSONish(res)$id
 
 }
 
@@ -81,7 +81,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id', simplify = TRUE) {
                             path   = id,
                             params = list(fields = fields),
                             method = "GET")
-        res <- fromJSON(res)
+        res <- fromJSONish(res)
         if (simplify) {
             res <- as.data.frame(res, stringsAsFactors = FALSE)
         }
@@ -101,7 +101,7 @@ fbad_read_ad <- function(fbacc, id, fields = 'id', simplify = TRUE) {
                                     fields = fields),
                                 method = "GET")
 
-            res <- fromJSON(res)
+            res <- fromJSONish(res)
             if (simplify) {
                 res <- rbindlist(lapply(res, as.data.frame, stringsAsFactors = FALSE), fill = TRUE)
             }
@@ -130,7 +130,7 @@ fbad_preview_ad <- function(fbacc, id, ad_format = c(
 
     fbacc <- fbad_check_fbacc()
     ad_format <- match.arg(ad_format)
-    fromJSON(fbad_request(fbacc,
+    fromJSONish(fbad_request(fbacc,
                           path   = file.path(id, 'previews'),
                           params = list(ad_format = ad_format),
                           method = "GET"))$data$body
@@ -161,7 +161,7 @@ fbad_update_ad <- function(fbacc, id, ...) {
                         method = "POST")
 
     ## success
-    invisible(fromJSON(res)$success)
+    invisible(fromJSONish(res)$success)
 
 }
 
@@ -215,14 +215,14 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id', simplify = TRUE) {
                             method = "GET")
 
         ## parse JSON
-        res <- fromJSON(res)
+        res <- fromJSONish(res)
 
         ## save data as list
         l <- list(res$data)
 
         ## get all pages (if any)
         while (!is.null(res$paging$'next')) {
-            res <- fromJSON(getURL(res$paging$'next'))
+            res <- fromJSONish(getURL(res$paging$'next'))
             l   <- c(l, list(res$data))
         }
 
@@ -252,8 +252,8 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id', simplify = TRUE) {
                                 method = 'POST')
 
             ## transform data part of the list to data.frame
-            do.call(rbind, lapply(fromJSON(res)$body,
-                                  function(x) fromJSON(x)$data))
+            do.call(rbind, lapply(fromJSONish(res)$body,
+                                  function(x) fromJSONish(x)$data))
 
         })
 

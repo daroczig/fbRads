@@ -47,3 +47,19 @@ url_parse <- function(url) {
         params  = as.list(params))
 
 }
+
+
+#' Validates and fixes some JSON issues, eg removing newlines etc
+#' @param json string
+#' @param ... passed to jsonlite
+#' @return parsed JSON as an R object
+fromJSONish <- function(json, ...) {
+    if (!validate(json)) {
+        flog.error('Invalid JSON: %s', json)
+        json <- gsub("\r", " ", json)
+        json <- gsub("\n", " ", json)
+        json <- gsub("\t", " ", json)
+        flog.debug('After removing whitespace: %s', json)
+    }
+    fromJSON(json, ...)
+}

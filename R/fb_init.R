@@ -228,13 +228,13 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         }
 
         ## something nasty happened that we cannot help (yet)
-        if (inherits(tryCatch(fromJSON(res), error = function(e) e), 'error') ||
-            is.null(fromJSON(res))) {
+        if (inherits(tryCatch(fromJSONish(res), error = function(e) e), 'error') ||
+            is.null(fromJSONish(res))) {
             stop('Some critical FB query error here.')
         }
 
         ## otherwise it's a JSON response
-        res <- fromJSON(res)
+        res <- fromJSONish(res)
 
         ## temporary "API Unknown" (1) or "API Service" (2) error at FB
         if (res$error$code %in% 1:2) {
@@ -299,7 +299,7 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
                 fields       = scope),
             version = version)
 
-    fromJSON(account_details)
+    fromJSONish(account_details)
 
 }
 
@@ -326,7 +326,7 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
         version <- fbacc$api_version
     }
 
-    res <- fromJSON(fbad_request(
+    res <- fromJSONish(fbad_request(
         path   = file.path(id, switch(fn,
                                       'fbad_get_adaccounts' = 'owned_ad_accounts',
                                       'fbad_get_pixels' = 'adspixels')),
@@ -341,7 +341,7 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
     ## iterate through all pages
     while (!is.null(page)) {
 
-        res  <- fromJSON(res$paging$`next`)
+        res  <- fromJSONish(res$paging$`next`)
         data <- c(data, list(res$data))
         page <- res$paging$`next`
 
