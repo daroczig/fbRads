@@ -16,41 +16,46 @@ fbad_get_search <- function(
         'adeducationschool', 'adeducationmajor',
         'adgeolocation', 'adcountry', 'adzipcode', 'adgeolocationmeta', 'adradiussuggestion',
         'adinterest', 'adinterestsuggestion', 'adinterestvalid',
-        'adlocale', 'adTargetingCategory', 'adworkemployer'), ... ) {
+        'adlocale', 'adTargetingCategory', 'adworkemployer', 'targetingsearch'), ... ) {
 
     type  <- match.arg(type)
     fbacc <- fbad_check_fbacc()
 
     ## default params
-    params <- list(limit        = 500,
-                   type         = type,
-                   list         = "GLOBAL")
+    params <- list(limit = 500, list  = 'GLOBAL')
 
-    ## update params
+    ## targetingsearch is a bit different than the other searches
+    if (type != 'targetingsearch') {
+        params$type <- type
+    }
+
+    ## merge other params
     if (length(list(...)) > 0) {
         params <- c(params, list(...))
     }
 
-    ## Handle term input variation in API
-    if (type %in% c("adinterestvalid", "adinterestsuggestion")) {
+    ## handle term input variation in API
+    if (type %in% c('adinterestvalid', 'adinterestsuggestion')) {
 
         params <- c(params, list(interest_list = toJSON((q))))
 
     } else {
 
         if (length(q) > 1) {
-            warning("Multiple keywords not allowed. Using first")
-            q <- q[1]
+            stop('Multiple keywords not allowed')
         }
 
-        params <- c(params, list("q" = as.character(q)))
+        params$q <- as.character(q)
 
     }
 
     ## get results
-    properties <- fbad_request(fbacc,
-        path   = "search",
-        method = "GET",
+    properties <- fbad_request(
+        fbacc,
+        path   = ifelse(type == 'targetingsearch',
+                        paste0(fbacc$acct_path, 'targetingsearch'),
+                        'search'),
+        method = 'GET',
         params = params)
 
     ## transform data into data frame
