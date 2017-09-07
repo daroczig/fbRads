@@ -100,6 +100,10 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
     ## async request
     } else {
 
+        if (inherits(res, 'error')) {
+            stop(res$message)
+        }
+
         ## we have an async job, we need the job ID
         id <- fromJSONish(res)[[1]]
 
