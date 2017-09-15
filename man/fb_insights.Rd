@@ -5,7 +5,7 @@
 \title{Insights}
 \usage{
 fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
-  retries = 0, ...)
+  retries = 0, simplify = TRUE, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
@@ -16,10 +16,12 @@ fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync", "async"),
 
 \item{retries}{number of times this query has been sent to Facebook previously and failed -- to be used internally for error handling}
 
+\item{simplify}{return a list of \code{data.frame} or \code{list} objects}
+
 \item{...}{named arguments passed to the API, like time range, fields, filtering etc.}
 }
 \value{
-list
+\code{list} of \code{data.frame} or \code{list} objects depending on the \code{simplify} argument
 }
 \description{
 Insights

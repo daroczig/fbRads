@@ -3,9 +3,10 @@
 #' @param target ad account id(s) (default), campaign id(s), adset id(s) or ad id(s)
 #' @param job_type synchronous or asynchronous request. If the prior fails with "please reduce the amount of data", it will fall back to async request. Async query is possible with only one target.
 #' @param retries number of times this query has been sent to Facebook previously and failed -- to be used internally for error handling
+#' @param simplify return a list of \code{data.frame} or \code{list} objects
 #' @param ... named arguments passed to the API, like time range, fields, filtering etc.
 #' @references \url{https://developers.facebook.com/docs/marketing-api/insights}
-#' @return list
+#' @return \code{list} of \code{data.frame} or \code{list} objects depending on the \code{simplify} argument
 #' @export
 #' @importFrom utils URLdecode
 #' @examples \dontrun{
@@ -20,7 +21,7 @@
 #' l <- fb_insights(date_preset = 'today', level = 'ad', fields = toJSON(c('impressions', 'total_actions')))
 #' data.table::rbindlist(l)
 #' }
-fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), retries = 0, ...) {
+fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'async'), retries = 0, simplify = TRUE, ...) {
 
     fbacc <- fbad_check_fbacc()
 
@@ -67,9 +68,14 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
                         )),
                     method = 'POST')
 
+                res <- lapply(fromJSONish(res)$body, function(x) fromJSONish(x)$data)
+
                 ## transform data part of the list to data.frame
-                do.call(rbind, lapply(fromJSONish(res)$body,
-                                      function(x) fromJSONish(x)$data))
+                if (simplify == TRUE) {
+                    res <- rbindlist(res, fill = TRUE)
+                }
+
+                res
 
             }))
 
