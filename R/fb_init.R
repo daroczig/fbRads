@@ -124,7 +124,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                     cainfo    = system.file(
                                         'CurlSSL',
                                         'cacert.pem',
-                                        package = 'RCurl'))),
+                                        package = 'RCurl'),
+                                    connecttimeout = 5)),
                             error = function(e) e)
 
     } else {
@@ -144,7 +145,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                                        'cacert.pem',
                                                        package = 'RCurl'),
                                                    crlf = ifelse(method == 'GET',
-                                                                 TRUE, FALSE)))),
+                                                                 TRUE, FALSE),
+                                                   connecttimeout = 5))),
                             error = function(e) e)
     }
 
@@ -159,6 +161,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
             grepl('Empty reply from server', curlres$message) |
             grepl('Unknown SSL protocol error', curlres$message) |
             grepl('Failed to connect to graph.facebook.com', curlres$message) |
+            grepl('Connection timed out after 5000 milliseconds', curlres$message) |
             grepl('OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to graph.facebook.com', curlres$message)) {
 
             ## log it
