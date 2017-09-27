@@ -343,7 +343,14 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
     ## iterate through all pages
     while (!is.null(page)) {
 
-        res  <- fromJSONish(getURL(res$paging$`next`))
+        url  <- res$paging$`next`
+
+        ## hit Facebook API again with parsed params
+        url <- url_parse(url)
+        res <- fbad_request(path = url$path, method = 'GET', params = url$params)
+
+        ## collect results
+        res  <- fromJSONish(res)
         data <- c(data, list(res$data))
         page <- res$paging$`next`
 

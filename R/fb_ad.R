@@ -222,7 +222,10 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id', simplify = TRUE) {
 
         ## get all pages (if any)
         while (!is.null(res$paging$'next')) {
-            res <- fromJSONish(getURL(res$paging$'next'))
+            url <- res$paging$`next`
+            url <- url_parse(url)
+            res <- fbad_request(path = url$path, method = 'GET', params = url$params)
+            res <- fromJSONish(res)
             l   <- c(l, list(res$data))
         }
 
