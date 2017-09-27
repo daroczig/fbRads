@@ -306,6 +306,15 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 }
 
 
+#' Fetch the content of the URL and return JSON
+#' @param url next URL as returned by FB
+#' @keywords internal
+fbad_request_next_page <- function(url) {
+    url <- url_parse(url)
+    res <- fbad_request(path = url$path, method = 'GET', params = url$params)
+    fromJSONish(res)
+}
+
 #' Get account details belonging to eg an Ad or Business Manager Account
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account#Reading}
 #' @param id Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID
@@ -337,23 +346,12 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
             access_token = token,
             fields       = fields),
         version = version))
-    page <- res$paging$`next`
     data <- list(res$data)
 
     ## iterate through all pages
-    while (!is.null(page)) {
-
-        url  <- res$paging$`next`
-
-        ## hit Facebook API again with parsed params
-        url <- url_parse(url)
-        res <- fbad_request(path = url$path, method = 'GET', params = url$params)
-
-        ## collect results
-        res  <- fromJSONish(res)
+    while (!is.null(res$paging$`next`)) {
+        res  <- fbad_request_next_page(res$paging$`next`)
         data <- c(data, list(res$data))
-        page <- res$paging$`next`
-
     }
 
     if (simplify) {
