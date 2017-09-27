@@ -125,7 +125,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                         'CurlSSL',
                                         'cacert.pem',
                                         package = 'RCurl'),
-                                    connecttimeout = 5,
+                                    connecttimeout = 3,
                                     timeout = 300)),
                             error = function(e) e)
 
@@ -147,7 +147,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                                        package = 'RCurl'),
                                                    crlf = ifelse(method == 'GET',
                                                                  TRUE, FALSE),
-                                                   connecttimeout = 5,
+                                                   connecttimeout = 3,
                                                    timeout = 300))),
                             error = function(e) e)
     }
