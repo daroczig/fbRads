@@ -291,7 +291,7 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
     ## Define which fields to get
     scope <- paste(
         c('name', 'account_id', 'account_status',
-          'age', 'amount_spent', 'balance', ##'capabilities',
+          'age', 'amount_spent', ##'balance', ## 'capabilities',
           'end_advertiser', 'funding_source',
           'spend_cap', 'timezone_id', 'users'),
         collapse = ',')
