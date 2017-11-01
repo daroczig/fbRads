@@ -98,6 +98,9 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         print(params)
     }
 
+    ## remove prefix from the path if already provided
+    path <- sub(paste0('^https://graph.facebook.com/v', version, '/'), '', path)
+
     ## versioned API endpoint
     API_endpoint <- paste(
         'https://graph.facebook.com',
