@@ -82,7 +82,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     ## define Facebook API version to be used
     if (missing(version)) {
         if (missing(fbacc)) {
-            if (inherits(getFromNamespace('fbacc', 'fbRads'), 'FB_Ad_Account')) {
+            if (is.FB_Ad_Account(getFromNamespace('fbacc', 'fbRads'))) {
                 version <- getFromNamespace('fbacc', 'fbRads')$api_version
             } else {
                 version <- fb_api_most_recent_version()
@@ -481,7 +481,7 @@ fbad_check_fbacc <- function(fbacc) {
     }
 
     ## verify object type
-    if (!inherits(fbacc, 'FB_Ad_Account')) {
+    if (!is.FB_Ad_Account(fbacc)) {
         stop('Invalid R object passed as fbacc argument. See ?fbad_init for more details.')
     }
 
@@ -497,4 +497,12 @@ fbad_check_fbacc <- function(fbacc) {
 #' @export
 print.FB_Ad_Account <- function(x, ...) {
     cat(paste0('Facebook Ad API connection parameters for <<', x$name, '>>.'), '\n')
+}
+
+
+#' Checks if object is a valid initialized connection to the Facebook Marketing API
+#' @param fbacc R object with \code{FB_Ad_Account} class
+#' @keywords internal
+is.FB_Ad_Account <- function(fbacc) {
+    inherits(fbacc, 'FB_Ad_Account')
 }
