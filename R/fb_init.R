@@ -60,28 +60,36 @@ fbad_check_curl_params <- function(params) {
 #' @param params a name-value list of form parameters for API query
 #' @param debug print debug messages by calling Curl verbosely
 #' @param log print log messages or suppress those
-#' @param version Facebook Marketing API version
+#' @param version Facebook Marketing API version, defaults to what was used in the most recent \code{fbad_init} function call or \code{fb_api_most_recent_version()} before such function call
 #' @param retries number of times the current query was tried previously -- used to handle network errors
 #' @return json object containing results
 #' @keywords internal
 #' @importFrom utils getFromNamespace URLencode capture.output str
-fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version = fb_api_most_recent_version(), retries = 0) {
+fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), params = list(), debug = FALSE, log = TRUE, version, retries = 0) {
 
     mc     <- match.call()
     method <- match.arg(method)
 
     ## if token was not set in params, try to do that from fbacc
     if (is.null(params$access_token)) {
-        if (!missing(fbacc)) {
-            params$access_token <- fbad_check_fbacc()$access_token
-        } else {
+        if (missing(fbacc)) {
             params$access_token <- getFromNamespace('fbacc', 'fbRads')$access_token
+        } else {
+            params$access_token <- fbad_check_fbacc(fbacc)$access_token
         }
     }
 
     ## define Facebook API version to be used
-    if (missing(version) & !missing(fbacc)) {
-        version <- fbad_check_fbacc()$api_version
+    if (missing(version)) {
+        if (missing(fbacc)) {
+            if (inherits(getFromNamespace('fbacc', 'fbRads'), 'FB_Ad_Account')) {
+                version <- getFromNamespace('fbacc', 'fbRads')$api_version
+            } else {
+                version <- fb_api_most_recent_version()
+            }
+        } else {
+            version <- fbad_check_fbacc(fbacc)$api_version
+        }
     }
 
     ## check that params meet certain standards
