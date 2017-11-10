@@ -112,6 +112,10 @@ fbad_read_ad <- function(fbacc, id, fields = 'id', simplify = TRUE) {
     ## return
     if (simplify) {
         res <- setDF(rbindlist(res, fill = TRUE))
+    } else {
+        ## unlist nested list due to split
+        names(res) <- NULL
+        res <- unlist(res, recursive = FALSE)
     }
     res
 
