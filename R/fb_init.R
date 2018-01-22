@@ -96,7 +96,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     params <- fbad_check_curl_params(params)
 
     ## get body
-    b = basicTextGatherer()
+    b = basicTextGatherer(.mapUnicode = FALSE)
 
     ## get headers
     h = basicHeaderGatherer()
