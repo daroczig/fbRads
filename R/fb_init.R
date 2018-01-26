@@ -347,10 +347,17 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
 
     ## try to look up token and version if not provided
     if (missing(token)) {
+        if (is.null(fbacc$access_token)) {
+            stop('Missing Facebook Ads API token')
+        }
         token <- fbacc$access_token
     }
     if (missing(version)) {
-        version <- fbacc$api_version
+        if (is.null(fbacc$api_version)) {
+            version <- fb_api_most_recent_version()
+        } else {
+            version <- fbacc$api_version
+        }
     }
 
     res <- fromJSONish(fbad_request(
