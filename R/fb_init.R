@@ -175,7 +175,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
             grepl('Failed to connect to graph.facebook.com', curlres$message) |
             grepl('(Connection|Operation) timed out after', curlres$message) |
             grepl('Unknown SSL protocol error', curlres$message) |
-            grepl('OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to graph.facebook.com', curlres$message)) {
+            grepl('OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to graph.facebook.com', curlres$message) |
+            grepl('OpenSSL SSL_read: SSL_ERROR_SYSCALL', curlres$message)) {
 
             ## log it
             flog.error(paste('Possible network error:', curlres$message), name = 'fbRads')
