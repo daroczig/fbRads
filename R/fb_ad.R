@@ -255,15 +255,23 @@ fbad_list_ad <- function(fbacc, id, statuses, fields = 'id', simplify = TRUE) {
                                         )),
                                 method = 'POST')
 
+            ## parse JSON
+            res <- lapply(fromJSONish(res)$body, function(x) fromJSONish(x)$data)
+
             ## transform data part of the list to data.frame
-            do.call(rbind, lapply(fromJSONish(res)$body,
-                                  function(x) fromJSONish(x)$data))
+            if (simplify) {
+                res <- do.call(rbind, res)
+            }
+
+            res
 
         })
 
     ## return merged data.frame
-    res <- do.call(rbind, res)
-    rownames(res) <- NULL
+    if (simplify) {
+        res <- do.call(rbind, res)
+        rownames(res) <- NULL
+    }
     res
 
 }
