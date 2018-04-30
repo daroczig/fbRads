@@ -404,6 +404,18 @@ fbad_get_client_ad_accounts <- fbad_get_owned_ad_accounts
 fbad_get_adaccounts <- fbad_get_owned_ad_accounts
 
 
+#' Get account details of Pages belonging to the clients of a Business Manager Account
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+fbad_get_client_pages <- fbad_get_owned_ad_accounts
+
+
+#' Get account details of Pages owned by a Business Manager Account
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+fbad_get_owned_pages <- fbad_get_owned_ad_accounts
+
+
 #' Get tracking pixels of eg an Ad or Business Manager Account
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ads-pixel/#Reading}
 #' @inheritParams fbad_get_owned_ad_accounts
