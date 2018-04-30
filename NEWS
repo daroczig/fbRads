@@ -1,3 +1,42 @@
+fbRads 2.11.0 (2018-04-28)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.11
+
+* get Pages and Ad Accounts of the clients of a Business Ad Account
+
+
+Fixes:
+
+* more standardized simplify argument when listing / reading Facebook objects
+* RCurl issues with Unicode characaters
+* more retries on SSL and network issues
+
+fbRads 2.10.0 (2017-11-01)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.10
+
+fbRads 2.9.0 (2017-07-21)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.9
+
+fbRads 0.2 (2017-04-18)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.8: #51
+
+fbRads 0.2 (2016-10-12)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.7: #36 
+
+fbRads 0.2 (2016-07-27)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.6: #25
+
 fbRads 0.2 (2016-04-04)
 ----------------------------------------------------------------
 
