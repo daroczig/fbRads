@@ -2,7 +2,7 @@
 % Please edit documentation in R/fb_init.R
 \name{fbad_get_client_ad_accounts}
 \alias{fbad_get_client_ad_accounts}
-\title{Deprecated in favor of \code{fbad_get_owned_adaccounts}}
+\title{Get account details of Ad Accounts belonging to the clients of a Business Manager Account}
 \usage{
 fbad_get_client_ad_accounts(id, token, version, fields = c("name"),
   simplify = TRUE)
@@ -19,5 +19,5 @@ fbad_get_client_ad_accounts(id, token, version, fields = c("name"),
 \item{simplify}{return \code{data.frame} or \code{list}}
 }
 \description{
-Deprecated in favor of \code{fbad_get_owned_adaccounts}
+Get account details of Ad Accounts belonging to the clients of a Business Manager Account
 }

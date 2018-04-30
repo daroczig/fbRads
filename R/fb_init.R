@@ -366,6 +366,8 @@ fbad_get_owned_ad_accounts <- function(id, token, version, fields = c('name'), s
                                       'fbad_get_client_ad_accounts' = 'client_ad_accounts',
                                       'fbad_get_owned_ad_accounts' = 'owned_ad_accounts',
                                       'fbad_get_adaccounts' = 'owned_ad_accounts',
+                                      'fbad_get_client_pages' = 'client_pages',
+                                      'fbad_get_owned_pages' = 'owned_pages',
                                       'fbad_get_pixels' = 'adspixels')),
         method = 'GET',
         params = list(
@@ -390,7 +392,7 @@ fbad_get_owned_ad_accounts <- function(id, token, version, fields = c('name'), s
 }
 
 
-#' Deprecated in favor of \code{fbad_get_owned_adaccounts}
+#' Get account details of Ad Accounts belonging to the clients of a Business Manager Account
 #' @inheritParams fbad_get_owned_ad_accounts
 #' @export
 fbad_get_client_ad_accounts <- fbad_get_owned_ad_accounts
