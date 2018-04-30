@@ -1,7 +1,7 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_most_recent_version <- function() '2.10'
+fb_api_most_recent_version <- function() '2.11'
 
 #' Returns the currently used version of the Facebook Marketing API
 #' @return string
