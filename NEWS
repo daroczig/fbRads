@@ -1,3 +1,72 @@
+fbRads 2.11.0 (2018-04-28)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.11
+
+* get Pages and Ad Accounts of the clients of a Business Ad Account
+
+Fixes:
+
+* more standardized simplify argument when listing / reading Facebook objects
+* RCurl issues with Unicode characaters
+* further retries on (temporarily) SSL and network errors
+
+fbRads 2.10.0 (2017-11-01)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.10
+
+Fixes:
+
+* further retries on (temporarily) SSL and network errors
+* improved malformed JSON parsing
+* improved paging of API results
+
+fbRads 2.9.0 (2017-07-21)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.9:
+
+Fixes:
+
+* paging when listing all Ad Accounts on a Business Account
+* look-up pixels
+* simplify argument improvements
+* doc tweaks on how to generated a token
+
+fbRads 0.2 (2017-04-18)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.8: #51
+
+Fixes:
+
+* remove line-breaks in malformed JSON returned by Facebook
+* simplify argument introduced for listing and reading Facebook objects
+
+fbRads 0.2 (2016-10-12)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.7: #36
+
+* subtype for custom & lookalike audiences
+* business_management scope needed to manage ads
+
+Fixes:
+
+* return actual error message from Facebook
+* always retry failed sync Insights API requests as async
+
+fbRads 0.2 (2016-07-27)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v2.6: #25
+
+Fixes:
+
+* timeout async queries after 45 mins
+* further retries on (temporarily) SSL and network errors
+
 fbRads 0.2 (2016-04-04)
 ----------------------------------------------------------------
 

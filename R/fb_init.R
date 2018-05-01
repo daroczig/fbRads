@@ -1,7 +1,7 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_most_recent_version <- function() '2.10'
+fb_api_most_recent_version <- function() '2.11'
 
 #' Returns the currently used version of the Facebook Marketing API
 #' @return string
@@ -332,8 +332,8 @@ fbad_request_next_page <- function(url) {
     fromJSONish(res)
 }
 
-#' Get account details belonging to eg an Ad or Business Manager Account
-#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-account#Reading}
+#' Get account details of Ad Accounts owned by a Business Manager Account
+#' @references \url{https://developers.facebook.com/docs/marketing-api/businessmanager/assets#adaccounts}
 #' @param id Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID
 #' @param token FB Ads API token (if running before \code{fb_init})
 #' @param version Facebook Marketing API version (if running before \code{fb_init})
@@ -341,7 +341,7 @@ fbad_request_next_page <- function(url) {
 #' @param simplify return \code{data.frame} or \code{list}
 #' @return list(s) containing account details
 #' @export
-fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify = TRUE) {
+fbad_get_owned_ad_accounts <- function(id, token, version, fields = c('name'), simplify = TRUE) {
 
     ## look up function name to know what API endpoint to use
     fn <- deparse(match.call()[[1]])
@@ -363,7 +363,11 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
 
     res <- fromJSONish(fbad_request(
         path   = file.path(id, switch(fn,
+                                      'fbad_get_client_ad_accounts' = 'client_ad_accounts',
+                                      'fbad_get_owned_ad_accounts' = 'owned_ad_accounts',
                                       'fbad_get_adaccounts' = 'owned_ad_accounts',
+                                      'fbad_get_client_pages' = 'client_pages',
+                                      'fbad_get_owned_pages' = 'owned_pages',
                                       'fbad_get_pixels' = 'adspixels')),
         method = 'GET',
         params = list(
@@ -388,15 +392,39 @@ fbad_get_adaccounts <- function(id, token, version, fields = c('name'), simplify
 }
 
 
+#' Get account details of Ad Accounts belonging to the clients of a Business Manager Account
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+fbad_get_client_ad_accounts <- fbad_get_owned_ad_accounts
+
+
+#' Deprecated in favor of \code{fbad_get_owned_adaccounts}
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+fbad_get_adaccounts <- fbad_get_owned_ad_accounts
+
+
+#' Get account details of Pages belonging to the clients of a Business Manager Account
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+fbad_get_client_pages <- fbad_get_owned_ad_accounts
+
+
+#' Get account details of Pages owned by a Business Manager Account
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+fbad_get_owned_pages <- fbad_get_owned_ad_accounts
+
+
 #' Get tracking pixels of eg an Ad or Business Manager Account
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ads-pixel/#Reading}
-#' @inheritParams fbad_get_adaccounts
+#' @inheritParams fbad_get_owned_ad_accounts
 #' @param token FB Ads API token
 #' @param version Facebook Marketing API version
 #' @param fields character vector
 #' @return list(s) containing Ads Pixels
 #' @export
-fbad_get_pixels <- fbad_get_adaccounts
+fbad_get_pixels <- fbad_get_owned_ad_accounts
 
 
 #' Initiate Facebook Account with OAuth token
