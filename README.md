@@ -52,4 +52,4 @@ This package makes your life more convenient when it comes to interacting with t
 
 ---
 
-This package was originally developed at [CARD.com](http://card.com), licensed under [AGPL-3](LICENSE).
+This package was originally developed at [CARD.com](http://card.com), currently maintained at [System1](https://system1.com) -- licensed under [AGPL-3](LICENSE).

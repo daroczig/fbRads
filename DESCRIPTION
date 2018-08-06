@@ -1,8 +1,10 @@
 Type: Package
 Package: fbRads
-Maintainer: Gergely Daroczi <daroczig@rapporter.net>
-Author: Ajaykumar Gopal <ajay@pathsciences.com>, Gergely Daroczi
-    <daroczig@rapporter.net>
+Authors@R: c(
+    person("Gergely", "Daroczi", , "daroczig@rapporter.net", role = c("aut", "cre")),
+    person("Ajaykumar", "Gopal", , "ajay@pathsciences.com", role = c("aut")),
+    person("card.com", role = c("fnd"))
+    person("System1", role = c("fnd")))
 Title: Analyzing and Managing Facebook Ads from R
 Description: Wrapper functions around the Facebook Marketing 'API' to create,
     read, update and delete custom audiences, images, campaigns, ad sets, ads and
