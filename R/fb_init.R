@@ -328,7 +328,7 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' @keywords internal
 fbad_request_next_page <- function(url) {
     url <- url_parse(url)
-    res <- fbad_request(path = url$path, method = 'GET', params = url$params)
+    res <- fbad_request(path = url$path, method = 'GET', params = url$params, version = url$version)
     fromJSONish(res)
 }
 
