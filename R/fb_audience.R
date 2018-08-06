@@ -4,6 +4,7 @@
 #' @param name string
 #' @param description optional string
 #' @param opt_out_link optional link
+#' @param subtype audience type
 #' @return custom audience ID
 #' @export
 fbad_create_audience <- function(fbacc, name, description, opt_out_link,

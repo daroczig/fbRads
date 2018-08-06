@@ -23,6 +23,7 @@ this_function_name <- function() {
 #' @param url string
 #' @return list
 #' @keywords internal
+#' @importFrom stats setNames
 url_parse <- function(url) {
 
     schema <- sub('^(http[s]).*', '\\1', url)

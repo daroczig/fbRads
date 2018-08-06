@@ -12,7 +12,6 @@ fbad_create_ad <- function(fbacc,
                            name,
                            adset_id,
                            creative_id,
-                           adgroup_status = c('ACTIVE', 'PAUSED'),
                            status = c('ACTIVE', 'PAUSED'),...) {
 
     fbacc <- fbad_check_fbacc()

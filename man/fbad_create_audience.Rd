@@ -17,6 +17,8 @@ fbad_create_audience(fbacc, name, description, opt_out_link,
 \item{description}{optional string}
 
 \item{opt_out_link}{optional link}
+
+\item{subtype}{audience type}
 }
 \value{
 custom audience ID

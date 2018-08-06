@@ -36,7 +36,8 @@ library(rlist)
 list.stack(list.select(l, date_start, date_stop, ad_id, adset_id, impressions))
 
 ## get given list of fields and transform to tabular data
-l <- fb_insights(date_preset = 'today', level = 'ad', fields = toJSON(c('impressions', 'total_actions')))
+l <- fb_insights(date_preset = 'today', level = 'ad',
+       fields = toJSON(c('impressions', 'total_actions')))
 data.table::rbindlist(l)
 }
 }
