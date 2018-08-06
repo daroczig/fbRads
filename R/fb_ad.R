@@ -12,13 +12,10 @@ fbad_create_ad <- function(fbacc,
                            name,
                            adset_id,
                            creative_id,
-                           adgroup_status = c('ACTIVE', 'PAUSED'),
                            status = c('ACTIVE', 'PAUSED'),...) {
 
     fbacc <- fbad_check_fbacc()
-    stopifnot(!missing(name),
-              !missing(campaign_id) | !missing(adset_id),
-              !missing(creative_id))
+    stopifnot(!missing(name), !missing(adset_id), !missing(creative_id))
 
     ## initial status of the ad to be created
     status <- match.arg(status)

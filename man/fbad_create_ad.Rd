@@ -4,9 +4,8 @@
 \alias{fbad_create_ad}
 \title{Create ad}
 \usage{
-fbad_create_ad(fbacc, name, adset_id, creative_id,
-  adgroup_status = c("ACTIVE", "PAUSED"), status = c("ACTIVE", "PAUSED"),
-  ...)
+fbad_create_ad(fbacc, name, adset_id, creative_id, status = c("ACTIVE",
+  "PAUSED"), ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

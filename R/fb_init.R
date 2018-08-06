@@ -1,7 +1,7 @@
 #' Returns the most recent version of the supported Facebook Marketing API
 #' @return string
 #' @export
-fb_api_most_recent_version <- function() '2.11'
+fb_api_most_recent_version <- function() '3.0'
 
 #' Returns the currently used version of the Facebook Marketing API
 #' @return string
@@ -328,7 +328,7 @@ fbad_get_adaccount_details  <- function(accountid, token, version) {
 #' @keywords internal
 fbad_request_next_page <- function(url) {
     url <- url_parse(url)
-    res <- fbad_request(path = url$path, method = 'GET', params = url$params)
+    res <- fbad_request(path = url$path, method = 'GET', params = url$params, version = url$version)
     fromJSONish(res)
 }
 
@@ -425,6 +425,46 @@ fbad_get_owned_pages <- fbad_get_owned_ad_accounts
 #' @return list(s) containing Ads Pixels
 #' @export
 fbad_get_pixels <- fbad_get_owned_ad_accounts
+
+
+#' Get account details of Ad Accounts that are accessible by the given token
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+#' @return character vector of Ad Account ids
+fbad_get_my_ad_accounts <- function(token, version) {
+
+    ## try to look up token and version if not provided
+    if (missing(token)) {
+        if (is.null(fbacc$access_token)) {
+            stop('Missing Facebook Ads API token')
+        }
+        token <- fbacc$access_token
+    }
+    if (missing(version)) {
+        if (is.null(fbacc$api_version)) {
+            version <- fb_api_most_recent_version()
+        } else {
+            version <- fbacc$api_version
+        }
+    }
+
+    res <- fromJSONish(fbad_request(
+        path   = 'me',
+        method = 'GET',
+        params = list(access_token = token, fields = 'adaccounts'),
+        version = version))[[1]]
+    data <- list(res$data)
+
+    ## iterate through all pages
+    while (!is.null(res$paging$`next`)) {
+        res  <- fbad_request_next_page(res$paging$`next`)
+        data <- c(data, list(res$data))
+    }
+
+    ## return
+    do.call(rbind, data)
+
+}
 
 
 #' Initiate Facebook Account with OAuth token
