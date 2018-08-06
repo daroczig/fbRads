@@ -2,7 +2,7 @@
 
 This R package includes wrapper functions around the [Facebook Marketing API](https://developers.facebook.com/docs/marketing-apis) to create, read, update and delete custom audiences, images, campaigns, adsets, ads and related content.
 
-Vignette and more detailed documentation is coming soon, until then please see the [slides](http://bit.ly/domino-webinar-fbRads) presented at [useR! 2015](http://user2015.math.aau.dk/contributed_talks#210), [EARL 2015](https://earlconf.com/2015/boston/speakers/speaker.php?s=gergely_daroczi), the [Los Angeles R Users Group](http://www.meetup.com/Los-Angeles-R-Users-Group-Data-Science/events/226717454/) and at a [Domino Webinar](https://www.dominodatalab.com/resource/optimizing_facebook_campaigns_with_r).
+For more details, see the [slides](http://bit.ly/domino-webinar-fbRads) presented at [useR! 2015](http://user2015.math.aau.dk/contributed_talks#210), [EARL 2015](https://earlconf.com/2015/boston/speakers/speaker.php?s=gergely_daroczi), the [Los Angeles R Users Group](http://www.meetup.com/Los-Angeles-R-Users-Group-Data-Science/events/226717454/) and at a [Domino Webinar](https://www.youtube.com/watch?v=RY9pfnBRi-Q).
 
 ## Creating a Facebook App & connect with OAuth token
 
