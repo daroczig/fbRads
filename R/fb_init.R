@@ -457,7 +457,6 @@ fbad_get_my_ad_accounts <- function(token, version) {
 
     ## iterate through all pages
     while (!is.null(res$paging$`next`)) {
-        flog.info(res$paging$`next`)
         res  <- fbad_request_next_page(res$paging$`next`)
         data <- c(data, list(res$data))
     }
