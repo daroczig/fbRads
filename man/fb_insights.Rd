@@ -30,15 +30,17 @@ Insights
 \dontrun{
 fb_insights(fbacc)
 
-## get default fields and filter for a few metrics afterwards
+## get default fields and filter for a few metrics
 l <- fb_insights(date_preset = 'today', level = 'ad')
-library(rlist)
-list.stack(list.select(l, date_start, date_stop, ad_id, adset_id, impressions))
-
-## get given list of fields and transform to tabular data
-l <- fb_insights(date_preset = 'today', level = 'ad',
-       fields = toJSON(c('impressions', 'total_actions')))
+## merge pages into tabular data
 data.table::rbindlist(l)
+
+## sometimes more advanced list selections are needed
+l <- fb_insights(date_preset = 'today', level = 'ad', fields = 'unique_actions', simplify = FALSE)
+
+## filter for ACTIVE Ads
+l <- fb_insights(date_preset = 'today', level = 'ad',
+  filtering = "[{'field':'adset.effective_status','operator':'IN','value':['ACTIVE']}]")
 }
 }
 \references{
