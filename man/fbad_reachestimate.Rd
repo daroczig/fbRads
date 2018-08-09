@@ -4,20 +4,12 @@
 \alias{fbad_reachestimate}
 \title{Query for reach estimate for given targeting spec}
 \usage{
-fbad_reachestimate(fbacc, targeting_spec, currency = "USD",
-  optimize_for = c("NONE", "APP_INSTALLS", "CLICKS", "ENGAGED_USERS",
-  "EXTERNAL", "EVENT_RESPONSES", "IMPRESSIONS", "LINK_CLICKS", "OFFER_CLAIMS",
-  "OFFSITE_CONVERSIONS", "PAGE_ENGAGEMENT", "PAGE_LIKES", "POST_ENGAGEMENT",
-  "REACH", "SOCIAL_IMPRESSIONS", "VIDEO_VIEWS"))
+fbad_reachestimate(fbacc, targeting_spec)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
 \item{targeting_spec}{lists of targeting spec characteristics as described at \url{https://developers.facebook.com/docs/marketing-api/targeting-specs}}
-
-\item{currency}{string}
-
-\item{optimize_for}{what are you optimizing for in the planned Ad Set?}
 }
 \value{
 list
@@ -27,6 +19,7 @@ Query for reach estimate for given targeting spec
 }
 \examples{
 \dontrun{
+library(jsonlite)
 targetspec <- list(
   age_min = unbox(24),
   age_max = unbox(55),
