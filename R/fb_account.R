@@ -19,6 +19,43 @@ fbad_create_account <- function(business_id, access_token,
     ## build params list
     params <- c(
         list(
-            business_id = business_id, access_token = access_token,cccount_id
+            business_id = business_id, access_token = access_token,
+            name = name, currency = currency, timezone_id = timezone_id,
+            end_advertiser = end_advertiser, media_agency = media_agency, partner = partner),
+        list(...))
+
+    ## get results
+    res <- fbad_request(
+        path   = file.path(business_id, 'adaccount'),
+        method = "POST",
+        params = params)
+
+    ## return campaign ID on success
+    fromJSONish(res)$account_id
+
+}
+
+
+#' Assign a user to an Ad Account
+#' @inheritParams fbad_request
+#' @param account_id string
+#' @param tasks enum
+#' @param user id
+#' @export
+fbad_assign_users_to_account <- function(account_id,access_token,
+                                         tasks = c('MANAGE', 'ADVERTISE', 'ANALYZE'),
+                                         user) {
+
+    ## fbacc <- fbad_check_fbacc()
+    tasks <- match.arg(tasks)
+
+    ## get results
+    res <- fbad_request(
+        path   = file.path(paste('act', account_id, sep = '_'), 'assigned_users'),
+        method = "POST",
+        params = list(tasks = tasks, user = user, access_token = access_token))
+
+    ## return campaign ID on success
+    invisible(fromJSONish(res)$success)
 
 }
