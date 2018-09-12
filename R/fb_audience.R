@@ -3,15 +3,15 @@
 #' @inheritParams fbad_request
 #' @param name string
 #' @param description optional string
-#' @param opt_out_link optional link
 #' @param subtype audience type
+#' @param ... any further parameters (fields) passed to the API
 #' @return custom audience ID
 #' @export
-fbad_create_audience <- function(fbacc, name, description, opt_out_link,
+fbad_create_audience <- function(fbacc, name, description,
                                  subtype = c(
                                      'CUSTOM', 'WEBSITE', 'APP', 'OFFLINE_CONVERSION',
                                      'CLAIM', 'PARTNER', 'MANAGED', 'VIDEO', 'LOOKALIKE',
-                                     'ENGAGEMENT', 'DATA_SET', 'BAG_OF_ACCOUNTS')) {
+                                     'ENGAGEMENT', 'DATA_SET', 'BAG_OF_ACCOUNTS'), ...) {
 
     fbacc <- fbad_check_fbacc()
     if (missing(name))
@@ -26,9 +26,7 @@ fbad_create_audience <- function(fbacc, name, description, opt_out_link,
     if (!missing(description)) {
         params$description <- description
     }
-    if (!missing(opt_out_link)) {
-        params$opt_out_link <- opt_out_link
-    }
+    params <- c(params, list(...))
 
     ## get results
     res <- fbad_request(fbacc,
