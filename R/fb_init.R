@@ -539,7 +539,7 @@ fbad_check_fbacc <- function(fbacc) {
         ## manually passed fbacc object found in parent call
         if (!is.null(mc$fbacc)) {
 
-            fbacc <- eval.parent(mc$fbacc)
+            fbacc <- eval.parent(mc$fbacc, n = 2)
 
         } else {
 
