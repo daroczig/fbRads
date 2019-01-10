@@ -16,14 +16,14 @@ To be able to use this package, you will have to create a Facebook App and autho
 6. Store your token in a secure place, and you are all set to start using `fbRads`, eg list all the Ad Account ids you can access:
 
     ```r
-    accounts <- fbad_get_my_ad_accounts(token, version = '3.0')
+    accounts <- fbad_get_my_ad_accounts(token, version = '3.1')
     ```
 
 7. Pick an Ad Account id from the returned list and initialize `fbRads` to use that Ad Account by default:
 
     ```r
     account <- sample(accounts$account_id, 1)
-    fbad_init(accountid = account, token = token, version = '3.0')
+    fbad_init(accountid = account, token = token, version = '3.1')
     ```
 
 8. Then list all your ads along with the ad name and status on that Ad Account:
