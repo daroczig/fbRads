@@ -4,7 +4,8 @@
 \alias{fbad_get_adaccounts}
 \title{Deprecated in favor of \code{fbad_get_owned_adaccounts}}
 \usage{
-fbad_get_adaccounts(id, token, version, fields = c("name"), simplify = TRUE)
+fbad_get_adaccounts(id, token, version, fields = c("name"),
+  simplify = TRUE)
 }
 \arguments{
 \item{id}{Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID}

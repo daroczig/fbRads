@@ -6,8 +6,8 @@
 \usage{
 fbad_read_audience(fbacc, audience_id, fields = c("id", "account_id",
   "approximate_count", "data_source", "delivery_status",
-  "lookalike_audience_ids", "lookalike_spec", "name", "permission_for_actions",
-  "operation_status", "subtype", "time_updated"))
+  "lookalike_audience_ids", "lookalike_spec", "name",
+  "permission_for_actions", "operation_status", "subtype", "time_updated"))
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

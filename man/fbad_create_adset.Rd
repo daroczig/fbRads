@@ -4,15 +4,16 @@
 \alias{fbad_create_adset}
 \title{Create Ad Set}
 \usage{
-fbad_create_adset(fbacc, name, optimization_goal = c("NONE", "APP_INSTALLS",
-  "CLICKS", "ENGAGED_USERS", "EXTERNAL", "EVENT_RESPONSES", "IMPRESSIONS",
-  "LINK_CLICKS", "OFFER_CLAIMS", "OFFSITE_CONVERSIONS", "PAGE_ENGAGEMENT",
-  "PAGE_LIKES", "POST_ENGAGEMENT", "REACH", "SOCIAL_IMPRESSIONS",
-  "VIDEO_VIEWS"), billing_event = c("APP_INSTALLS", "CLICKS", "IMPRESSIONS",
-  "LINK_CLICKS", "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT",
-  "VIDEO_VIEWS"), is_autobid = FALSE, bid_amount, promoted_object,
-  campaign_id, status = c("ACTIVE", "PAUSED", "ARCHIVED", "DELETED"),
-  daily_budget, lifetime_budget, end_time, start_time, targeting, ...)
+fbad_create_adset(fbacc, name, optimization_goal = c("NONE",
+  "APP_INSTALLS", "CLICKS", "ENGAGED_USERS", "EXTERNAL", "EVENT_RESPONSES",
+  "IMPRESSIONS", "LINK_CLICKS", "OFFER_CLAIMS", "OFFSITE_CONVERSIONS",
+  "PAGE_ENGAGEMENT", "PAGE_LIKES", "POST_ENGAGEMENT", "REACH",
+  "SOCIAL_IMPRESSIONS", "VIDEO_VIEWS"), billing_event = c("APP_INSTALLS",
+  "CLICKS", "IMPRESSIONS", "LINK_CLICKS", "OFFER_CLAIMS", "PAGE_LIKES",
+  "POST_ENGAGEMENT", "VIDEO_VIEWS"), is_autobid = FALSE, bid_amount,
+  promoted_object, campaign_id, status = c("ACTIVE", "PAUSED",
+  "ARCHIVED", "DELETED"), daily_budget, lifetime_budget, end_time,
+  start_time, targeting, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

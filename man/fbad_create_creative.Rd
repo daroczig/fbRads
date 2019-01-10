@@ -5,10 +5,10 @@
 \title{Create an ad creative}
 \usage{
 fbad_create_creative(fbacc, title, body, name, actor_id, follow_redirect,
-  image_file, image_hash, image_crops, image_url, link_url, url_tags, object_id,
-  object_story_id, object_story_spec, object_url,
-  call_to_action_type = c("OPEN_LINK", "BOOK_TRAVEL", "SHOP_NOW", "PLAY_GAME",
-  "LISTEN_MUSIC", "WATCH_VIDEO", "USE_APP"))
+  image_file, image_hash, image_crops, image_url, link_url, url_tags,
+  object_id, object_story_id, object_story_spec, object_url,
+  call_to_action_type = c("OPEN_LINK", "BOOK_TRAVEL", "SHOP_NOW",
+  "PLAY_GAME", "LISTEN_MUSIC", "WATCH_VIDEO", "USE_APP"))
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

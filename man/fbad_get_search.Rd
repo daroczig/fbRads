@@ -4,10 +4,11 @@
 \alias{fbad_get_search}
 \title{FB Search API Querying}
 \usage{
-fbad_get_search(fbacc, q, type = c("adeducationschool", "adeducationmajor",
-  "adgeolocation", "adcountry", "adzipcode", "adgeolocationmeta",
-  "adradiussuggestion", "adinterest", "adinterestsuggestion", "adinterestvalid",
-  "adlocale", "adTargetingCategory", "adworkemployer", "targetingsearch"), ...)
+fbad_get_search(fbacc, q, type = c("adeducationschool",
+  "adeducationmajor", "adgeolocation", "adcountry", "adzipcode",
+  "adgeolocationmeta", "adradiussuggestion", "adinterest",
+  "adinterestsuggestion", "adinterestvalid", "adlocale",
+  "adTargetingCategory", "adworkemployer", "targetingsearch"), ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

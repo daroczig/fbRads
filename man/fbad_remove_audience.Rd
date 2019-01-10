@@ -4,7 +4,8 @@
 \alias{fbad_remove_audience}
 \title{Add people from a custom FB audience}
 \usage{
-fbad_remove_audience(fbacc, audience_id, schema = c("EMAIL", "PHONE"), hashes)
+fbad_remove_audience(fbacc, audience_id, schema = c("EMAIL", "PHONE"),
+  hashes)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
