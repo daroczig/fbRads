@@ -10,7 +10,7 @@ To be able to use this package, you will have to create a Facebook App and autho
 
 1. Click on "Add a New App" at https://developers.facebook.com/apps
 2. Fill in a unique `Display Name` (eg "app_testing_foobar_42"), and provide your e-mail address. Click on "Create App ID" & pass the captcha test.
-3. In the "Add a new Product" screen, click on "Set Up" on the Marketing API
+3. Select the "Implement Marketing API" scenario that will automatically add the "Marketing API" to the "Products" section of the sidebar, or click on the "+" butting in the "Products" section of the sidebar
 4. Optionally associate your app with a Business Manager in the "Settings" screen of the "Marketing API"
 5. In the sidebar, select "Tools" from the "Marketing API" and generate a token
 6. Store your token in a secure place, and you are all set to start using `fbRads`, eg list all the Ad Account ids you can access:
