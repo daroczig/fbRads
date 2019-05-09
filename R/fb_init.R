@@ -467,6 +467,36 @@ fbad_get_my_ad_accounts <- function(token, version) {
 }
 
 
+#' Prints user id and name
+#' @inheritParams fbad_get_owned_ad_accounts
+#' @export
+#' @return character vector of Ad Account ids
+fbad_whoami <- function(token, version) {
+
+    ## try to look up token and version if not provided
+    if (missing(token)) {
+        if (is.null(fbacc$access_token)) {
+            stop('Missing Facebook Ads API token')
+        }
+        token <- fbacc$access_token
+    }
+    if (missing(version)) {
+        if (is.null(fbacc$api_version)) {
+            version <- fb_api_most_recent_version()
+        } else {
+            version <- fbacc$api_version
+        }
+    }
+
+    fromJSONish(fbad_request(
+        path   = 'me',
+        method = 'GET',
+        params = list(access_token = token, fields = 'id,name'),
+        version = version))
+
+}
+
+
 #' Initiate Facebook Account with OAuth token
 #'
 #' If you do not have a token, then register an (e.g. "Website") application at \url{https://developers.facebook.com/apps} and make a note of your "App ID" and "App Secret" at the "Dashboard" of your application. Then go to "Settings", click on "Add Platform", then "Website" and paste \code{http://localhost:1410} as the "Site URL". Save, and then run the below example R commands to get your token. Please note that your app needs access to your ads as well, see \url{https://developers.facebook.com/docs/marketing-api/access} for more details.
