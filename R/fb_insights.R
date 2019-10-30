@@ -84,13 +84,16 @@ fb_insights <- function(fbacc, target = fbacc$acct_path, job_type = c('sync', 'a
 
     }
 
+    params <- list(...)
+    params$fields <- paste(params$fields, collapse = ',')
+
     ## start sync or async report generation
     res <- tryCatch(fbad_request(fbacc,
         path   = file.path(sub('/$', '', target), 'insights'),
         method = switch(job_type,
             'sync'  = 'GET',
             'async' = 'POST'),
-        params = list(...), log = FALSE), error = function(e) e)
+        params = params, log = FALSE), error = function(e) e)
 
     ## sync request
     if (job_type == 'sync') {
