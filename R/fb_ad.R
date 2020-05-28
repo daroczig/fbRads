@@ -1,42 +1,22 @@
-#' Create ad
+#' Create Ad
 #' @inheritParams fbad_request
-#' @param name Ad group name
-#' @param adset_id Ad Set id
-#' @param creative_id creative ID
-#' @param status initial status of the Ad group
-#' @param ... further parameters passed to the Facebook API
+#' @param ... further parameters passed to the API, see below references
 #' @return ad id
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#Creating}
-fbad_create_ad <- function(fbacc,
-                           name,
-                           adset_id,
-                           creative_id,
-                           status = c('ACTIVE', 'PAUSED'),...) {
+fbad_create_ad <- function(fbacc, ...) {
 
-    fbacc <- fbad_check_fbacc()
-    stopifnot(!missing(name), !missing(adset_id), !missing(creative_id))
+    ## lookup caller fn name and the API endpoint based on that
+    endpoint <- switch(this_function_name(),
+                       'fbad_create_ad'       = 'ads',
+                       'fbad_create_adset'    = 'adsets',
+                       'fbad_create_campaign' = 'campaigns')
 
-    ## initial status of the ad to be created
-    status <- match.arg(status)
 
-    ## build params list
-    params <- list(
-        name     = name,
-        creative = toJSON(list(creative_id = unbox(creative_id))),
-        adset_id = adset_id,
-        status   = status)
-
-    ## add further params if provided
-    if (length(list(...)) > 0) {
-        params <- c(params, list(...))
-    }
-
-    ## get results
-    res <- fbad_request(fbacc,
-        path   = paste0('act_', fbacc$account_id, '/ads'),
+    res <- fbad_request(fbad_check_fbacc(),
+        path   = paste0('act_', fbacc$account_id, '/', endpoint),
         method = "POST",
-        params = params)
+        params = list(...))
 
     ## return campaign ID on success
     fromJSONish(res)$id

@@ -2,29 +2,20 @@
 % Please edit documentation in R/fb_ad.R
 \name{fbad_create_ad}
 \alias{fbad_create_ad}
-\title{Create ad}
+\title{Create Ad}
 \usage{
-fbad_create_ad(fbacc, name, adset_id, creative_id, status = c("ACTIVE",
-  "PAUSED"), ...)
+fbad_create_ad(fbacc, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{name}{Ad group name}
-
-\item{adset_id}{Ad Set id}
-
-\item{creative_id}{creative ID}
-
-\item{status}{initial status of the Ad group}
-
-\item{...}{further parameters passed to the Facebook API}
+\item{...}{further parameters passed to the API, see below references}
 }
 \value{
 ad id
 }
 \description{
-Create ad
+Create Ad
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup#Creating}
