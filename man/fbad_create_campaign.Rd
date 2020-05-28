@@ -2,37 +2,20 @@
 % Please edit documentation in R/fb_campaign.R
 \name{fbad_create_campaign}
 \alias{fbad_create_campaign}
-\title{Created Ad Campaign}
+\title{Create Ad Campaign}
 \usage{
-fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
-  "RESERVED"), campaign_status = c("ACTIVE", "PAUSED"),
-  execution_options = NULL, name, objective = c("BRAND_AWARENESS",
-  "CANVAS_APP_ENGAGEMENT", "CANVAS_APP_INSTALLS", "CONVERSIONS",
-  "EVENT_RESPONSES", "EXTERNAL", "LEAD_GENERATION", "LINK_CLICKS",
-  "LOCAL_AWARENESS", "MOBILE_APP_ENGAGEMENT", "MOBILE_APP_INSTALLS",
-  "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT", "PRODUCT_CATALOG_SALES",
-  "VIDEO_VIEWS"), spend_cap = NULL)
+fbad_create_campaign(fbacc, ...)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
 
-\item{buying_type}{Facebook optimization algorithm to delivery, pricing, and limits}
-
-\item{campaign_status}{initial status of the Ad Campaign}
-
-\item{execution_options}{special execution settings passed to the API}
-
-\item{name}{Ad Campaign name}
-
-\item{objective}{the campaign's objective}
-
-\item{spend_cap}{spend cap of the campaign}
+\item{...}{further parameters passed to the API, see below references}
 }
 \value{
 Ad Campaign id
 }
 \description{
-Created Ad Campaign
+Create Ad Campaign
 }
 \references{
 \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Creating}
