@@ -4,12 +4,15 @@
 \alias{fbad_read_creative}
 \title{Read ad creative}
 \usage{
-fbad_read_creative(fbacc, id, by = c("account", "creative", "ad"),
+fbad_read_creative(
+  fbacc,
+  id,
+  by = c("account", "creative", "ad"),
   fields = c("id", "name", "body", "title", "run_status", "actor_id",
-  "call_to_action_type", "follow_redirect", "image_crops", "image_file",
-  "image_hash", "image_url", "thumbnail_url", "link_url", "url_tags",
-  "object_id", "object_story_id", "object_story_spec", "object_type",
-  "object_url"))
+    "call_to_action_type", "follow_redirect", "image_crops", "image_file", "image_hash",
+    "image_url", "thumbnail_url", "link_url", "url_tags", "object_id", "object_story_id",
+    "object_story_spec", "object_type", "object_url")
+)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
