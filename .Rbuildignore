@@ -4,3 +4,5 @@ sh$
 tar.gz$
 LICENSE
 TODO.md
+^.*\.Rproj$
+^\.Rproj\.user$
