@@ -2,11 +2,12 @@
 #' @inheritParams fbad_request
 #' @param id (character) id of the campaign or adset you want to create a copy of
 #' @param end_time (datetime) The end time of the ad set
+#' @param deep_copy (boolean) Default value: false. Whether to copy all the child ads.
 #' @param ... further arguments passed to the API endpoint
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/copies/}
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group/copies/}
-fbad_create_copy <- function(fbacc, id, end_time, ...) {
+fbad_create_copy <- function(fbacc, id, end_time, deep_copy, ...) {
     
     fbacc <- fbad_check_fbacc()
     
@@ -16,7 +17,8 @@ fbad_create_copy <- function(fbacc, id, end_time, ...) {
     ## build params list
     params <- list(
         id = id,
-        end_time = end_time)
+        end_time = end_time,
+        deep_copy = deep_copy)
     
     ## drop NULL args
     params <- as.list(unlist(params, recursive = FALSE))
@@ -45,6 +47,6 @@ fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
 
 end_time = as_datetime("2020-10-25 23:59:59 PDT") 
 
-fbad_create_copy(fbacc, id = "23845900069090648", end_time = end_time)
+fbad_create_copy(fbacc, id = "23845893193900648", end_time = end_time, deep_copy = TRUE)
 
 ?fbad_init
