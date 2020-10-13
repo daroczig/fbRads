@@ -1,6 +1,7 @@
 #' Copy Ad Campaign or Ad Set
 #' @inheritParams fbad_request
 #' @param id (character) id of the campaign or adset you want to create a copy of
+#' @param start_time (datetime) The start time of the ad set. If not set, the copied adset will inherit the start time from the original set.
 #' @param end_time (datetime) The end time of the ad set
 #' @param deep_copy (boolean) Default value: false. Whether to copy all the child ads.
 #' @param rename_strategy (string) enum {DEEP_RENAME, ONLY_TOP_LEVEL_RENAME, NO_RENAME}
@@ -11,7 +12,8 @@
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/copies/}
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group/copies/}
 fbad_create_copy <- function(fbacc, 
-                             id, 
+                             id,
+                             start_time = NULL,
                              end_time = NULL, 
                              deep_copy = NULL, 
                              rename_strategy = NULL, 
@@ -22,7 +24,7 @@ fbad_create_copy <- function(fbacc,
     
     # id
     if (missing(id)){
-        stop('An campaign or adset id is required.')
+        stop('A campaign id or adset id is required.')
     }
     
     # rename options
@@ -41,6 +43,7 @@ fbad_create_copy <- function(fbacc,
     ## build params list
     params <- list(
         id = id,
+        start_time = start_time,
         end_time = end_time,
         deep_copy = deep_copy,
         rename_options = rename_options)
@@ -73,7 +76,14 @@ library(lubridate)
 # Initialize specific account
 fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
 
-fbad_create_copy(fbacc, id = "23845893193900648", 
+start_time = as_datetime("2020-10-20 23:59:59 PDT")
+end_time = as_datetime("2020-10-27 10:10:10 UTC")
+
+fbad_create_copy(fbacc, id = "23845893193900648",
+                 start_time = start_time,
                  end_time = end_time, 
-                 deep_copy = TRUE)
+                 deep_copy = TRUE,
+                 rename_strategy = "DEEP_RENAME",
+                 rename_prefix = "Morning")
+
 
