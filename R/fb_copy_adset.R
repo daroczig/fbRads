@@ -91,15 +91,17 @@ fbad_copy_adset <- function(fbacc,
     
 }
 
-token = 'EAADhONh9vckBAFUT4VE468jfQKg7g9YGKgF25ZBASkhzdAU9H6BhNq1Dea5xZAcQrzVIv8kwzZCvpfu2Y9SE7G6psPUKfQ0LtCUZAtWUeSofzuOpeAXKRyRuDAnlS35WW8AeZB8LKZBorZADZAxUwXjBb9OBKleiWj32ZBDVOz7n2qzXZAsZBZA1rJbi3w7PR19JGK8ZD'
+# EXAMPLE -----
+token = 'xxxxxxxx'
 # Define account id - Facebook API > Tests
-account_id = "347374566526931"
+account_id = "xxxxxx"
 
 library(fbRads)
 library(jsonlite)
 library(data.table)
 library(RCurl)
 library(lubridate)
+library(futile.logger)
 
 # 3 Initialization ----
 # Initialize specific account
@@ -111,12 +113,10 @@ end_time = as_datetime("2020-10-27 10:10:10 UTC")
 campaign_id = "23845914189980648"
 
 fbad_copy_adset(fbacc, 
-                 adset_id = "23845893193900648",
+                 adset_id = "xxxxxxxxxxxx",
                  campaign_id = campaign_id,
                  deep_copy = TRUE,
                  status_option = "ACTIVE",
                  rename_strategy = "DEEP_RENAME",
                  rename_prefix = "Morning-2")
 
-# Install the released version from CRAN
-library(testthat)
