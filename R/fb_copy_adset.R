@@ -38,13 +38,24 @@ fbad_copy_adset <- function(fbacc,
         stop('This adset id does not exists. Please provide a valid adset id.')
     }
     
+    # check if campaign id actually exists
+    if(!is.null(campaign_id)){
+    
+        list_of_campaigns = fbad_list_campaign(fbacc)
+        
+        if(!campaign_id %in% list_of_campaigns$id){
+            stop('This campaign id does not exists. Please provide a valid campaign id.')
+        }
+    
+    }
+    
     # rename options
     if(is.null(rename_strategy)){
         rename_options = NULL
     }else if((rename_strategy == "DEEP_RENAME" | rename_strategy == "ONLY_TOP_LEVEL_RENAME") & is.null(rename_prefix) & is.null(rename_suffix)){
         stop("You have selected 'DEEP_RENAME' or 'ONLY_TOP_LEVEL_RENAME' as the argument rename_strategy. You need to specify either the rename_prefix argument, the rename_suffix argument or both")
     }else if(rename_strategy == "NO_RENAME" & !is.null(rename_prefix) || !is.null(rename_suffix)){
-        stop("Your rename_stratey is 'NO_RENAME', therefore, you should not select argument rename_prefix or rename_suffix")
+        stop("Your rename_stratey is 'NO_RENAME', therefore, you should not select arguments rename_prefix or rename_suffix")
     }else if(!is.null(rename_strategy) & !is.null(rename_prefix)){
         rename_options = list(rename_strategy = rename_strategy,
                               rename_prefix = rename_prefix)

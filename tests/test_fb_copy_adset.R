@@ -81,6 +81,15 @@ expect_equal(fbad_copy_adset(fbacc,
              
              expected)
 
+# 1.9 campaign id
+expect_equal(fbad_copy_adset(fbacc, 
+                adset_id = "23845893193900648",
+                deep_copy = TRUE,
+                status_option = "ACTIVE",
+                rename_strategy = "DEEP_RENAME",
+                rename_prefix = "Morning-2"),
+                expected)
+
 # 2 Test wrong argument types and see what errors are thrown ----
 
 # 2.1 deep copy
@@ -211,6 +220,8 @@ expect_equal(fbad_copy_adset(fbacc,
 error = "Argument missing. An adset id is required."
 
 # 3.1 missing ad set
+error = "Argument missing. An adset id is required."
+
 expect_error(fbad_copy_adset(fbacc, 
                              deep_copy = TRUE,
                              start_time = start_time,
@@ -233,6 +244,22 @@ expect_error(fbad_copy_adset(fbacc,
                              rename_prefix = "testthat"),
              
              error)
+
+# 3.3 not a campaign id
+error = "This campaign id does not exists. Please provide a valid campaign id."
+expect_error(fbad_copy_adset(fbacc,
+                             adset_id = 23845893193900648,
+                             campaign_id = 342423423423,
+                             deep_copy = TRUE,
+                             start_time = start_time,
+                             end_time = end_time,
+                             status_option = "ACTIVE",
+                             rename_strategy = "DEEP_RENAME",
+                             rename_prefix = "testthat"),
+             
+             error)
+             
+
 
 
 
