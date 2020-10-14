@@ -82,12 +82,10 @@ fbad_copy_adset <- function(fbacc,
     params <- as.list(unlist(params, recursive = FALSE))
     
     # post request to copy adset
-    final_request = fbad_request(fbacc,
+    fbad_request(fbacc,
                  path   = paste0(adset_id, "/copies?access_token=", fbacc$access_token),
                  method = "POST",
                  params = params)
-    
-    return(substr(final_request, 1, 18))
     
 }
 
