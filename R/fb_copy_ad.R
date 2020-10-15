@@ -1,4 +1,4 @@
-#' Copy Ad Campaign or Ad Set
+#' Create a copy of an ad.
 #' @inheritParams fbad_request
 #' @param ad_id (numeric string or integer) id of the ad that you want to copy
 #' @param adset_id (numeric string or integer) id adset you want to create a copy of the ad into
@@ -8,8 +8,8 @@
 #' @param rename_suffix (string) a suffix to copy names. Defaults to null if not provided
 #' @param ... further arguments passed to the API endpoint
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/copies/}
-fbad_copy_adset <- function(fbacc,
+#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/adgroup/copies#Creating}
+fbad_copy_ad <- function(fbacc,
                             ad_id,
                             adset_id = NULL,
                             status_option = NULL,
@@ -72,10 +72,12 @@ fbad_copy_adset <- function(fbacc,
     params <- as.list(unlist(params, recursive = FALSE))
     
     # post request to copy adset
-    fbad_request(fbacc,
+    final_request = fbad_request(fbacc,
                  path   = paste0(ad_id, "/copies?access_token=", fbacc$access_token),
                  method = "POST",
                  params = params)
+    
+    print(final_request)
     
 }
 
@@ -95,16 +97,12 @@ library(futile.logger)
 # Initialize specific account
 fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
 
-start_time = as_datetime("2020-10-20 23:59:59 PDT")
-end_time = as_datetime("2020-10-27 10:10:10 UTC")
+adset_id = "23845893193900648"
+ad_id = "23845914580210648"
 
-campaign_id = "23845893051630648"
-
-fbad_copy_adset(fbacc, 
-                adset_id = "23845893193900648",
-                campaign_id = campaign_id,
-                deep_copy = TRUE,
+fbad_copy_ad(fbacc, 
+                ad_id = ad_id,
+                adset_id = adset_id,
                 status_option = "ACTIVE",
                 rename_strategy = "DEEP_RENAME",
                 rename_prefix = "Morning-2")
-

@@ -1,4 +1,4 @@
-#' Copy Ad Campaign or Ad Set
+#' Create a copy of an ad set. You can copy a maximum of 3 entities between ad set and ads.
 #' @inheritParams fbad_request
 #' @param adset_id (numeric string or integer) id adset you want to create a copy of
 #' @param campaign_id (numeric string or integer) Single ID of a campaign to make parent of the copy. Ignore if you want to keep the copy under the original campaign parent
