@@ -12,7 +12,6 @@
 #' @param ... further arguments passed to the API endpoint
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/copies/}
-#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group/copies/}
 fbad_copy_adset <- function(fbacc,
                              adset_id,
                              campaign_id = NULL,
@@ -108,10 +107,10 @@ fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
 start_time = as_datetime("2020-10-20 23:59:59 PDT")
 end_time = as_datetime("2020-10-27 10:10:10 UTC")
 
-campaign_id = "23845914189980648"
+campaign_id = "23845893051630648"
 
 fbad_copy_adset(fbacc, 
-                 adset_id = "xxxxxxxxxxxx",
+                 adset_id = "23845893193900648",
                  campaign_id = campaign_id,
                  deep_copy = TRUE,
                  status_option = "ACTIVE",

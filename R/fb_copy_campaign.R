@@ -10,7 +10,6 @@
 #' @param rename_suffix (string) a suffix to copy names. Defaults to null if not provided
 #' @param ... further arguments passed to the API endpoint
 #' @export
-#' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/copies/}
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group/copies/}
 fbad_copy_campaign <- function(fbacc,
                             campaign_id,
