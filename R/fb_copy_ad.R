@@ -21,14 +21,25 @@ fbad_copy_adset <- function(fbacc,
     
     # ad id missing
     if (missing(ad_id)){
-        stop('Argument missing. An ad_id is required.')
+        stop('Argument missing. An ad id is required.')
     }
     
     # check if ad set id actually exists
-    list_of_adsets = fbad_list_adset(fbacc)
+    list_of_ads = fbad_list_ad(fbacc)
     
-    if(!adset_id %in% list_of_adsets$id){
-        stop('This adset id does not exists. Please provide a valid adset id.')
+    if(!ad_id %in% list_of_ads$id){
+        stop('This ad id does not exists. Please provide a valid ad id.')
+    }
+    
+    # check if adset id actually exists
+    if(!is.null(adset_id)){
+        
+        list_of_adsets = fbad_list_adset(fbacc)
+        
+        if(!adset_id %in% list_of_adsets$id){
+            stop('This ad set id does not exists. Please provide a valid ad set id.')
+        }
+        
     }
     
     # rename options
@@ -62,7 +73,7 @@ fbad_copy_adset <- function(fbacc,
     
     # post request to copy adset
     fbad_request(fbacc,
-                 path   = paste0(adset_id, "/copies?access_token=", fbacc$access_token),
+                 path   = paste0(ad_id, "/copies?access_token=", fbacc$access_token),
                  method = "POST",
                  params = params)
     
