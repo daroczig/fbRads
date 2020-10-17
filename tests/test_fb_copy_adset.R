@@ -1,4 +1,4 @@
-source("Clients/Data Science/fbRads-Arben/R/fb_copy_adset.R")
+library(testthat)
 
 # 1 Remove one argument at the time and see if the function still works. The only compulsory argument is adset_id ----
 expected = "{\"copied_adset_id\""

@@ -42,20 +42,34 @@ fbad_copy_ad <- function(fbacc,
         
     }
     
+    # rename_prefix = NULL
+    # rename_suffix = NULL
+    # rename_strategy = "NO_RENAME"
+    
     # rename options
-    if(is.null(rename_strategy)){
+    if(is.null(rename_strategy) & !is.null(rename_prefix)){
+        stop("You have not selected a rename_strategy, therefore, you should not select arguments rename_prefix")
+    }else if(is.null(rename_strategy) & !is.null(rename_suffix)){
+        stop("You have not selected a rename_strategy, therefore, you should not select arguments rename_suffix")
+    }else if(is.null(rename_strategy) & !is.null(rename_suffix) & !is.null(rename_prefix)){
+        stop("You have not selected a rename_strategy, therefore, you should not select arguments rename_suffix or rename_prefix")
+    }else if(is.null(rename_strategy) & is.null(rename_prefix) & is.null(rename_suffix)){
         rename_options = NULL
+    }else if(rename_strategy == "NO_RENAME" & (!is.null(rename_prefix) | !is.null(rename_suffix))){
+        stop("Your rename_stratey is 'NO_RENAME', therefore, you should not select arguments rename_prefix or rename_suffix")
     }else if((rename_strategy == "DEEP_RENAME" | rename_strategy == "ONLY_TOP_LEVEL_RENAME") & is.null(rename_prefix) & is.null(rename_suffix)){
         stop("You have selected 'DEEP_RENAME' or 'ONLY_TOP_LEVEL_RENAME' as the argument rename_strategy. You need to specify either the rename_prefix argument, the rename_suffix argument or both")
-    }else if(rename_strategy == "NO_RENAME" & !is.null(rename_prefix) || !is.null(rename_suffix)){
-        stop("Your rename_stratey is 'NO_RENAME', therefore, you should not select arguments rename_prefix or rename_suffix")
+    }else if(!is.null(rename_strategy) & !is.null(rename_prefix) & !is.null(rename_suffix)){
+        rename_options = list(rename_strategy = rename_strategy,
+                              rename_prefix = rename_prefix,
+                              rename_suffix = rename_suffix) 
     }else if(!is.null(rename_strategy) & !is.null(rename_prefix)){
         rename_options = list(rename_strategy = rename_strategy,
                               rename_prefix = rename_prefix)
     }else if(!is.null(rename_strategy) & !is.null(rename_suffix)){
         rename_options = list(rename_strategy = rename_strategy,
                               rename_suffix = rename_suffix)
-    }else if(is.null(rename_prefix) & is.null(rename_suffix) & !is.null(rename_suffix)){
+    }else if(!is.null(rename_strategy) & is.null(rename_prefix) & is.null(rename_suffix)){
         rename_options = list(rename_strategy = rename_strategy)
     }
     
@@ -72,12 +86,10 @@ fbad_copy_ad <- function(fbacc,
     params <- as.list(unlist(params, recursive = FALSE))
     
     # post request to copy adset
-    final_request = fbad_request(fbacc,
+    fbad_request(fbacc,
                  path   = paste0(ad_id, "/copies?access_token=", fbacc$access_token),
                  method = "POST",
                  params = params)
-    
-    print(final_request)
     
 }
 
@@ -97,8 +109,8 @@ library(futile.logger)
 # Initialize specific account
 fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
 
-adset_id = "23845893193900648"
-ad_id = "23845914580210648"
+adset_id = "xxxxxxxxxxxxx"
+ad_id = "xxxxxxxxxxx"
 
 fbad_copy_ad(fbacc, 
                 ad_id = ad_id,
