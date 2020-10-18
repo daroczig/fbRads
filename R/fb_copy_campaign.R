@@ -81,4 +81,5 @@ fbad_copy_campaign <- function(fbacc,
          path   = paste0(campaign_id, "/copies?access_token=", fbacc$access_token),
          method = "POST",
          params = params)
+    
 }
