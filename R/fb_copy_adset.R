@@ -130,4 +130,3 @@ fbad_copy_adset(fbacc,
                  status_option = "ACTIVE",
                  rename_strategy = "DEEP_RENAME",
                  rename_prefix = "Morning-2")
-
