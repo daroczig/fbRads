@@ -121,10 +121,10 @@ fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
 start_time = as_datetime("2020-10-20 23:59:59 PDT")
 end_time = as_datetime("2020-10-27 10:10:10 UTC")
 
-campaign_id = "23845893051630648"
+campaign_id = "xxxxxxxxxxxx"
 
 fbad_copy_adset(fbacc, 
-                 adset_id = "23845893193900648",
+                 adset_id = "xxxxxxxxxxxx",
                  campaign_id = campaign_id,
                  deep_copy = TRUE,
                  status_option = "ACTIVE",
