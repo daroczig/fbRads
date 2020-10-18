@@ -1,6 +1,6 @@
 library(testthat)
 
-campaign_id = "23845893051630648"
+campaign_id = "xxxxxxxxxxxxx"
 
 # 1 remove one argument at the time and see if it still works
 # 1.1.1 remove rename_suffix

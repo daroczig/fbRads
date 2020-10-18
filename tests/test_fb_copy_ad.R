@@ -1,8 +1,8 @@
 library(testthat)
 
 # 1 Remove one argument at the time and see if the function still works. The only compulsory argument is adset_id ----
-adset_id = "23845914241040648"
-ad_id = "23845914241050648"
+adset_id = "xxxxxxxxxxx"
+ad_id = "xxxxxxxxxxxxx"
 
 expected_output = "copied_ad_id"
 

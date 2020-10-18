@@ -1,7 +1,7 @@
 library(testthat)
 
-campaign_id = "23845914189980648"
-adset_id = "23845914241040648"
+campaign_id = "xxxxxxxxxxxxx"
+adset_id = "xxxxxxxxxxxxx"
 
 # 1 Remove one argument at the time and see if the function still works. The only compulsory argument is adset_id ----
 expected = "{\"copied_adset_id\""
@@ -392,7 +392,7 @@ expect_output(fbad_copy_adset(fbacc,
 
 # 5.2 different campaign id in which the ad set is located
 expect_output(fbad_copy_adset(fbacc, 
-                              campaign_id = "23845893051630648",
+                              campaign_id = "xxxxxxxxxxx",
                               adset_id = adset_id,
                               deep_copy = TRUE,
                               start_time = start_time,
