@@ -27,17 +27,13 @@ fbad_copy_campaign <- function(fbacc,
     if (missing(campaign_id)){
         stop('Argument missing. A campaign id is required.')
     }
-    
+
     # check if campaign id actually exists
     list_of_campaigns = fbad_list_campaign(fbacc)
-    
+
     if(!campaign_id %in% list_of_campaigns$id){
         stop('This campaign id does not exists. Please provide a valid campaign id.')
     }
-    
-    # rename_prefix = NULL
-    # rename_suffix = NULL
-    # rename_strategy = "NO_RENAME"
     
     # rename options
     if(is.null(rename_strategy) & !is.null(rename_prefix)){
@@ -85,7 +81,6 @@ fbad_copy_campaign <- function(fbacc,
          path   = paste0(campaign_id, "/copies?access_token=", fbacc$access_token),
          method = "POST",
          params = params)
-    
 }
 
 # EXAMPLE -----
