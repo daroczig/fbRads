@@ -82,32 +82,3 @@ fbad_copy_campaign <- function(fbacc,
          method = "POST",
          params = params)
 }
-
-# EXAMPLE -----
-token = 'EAADhONh9vckBAFUT4VE468jfQKg7g9YGKgF25ZBASkhzdAU9H6BhNq1Dea5xZAcQrzVIv8kwzZCvpfu2Y9SE7G6psPUKfQ0LtCUZAtWUeSofzuOpeAXKRyRuDAnlS35WW8AeZB8LKZBorZADZAxUwXjBb9OBKleiWj32ZBDVOz7n2qzXZAsZBZA1rJbi3w7PR19JGK8ZD'
-# Define account id - Facebook API > Tests
-account_id = "347374566526931"
-
-library(fbRads)
-library(jsonlite)
-library(data.table)
-library(RCurl)
-library(lubridate)
-library(futile.logger)
-
-# 3 Initialization ----
-# Initialize specific account
-fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
-
-start_time = as_datetime("2020-10-20 23:59:59 PDT")
-end_time = as_datetime("2020-10-27 10:10:10 UTC")
-
-campaign_id = "xxxxxxxxxx"
-
-fbad_copy_campaign(fbacc, 
-                campaign_id = "23845893051630648",
-                deep_copy = FALSE,
-                status_option = "ACTIVE",
-                rename_strategy = "DEEP_RENAME",
-                rename_prefix = "Morning-2")
-

@@ -300,7 +300,7 @@ expect_output(fbad_copy_ad(fbacc,
               
               expected_output)
 
-# 4.6 Rename strategy tests - status options == "ACTIVE"
+# 4.6 status options == "ACTIVE"
 expected_output = "copied_ad_id"
 
 expect_output(fbad_copy_ad(fbacc, 

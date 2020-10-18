@@ -42,10 +42,6 @@ fbad_copy_ad <- function(fbacc,
         
     }
     
-    # rename_prefix = NULL
-    # rename_suffix = NULL
-    # rename_strategy = "NO_RENAME"
-    
     # rename options
     if(is.null(rename_strategy) & !is.null(rename_prefix)){
         stop("You have not selected a rename_strategy, therefore, you should not select arguments rename_prefix")
@@ -92,29 +88,3 @@ fbad_copy_ad <- function(fbacc,
                  params = params)
     
 }
-
-# EXAMPLE -----
-token = 'xxxxxxxx'
-# Define account id - Facebook API > Tests
-account_id = "xxxxxx"
-
-library(fbRads)
-library(jsonlite)
-library(data.table)
-library(RCurl)
-library(lubridate)
-library(futile.logger)
-
-# 3 Initialization ----
-# Initialize specific account
-fbacc = fbad_init(accountid = account_id, token = token, version = '8.0')
-
-adset_id = "xxxxxxxxxxxxx"
-ad_id = "xxxxxxxxxxx"
-
-fbad_copy_ad(fbacc, 
-                ad_id = ad_id,
-                adset_id = adset_id,
-                status_option = "ACTIVE",
-                rename_strategy = "DEEP_RENAME",
-                rename_prefix = "Morning-2")
