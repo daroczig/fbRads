@@ -24,7 +24,7 @@ fbad_copy_ad <- function(fbacc,
         stop('Argument missing. An ad id is required.')
     }
     
-    # check if ad set id actually exists
+    # check if ad id actually exists
     list_of_ads = fbad_list_ad(fbacc)
     
     if(!ad_id %in% list_of_ads$id){
