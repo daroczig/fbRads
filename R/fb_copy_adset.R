@@ -1,15 +1,11 @@
 #' Create a copy of an ad set. You can copy a maximum of 3 entities between ad set and ads.
 #' @inheritParams fbad_request
+#' @inheritParams fb_copy_ad
 #' @param adset_id (numeric string or integer) id adset you want to create a copy of
 #' @param campaign_id (numeric string or integer) Single ID of a campaign to make parent of the copy. Ignore if you want to keep the copy under the original campaign parent
 #' @param start_time (datetime) The start time of the ad set. If not set, the copied adset will inherit the start time from the original set
 #' @param end_time (datetime) The end time of the ad set
 #' @param deep_copy (boolean) Default value: false. Whether to copy all the child ads
-#' @param status_option (string) enum {ACTIVE, PAUSED, INHERITED_FROM_SOURCE}
-#' @param rename_strategy (string) enum {DEEP_RENAME, ONLY_TOP_LEVEL_RENAME, NO_RENAME}
-#' @param rename_prefix (string) a prefix to copy names. Defaults to null if not provided
-#' @param rename_suffix (string) a suffix to copy names. Defaults to null if not provided
-#' @param ... further arguments passed to the API endpoint
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign/copies/}
 fbad_copy_adset <- function(fbacc,
