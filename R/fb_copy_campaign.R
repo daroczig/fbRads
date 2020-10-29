@@ -1,7 +1,7 @@
 #' Create a copy of a campaign. You can copy a maximum of 3 entities between campaign, ad sets and ads.
 #' @inheritParams fbad_request
-#' @inheritParams fb_copy_ad
-#' @inheritParams fb_copy_adset
+#' @inheritParams fbad_copy_ad
+#' @inheritParams fbad_copy_adset
 #' @export
 #' @references \url{https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group/copies/}
 fbad_copy_campaign <- function(fbacc,
