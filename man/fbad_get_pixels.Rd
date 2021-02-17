@@ -4,8 +4,7 @@
 \alias{fbad_get_pixels}
 \title{Get tracking pixels of eg an Ad or Business Manager Account}
 \usage{
-fbad_get_pixels(id, token, version, fields = c("name"),
-  simplify = TRUE)
+fbad_get_pixels(id, token, version, fields = c("name"), simplify = TRUE)
 }
 \arguments{
 \item{id}{Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID}

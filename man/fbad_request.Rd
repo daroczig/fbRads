@@ -4,8 +4,16 @@
 \alias{fbad_request}
 \title{Get results of a synchronous query from FB graph API}
 \usage{
-fbad_request(fbacc, path, method = c("GET", "POST", "DELETE"),
-  params = list(), debug = FALSE, log = TRUE, version, retries = 0)
+fbad_request(
+  fbacc,
+  path,
+  method = c("GET", "POST", "DELETE"),
+  params = list(),
+  debug = FALSE,
+  log = TRUE,
+  version,
+  retries = 0
+)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

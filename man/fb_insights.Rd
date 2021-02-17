@@ -4,8 +4,14 @@
 \alias{fb_insights}
 \title{Insights}
 \usage{
-fb_insights(fbacc, target = fbacc$acct_path, job_type = c("sync",
-  "async"), retries = 0, simplify = TRUE, ...)
+fb_insights(
+  fbacc,
+  target = fbacc$acct_path,
+  job_type = c("sync", "async"),
+  retries = 0,
+  simplify = TRUE,
+  ...
+)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

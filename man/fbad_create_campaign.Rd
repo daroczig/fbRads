@@ -4,7 +4,7 @@
 \alias{fbad_create_campaign}
 \title{Create Ad Campaign}
 \usage{
-fbad_create_campaign(fbacc, ...)
+
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

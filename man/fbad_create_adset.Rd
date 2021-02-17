@@ -4,7 +4,7 @@
 \alias{fbad_create_adset}
 \title{Create Ad Set}
 \usage{
-fbad_create_adset(fbacc, ...)
+
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}

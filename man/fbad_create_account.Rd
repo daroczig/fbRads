@@ -4,9 +4,17 @@
 \alias{fbad_create_account}
 \title{Create Ad Account}
 \usage{
-fbad_create_account(business_id, access_token, name, currency, timezone_id,
-  end_advertiser = "NONE", media_agency = "NONE", partner = "NONE",
-  ...)
+fbad_create_account(
+  business_id,
+  access_token,
+  name,
+  currency,
+  timezone_id,
+  end_advertiser = "NONE",
+  media_agency = "NONE",
+  partner = "NONE",
+  ...
+)
 }
 \arguments{
 \item{business_id}{Business Manager id}

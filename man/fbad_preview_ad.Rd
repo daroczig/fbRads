@@ -4,9 +4,12 @@
 \alias{fbad_preview_ad}
 \title{Preview ad}
 \usage{
-fbad_preview_ad(fbacc, id, ad_format = c("DESKTOP_FEED_STANDARD",
-  "RIGHT_COLUMN_STANDARD", "MOBILE_FEED_STANDARD", "MOBILE_BANNER",
-  "MOBILE_INTERSTITIAL", "INSTAGRAM_STANDARD"))
+fbad_preview_ad(
+  fbacc,
+  id,
+  ad_format = c("DESKTOP_FEED_STANDARD", "RIGHT_COLUMN_STANDARD",
+    "MOBILE_FEED_STANDARD", "MOBILE_BANNER", "MOBILE_INTERSTITIAL", "INSTAGRAM_STANDARD")
+)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
