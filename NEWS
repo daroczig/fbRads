@@ -1,11 +1,46 @@
-fbRads (2020-10-31)
+fbRads (dev)
 ----------------------------------------------------------------
 
-Add support for Facebook Marketing API v2.11
+TODO
+
+fbRads (2021-04-21)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v10.0.
 
 Additional features:
 
 * Added functions to copy campaign, ad set or ad (by @ArbenKqiku)
+
+fbRads (2020-09-16)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v8.0.
+
+fbRads (2020-03-31)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v6.0.
+
+fbRads (2019-10-24)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v4.0.
+
+fbRads (2019-06-30)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v3.3.
+
+fbRads (2019-01-10)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v3.1.
+
+fbRads (2018-08-09)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v3.0.
 
 fbRads 2.11.0 (2018-04-28)
 ----------------------------------------------------------------
