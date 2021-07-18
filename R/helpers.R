@@ -34,7 +34,7 @@ url_parse <- function(url) {
     }
 
     version <- sub('^http[s]://[a-z0-9\\.-]*/v([0-9]{1,2}.[0-9]).*', '\\1', url)
-    path    <- sub('^http[s]://[a-z0-9\\.-]*/v[0-9].[0-9]/(.*)\\?.*', '\\1', url)
+    path    <- sub('^http[s]://[a-z0-9\\.-]*/v[0-9]{1,2}.[0-9]/(.*)\\?.*', '\\1', url)
     params  <- sapply(strsplit(sub('^.*\\?(.*)', '\\1', url), '&')[[1]], function(x) {
         x <- strsplit(x, split = '=')[[1]]
         setNames(URLdecode(x[2]), x[1])
