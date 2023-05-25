@@ -4,8 +4,12 @@
 \alias{fbad_assign_users_to_account}
 \title{Assign a user to an Ad Account}
 \usage{
-fbad_assign_users_to_account(account_id, access_token,
-  tasks = c("MANAGE", "ADVERTISE", "ANALYZE"), user)
+fbad_assign_users_to_account(
+  account_id,
+  access_token,
+  tasks = c("MANAGE", "ADVERTISE", "ANALYZE"),
+  user
+)
 }
 \arguments{
 \item{account_id}{string}

@@ -4,8 +4,7 @@
 \alias{fbad_get_client_pages}
 \title{Get account details of Pages belonging to the clients of a Business Manager Account}
 \usage{
-fbad_get_client_pages(id, token, version, fields = c("name"),
-  simplify = TRUE)
+fbad_get_client_pages(id, token, version, fields = c("name"), simplify = TRUE)
 }
 \arguments{
 \item{id}{Facebook Object, eg Ad Account (with \code{act} prefix) or a Business Manager Account ID}

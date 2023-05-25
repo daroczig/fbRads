@@ -4,14 +4,18 @@
 \alias{fbad_create_campaign}
 \title{Created Ad Campaign}
 \usage{
-fbad_create_campaign(fbacc, buying_type = c("AUCTION", "FIXED_CPM",
-  "RESERVED"), campaign_status = c("ACTIVE", "PAUSED"),
-  execution_options = NULL, name, objective = c("BRAND_AWARENESS",
-  "CANVAS_APP_ENGAGEMENT", "CANVAS_APP_INSTALLS", "CONVERSIONS",
-  "EVENT_RESPONSES", "EXTERNAL", "LEAD_GENERATION", "LINK_CLICKS",
-  "LOCAL_AWARENESS", "MOBILE_APP_ENGAGEMENT", "MOBILE_APP_INSTALLS",
-  "OFFER_CLAIMS", "PAGE_LIKES", "POST_ENGAGEMENT", "PRODUCT_CATALOG_SALES",
-  "VIDEO_VIEWS"), spend_cap = NULL)
+fbad_create_campaign(
+  fbacc,
+  buying_type = c("AUCTION", "FIXED_CPM", "RESERVED"),
+  campaign_status = c("ACTIVE", "PAUSED"),
+  execution_options = NULL,
+  name,
+  objective = c("BRAND_AWARENESS", "CANVAS_APP_ENGAGEMENT", "CANVAS_APP_INSTALLS",
+    "CONVERSIONS", "EVENT_RESPONSES", "EXTERNAL", "LEAD_GENERATION", "LINK_CLICKS",
+    "LOCAL_AWARENESS", "MOBILE_APP_ENGAGEMENT", "MOBILE_APP_INSTALLS", "OFFER_CLAIMS",
+    "PAGE_LIKES", "POST_ENGAGEMENT", "PRODUCT_CATALOG_SALES", "VIDEO_VIEWS"),
+  spend_cap = NULL
+)
 }
 \arguments{
 \item{fbacc}{(optional) \code{FB_Ad_account} object, which defaults to the last returned object of \code{\link{fbad_init}}.}
