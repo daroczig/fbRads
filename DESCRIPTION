@@ -19,8 +19,9 @@ Imports:
     RCurl,
     jsonlite,
     digest,
-    futile.logger,
+    logger,
     bit64,
     plyr,
     data.table
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
+Encoding: UTF-8

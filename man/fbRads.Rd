@@ -5,5 +5,5 @@
 \alias{fbRads}
 \title{fbRads package}
 \description{
-This is a placeholder for storing import directives, please find more details in the \code{README.md} file of the package via \code{system.file} or on GitHub at \url{https://github.com/cardcorp/fbRads}.
+This is a placeholder for storing import directives, please find more details in the \code{README.md} file of the package via \code{system.file} or on GitHub at \url{https://github.com/daroczig/fbRads}.
 }
