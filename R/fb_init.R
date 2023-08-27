@@ -179,8 +179,8 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
             grepl('OpenSSL SSL_read: SSL_ERROR_SYSCALL', curlres$message)) {
 
             ## log it
-            flog.error(paste('Possible network error:', curlres$message), name = 'fbRads')
-            flog.info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'), name = 'fbRads')
+            log_error(paste('Possible network error:', curlres$message))
+            log_info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'))
 
             ## give some chance for the system/network to recover
             Sys.sleep(2)
@@ -201,9 +201,9 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
     if (inherits(res, 'error')) {
 
          if (log) {
-            flog.error(paste('URL: ', API_endpoint), name = 'fbRads')
-            flog.error(paste('Method: ', method), name = 'fbRads')
-            flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')), name = 'fbRads')
+            log_error(paste('URL: ', API_endpoint))
+            log_error(paste('Method: ', method))
+            log_error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
         }
 
         stop(paste(
@@ -223,11 +223,11 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
         ## log details of the error
         if (log) {
-            flog.error(paste('URL: ', API_endpoint), name = 'fbRads')
-            flog.error(paste('Method: ', method), name = 'fbRads')
-            flog.error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')), name = 'fbRads')
-            flog.error(paste('Header:', toJSON(headers)), name = 'fbRads')
-            flog.error(paste('Body:', res), name = 'fbRads')
+            log_error(paste('URL: ', API_endpoint))
+            log_error(paste('Method: ', method))
+            log_error(paste('Params: ', paste(capture.output(str(params)), collapse = '\n')))
+            log_error(paste('Header:', toJSON(headers)))
+            log_error(paste('Body:', res))
         }
 
         ## retry if Service (temporarily) Unavailable
@@ -238,7 +238,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
 
             ## retry the query for no more than 3 times
             if (retries < 3) {
-                flog.info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'), name = 'fbRads')
+                log_info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'))
                 mc$retries <- retries + 1
                 return(eval(mc, envir = parent.frame()))
             }
@@ -255,26 +255,25 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
         res <- fromJSONish(res)
 
         ## temporary "API Unknown" (1) or "API Service" (2) error at FB
-        if (res$error$code %in% 1:2) {
+        #if (res$error$code %in% 1:2) {
 
             ## log it
-            flog.error(paste('This is a temporary',
-                             shQuote(res$error$type),
-                             'FB error:',
-                             res$error$message),
-                       name = 'fbRads')
+            log_error(paste('This is a temporary',
+                            shQuote(res$error$type),
+                            'FB error:',
+                            res$error$message))
 
             ## give some chance for the system/network to recover
             Sys.sleep(2)
 
             ## retry the query for no more than 3 times
             if (retries < 3) {
-                flog.info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'), name = 'fbRads')
+                log_info(paste('Retrying query for the', retries + 1, ' st/nd/rd time'))
                 mc$retries <- retries + 1
                 return(eval(mc, envir = parent.frame()))
             }
 
-        }
+        #}
 
         ## fail with (hopefully) meaningful error message
         stop(res$error$message)
@@ -518,9 +517,8 @@ fbad_whoami <- function(token, version) {
 #' @importFrom utils assignInMyNamespace
 fbad_init <- function(accountid, token, version = fb_api_most_recent_version()) {
 
-    flog.trace(paste0('Initializing connection to account ', accountid,
-                      ' via API v', version),
-               name = 'fbRads')
+    log_trace(paste0('Initializing connection to account ', accountid,
+                     ' via API v', version))
 
     ## API endpoint
     url <- paste(

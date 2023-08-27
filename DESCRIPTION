@@ -3,6 +3,7 @@ Package: fbRads
 Authors@R: c(
     person("Gergely", "Daroczi", , "daroczig@rapporter.net", role = c("aut", "cre")),
     person("Ajaykumar", "Gopal", , "ajay@pathsciences.com", role = c("aut")),
+    person("Attila", "Nagy", , "bra@fsn.hu", role = c("aut")),
     person("card.com", role = c("fnd")),
     person("System1", role = c("fnd")))
 Title: Analyzing and Managing Facebook Ads from R
@@ -18,8 +19,9 @@ Imports:
     RCurl,
     jsonlite,
     digest,
-    futile.logger,
+    logger,
     bit64,
     plyr,
     data.table
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
+Encoding: UTF-8

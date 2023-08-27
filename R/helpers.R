@@ -56,11 +56,11 @@ url_parse <- function(url) {
 #' @return parsed JSON as an R object
 fromJSONish <- function(json, ...) {
     if (!validate(json)) {
-        flog.error('Invalid JSON: %s', json, name = 'fbRads')
+        log_error('Invalid JSON: %s', json)
         json <- gsub("\r", " ", json)
         json <- gsub("\n", " ", json)
         json <- gsub("\t", " ", json)
-        flog.debug('After removing whitespace: %s', json, name = 'fbRads')
+        log_debug('After removing whitespace: %s', json)
     }
     fromJSON(json, ...)
 }

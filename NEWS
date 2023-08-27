@@ -1,7 +1,26 @@
-fbRads (dev)
+fbRads (2023-07-25)
 ----------------------------------------------------------------
 
-TODO
+Add support for Facebook Marketing API v17.0.
+
+Additional updates:
+
+* Switched from the futile.logger package to logger
+
+fbRads (2023-01-03)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v15.0.
+
+fbRads (2022-08-07)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v14.0.
+
+fbRads (2022-01-04)
+----------------------------------------------------------------
+
+Add support for Facebook Marketing API v12.0.
 
 fbRads (2021-04-21)
 ----------------------------------------------------------------
