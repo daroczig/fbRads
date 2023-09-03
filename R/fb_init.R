@@ -132,6 +132,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                     verbose   = debug,
                                     writefunc = b$update,
                                     customrequest = 'DELETE',
+                                    sslversion = 6L,
                                     cainfo    = system.file(
                                         'CurlSSL',
                                         'cacert.pem',
@@ -152,6 +153,7 @@ fbad_request <- function(fbacc, path, method = c('GET', 'POST', 'DELETE'), param
                                                    headerfunction = h$update,
                                                    verbose   = debug,
                                                    writefunc = b$update,
+                                                   sslversion = 6L,
                                                    cainfo    = system.file(
                                                        'CurlSSL',
                                                        'cacert.pem',
