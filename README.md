@@ -1,8 +1,32 @@
 # fbRads
 
+> [!CAUTION]
+> `fbRads` was started in 2015, even before the Facebook
+> Marketing API was generally available, and has been actively
+> maintained and used since then at many companies as the only
+> third-party SDK (as per the Facebook Business SDK dev portal) -- up
+> to my knowledge, serving dozens of Business Managers, hundreds of Ad
+> Accounts, and managing ads spending over $100M over the past years.
+>
+> After changing roles in 2022, I did not use Facebook Ads Manager for
+> a few years, and assisted others maintaining the package with minor
+> version updates. In early 2024, when trying to create a new Business
+> Manager for an open-source community, I've learned that my account
+> was restricted back in Aug 2023 and I cannot create/edit BMs and Ad
+> Accounts anymore -- without further explanation.  After being in
+> touch with Meta Support for a month and many-many pointless emails,
+> I was informed that the decision is final and I cannot do anything
+> about it.
+>
+> As per above, it's time for me to officially step down as the
+> maintainer of the package, and move on, as I cannot even test the
+> package functions anymore. So thus I am archiving the repo. If you
+> want to take over maintenance, please fork the repo, and get in
+> touch if I can help with the transition process.
+
 This R package includes wrapper functions around the [Facebook Marketing API](https://developers.facebook.com/docs/marketing-apis) to create, read, update and delete custom audiences, images, campaigns, adsets, ads and related content.
 
-For more details, see the [slides](http://bit.ly/domino-webinar-fbRads) presented at [useR! 2015](http://user2015.math.aau.dk/contributed_talks#210), [EARL 2015](https://earlconf.com/2015/boston/speakers/speaker.php?s=gergely_daroczi), the [Los Angeles R Users Group](http://www.meetup.com/Los-Angeles-R-Users-Group-Data-Science/events/226717454/) and at a [Domino Webinar](https://www.youtube.com/watch?v=RY9pfnBRi-Q).
+For more details, see the [slides](https://drive.google.com/file/d/0ByjOYacj5XqBeXZ2cVZrZ0V0S2c/view?usp=sharing) presented at [useR! 2015](https://user2015.math.aau.dk/contributed_talks#210), the [Los Angeles R Users Group](https://www.meetup.com/Los-Angeles-R-Users-Group-Data-Science/events/226717454/) and at a [Domino Webinar](https://www.youtube.com/watch?v=RY9pfnBRi-Q).
 
 ## Creating a Facebook App & connect with OAuth token
 
@@ -52,4 +76,4 @@ This package makes your life more convenient when it comes to interacting with t
 
 ---
 
-This package was originally developed at [CARD.com](http://card.com), currently maintained at [System1](https://system1.com) -- licensed under [AGPL-3](LICENSE).
+This package was originally developed at CARD.com, then maintained at System1. If you are interested in taking over the maintenance of this R package, please open a GH ticket.
